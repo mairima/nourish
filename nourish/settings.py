@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import os
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -58,7 +58,7 @@ ROOT_URLCONF = 'nourish.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],   # <-- added
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,15 +83,19 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'Nourish <noreply@nourish.local>'
+
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
+
+# Where to go after login/logout
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'  
-LOGOUT_REDIRECT_URL = '/success/'
+LOGIN_REDIRECT_URL = '/dashboard/'  
+LOGOUT_REDIRECT_URL = '/' 
 
 WSGI_APPLICATION = 'nourish.wsgi.application'
 
@@ -149,3 +153,10 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# After login, go to a dashboard (not '/')
+LOGIN_REDIRECT_URL = '/dashboard/'
+# After logout, going to '/' is fine since '/' → login
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+APPEND_SLASH = True
+

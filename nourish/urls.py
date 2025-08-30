@@ -16,12 +16,15 @@ Including another URLconf
 # nourish/urls.py
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import RedirectView
-from .views import home  # <-- add this import
+from django.views.generic import RedirectView, TemplateView
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # <-- this enables login, signup, logout
     path('accounts/', include('allauth.urls')),
-    path('', home, name='home'),  # NO RedirectView here
+    # Root just sends to login
+    path('', RedirectView.as_view(url='/accounts/login/', permanent=False)),
+    # Protected dashboard without creating a views.py
+    path('dashboard/', login_required(TemplateView.as_view(template_name='dashboard.html')), name='dashboard'),
 ]
-
