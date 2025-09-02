@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ixrp#!p_z!kczfiyyt+py)&)la+o5s&nmo4w6%y*edvn%-o_*y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -94,9 +94,12 @@ ACCOUNT_USERNAME_MIN_LENGTH = 4
 
 # Where to go after login/logout
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/dashboard/'  
-LOGOUT_REDIRECT_URL = '/' 
-
+# After login, go to a dashboard (not '/')
+LOGIN_REDIRECT_URL = '/dashboard/' 
+# Lougout... or 'home' if you make a public homepage 
+LOGOUT_REDIRECT_URL = 'account_login'  
+# After logout, going to '/' is fine since '/' → login
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 WSGI_APPLICATION = 'nourish.wsgi.application'
 
 
@@ -154,9 +157,5 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# After login, go to a dashboard (not '/')
-LOGIN_REDIRECT_URL = '/dashboard/'
-# After logout, going to '/' is fine since '/' → login
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 APPEND_SLASH = True
 
