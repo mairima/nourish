@@ -14,3 +14,5 @@ venv/
 
 # VS Code
 .vscode/
+# Django collectstatic output
+/staticfiles/
