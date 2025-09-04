@@ -14,17 +14,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # nourish/urls.py
+# nourish/urls.py
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from . import views
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', include('home.urls')),
+    path('', include('home.urls')), # / -> home/index.html
     path('products/', include('products.urls')),
     path('bag/', include('bag.urls')),
-    path('', views.index, name='products_index'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    # Optional: /dashboard/ shows the same home page
+    path('dashboard/', TemplateView.as_view(template_name='home/index.html'), name='dashboard'),
+]
+
+# Serve uploaded media in development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
