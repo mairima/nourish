@@ -3,13 +3,26 @@ html {
 }
 
 body {
-    background: url('/media/homepage_background_cropped.jpg') no-repeat center center fixed;
+    background: url('/media/pexels-cake1.jpg') no-repeat center center fixed;
     background-size: cover;
     height: calc(100vh - 164px);
-    color: #555;
+    color: #fff; /* make text white for better contrast */
     font-family: 'Lato';
 }
-
+/* Background image with dark overlay */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        rgba(0, 0, 0, 0.4)   /* semi-transparent black overlay */
+        url('/media/pexels-cake1.jpg') no-repeat center center fixed;
+    background-size: cover;
+    z-index: -1; /* put behind everything */
+}
 /* from Bulma */
 .icon {
     align-items: center;
@@ -78,4 +91,20 @@ body {
     .header-container {
         padding-top: 164px;
     }
+
+.navbar-nav .nav-item {
+    margin-right: 30px; /* adjust +3 model navitems px as needed */
+}
+}
+
+.shop-now-button {
+    background-color: #28a745;  /* Bootstrap green */
+    color: #fff !important;     /* force white text */
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.shop-now-button:hover {
+    background-color: #218838;  /* darker green on hover */
+    color: #fff !important;
 }
