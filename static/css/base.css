@@ -1,4 +1,4 @@
-html {
+html, body {
     height: 100%;
 }
 
@@ -92,8 +92,20 @@ body::before {
         padding-top: 164px;
     }
 
+/* pad the top a bit when navbar is collapsed on mobile */
+@media (max-width: 991px) {
+    .header-container {
+        padding-top: 116px;
+    }
+
+    body {
+        height: calc(100vh - 116px);
+    }
+}
+
+/* Extra: adjust +3 model navitems px as needed */
 .navbar-nav .nav-item {
-    margin-right: 30px; /* adjust +3 model navitems px as needed */
+    margin-right: 30px; 
 }
 }
 
