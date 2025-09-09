@@ -35,12 +35,18 @@ ALLOWED_HOSTS = [
 # Apps
 # -----------------------------------------------------------------------------
 INSTALLED_APPS = [
+    # Django
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+
+    # Cloudinary (storage must come BEFORE staticfiles)
+    "cloudinary_storage",
     "django.contrib.staticfiles",
+    "cloudinary",
+
     "django.contrib.sites",
 
     # Third-party auth
@@ -97,7 +103,6 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "bag.contexts.bag_contents",
                 "django.template.context_processors.media",
-
             ],
         },
     },
@@ -157,12 +162,21 @@ USE_TZ = True
 # -----------------------------------------------------------------------------
 # Static & Media
 # -----------------------------------------------------------------------------
+# Static (keep as-is; not using Cloudinary for static unless you choose to)
 STATIC_URL = "/static/"
-# Keep this if you have a project-level ./static directory
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
+# --- Cloudinary media storage ---
+# Requires CLOUDINARY_URL in your .env, e.g.:
+# CLOUDINARY_URL=cloudinary://<API_KEY>:<API_SECRET>@<cloud_name>
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT is not used by Cloudinary, but keeping it doesn't hurt:
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# --------------------------------
+
+# If you later want static files on Cloudinary too, add:
+# STATICFILES_STORAGE = "cloudinary_storage.storage.StaticHashedCloudinaryStorage"
 
 # Optional project constants
 FREE_DELIVERY_THRESHOLD = 50
