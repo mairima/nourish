@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('', include('home.urls')), # / -> home/index.html
-    path('products/', include('products.urls')),
+    path('products/', include('products.urls', namespace='products')),
     path('bag/', include('bag.urls')),
 
     # Optional: /dashboard/ shows the same home page
