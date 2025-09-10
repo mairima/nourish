@@ -40,7 +40,8 @@
     <title>Nourish {% block extra_title %}{% endblock %}</title>
   </head>
 
-  <body>
+  <!-- Allow child templates to control page background via body class -->
+  <body class="{% block body_class %}{% endblock %}">
     <header class="container-fluid fixed-top">
       <div id="topnav" class="row bg-white pt-lg-2 d-none d-lg-flex">
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0 text-center text-lg-left">
@@ -74,7 +75,7 @@
                 </div>
               </a>
               <div class="dropdown-menu border-0" aria-labelledby="user-options">
-                  {% if request.user.is_authenticated %}
+                {% if request.user.is_authenticated %}
                   {% if request.user.is_superuser %}
                     <a href="#" class="dropdown-item">Product Management</a>
                   {% endif %}
@@ -106,21 +107,22 @@
         </div>
       </div>
 
-       <div class="row bg-white">
-      <nav class="navbar navbar-expand-lg navbar-light w-100">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav"
-          aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        {% include 'includes/mobile-top-header.html' %}
-        {% include 'includes/main-nav.html' %}
-      </nav>
-    </div>
-    <div id="delivery-banner" class="row text-center">
-      <div class="col bg-black text-white">
-        <h4 class="logo-font my-1">Free delivery on orders over ${{ free_shipping_threshold }}!</h4>
+      <div class="row bg-white">
+        <nav class="navbar navbar-expand-lg navbar-light w-100">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav"
+                  aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          {% include 'includes/mobile-top-header.html' %}
+          {% include 'includes/main-nav.html' %}
+        </nav>
       </div>
-    </div>
+
+      <div id="delivery-banner" class="row text-center">
+        <div class="col bg-black text-white">
+          <h4 class="logo-font my-1">Free delivery on orders over ${{ free_shipping_threshold }}!</h4>
+        </div>
+      </div>
     </header>
 
     {% if messages %}
