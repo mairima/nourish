@@ -9,14 +9,12 @@
 {% extends "base.html" %}
 {% load static %}
 
-{# Page header spacer to account for fixed navbar #}
 {% block page_header %}
   <div class="container header-container">
     <div class="row"><div class="col"></div></div>
   </div>
 {% endblock %}
 
-{# Page-specific CSS (optional) #}
 {% block extra_css %}
   <link rel="stylesheet" href="{% static 'css/products.css' %}">
 {% endblock %}
@@ -24,12 +22,10 @@
 {% block content %}
   <div class="container-fluid">
 
-    {# ----------------------- Title + active category badges ----------------------- #}
     <div class="row">
       <div class="col text-center mt-3">
         <h2 class="logo-font">Products</h2>
 
-        {# Show badges only when filtering by one/more categories #}
         {% if current_categories %}
           {% for c in current_categories %}
             <a class="category-badge text-decoration-none"
@@ -45,19 +41,15 @@
       </div>
     </div>
 
-    {# ----------------------- Controls: search / category / sort / direction ----------------------- #}
     <div class="row">
       <div class="col-10 offset-1">
         <form method="get" class="row g-2 align-items-center mb-3">
-
-          {# Search box (keeps previous search term) #}
           <div class="col-12 col-md-auto">
             <label for="q" class="sr-only">Search</label>
             <input id="q" class="form-control" type="text" name="q"
                    value="{{ search_term|default:'' }}" placeholder="Search products…">
           </div>
 
-          {# Category dropdown populated from all_categories in view context #}
           <div class="col-12 col-md-auto">
             <label for="category" class="sr-only">Category</label>
             <select id="category" name="category" class="form-select">
@@ -71,7 +63,6 @@
             </select>
           </div>
 
-          {# Sort field (server-side: name/price/rating/category) #}
           <div class="col-6 col-md-auto">
             <label for="sort" class="sr-only">Sort by</label>
             <select id="sort" name="sort" class="form-select">
@@ -83,7 +74,6 @@
             </select>
           </div>
 
-          {# Direction for sorting (asc/desc) #}
           <div class="col-6 col-md-auto">
             <label for="direction" class="sr-only">Direction</label>
             <select id="direction" name="direction" class="form-select">
@@ -92,7 +82,6 @@
             </select>
           </div>
 
-          {# Submit & a convenience link to reopen list in a new tab #}
           <div class="col-12 col-md-auto">
             <button class="btn btn-primary" type="submit">Apply</button>
             <a class="btn btn-outline-secondary ms-1"
@@ -101,25 +90,20 @@
           </div>
         </form>
 
-        {# ----------------------- Result meta: count + current sorting text ----------------------- #}
         <div class="d-flex justify-content-between align-items-center mb-2">
           <p class="text-muted small mb-0">
-            {# Show "Products Home" reset link when any filter/sort/search is active #}
             {% if search_term or current_categories or current_sort %}
               <span class="small"><a href="{% url 'products:products_index' %}">Products Home</a> | </span>
             {% endif %}
 
-            {# Count: use pagination info if present; fallback to simple length #}
             {% if page_obj %}
               Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }}
             {% else %}
               {{ products|length }} products
             {% endif %}
 
-            {# When searching, show the term #}
             {% if search_term %} for <strong>"{{ search_term }}"</strong>{% endif %}
 
-            {# Human-readable "sorted by" text #}
             {% if current_sort %}
               • sorted by
               {% if current_sort == 'price' %}Price
@@ -135,78 +119,97 @@
       </div>
     </div>
 
-    {# ----------------------- Product grid ----------------------- #}
     <div class="row">
       <div class="product-container col-10 offset-1">
-        <div class="row g-4 mt-1 mb-2">
+<div class="row g-4 mt-1 mb-2">
 
-          {# Loop products (can be a page_obj or queryset) #}
-          {% for product in products %}
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-              <div class="card h-100 border-0">
+  {% for product in products %}
+    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+      <!-- One product card -->
+      <div class="card product-card border-0">
 
-                {# Image links to detail; uses local file, then URL field, then static placeholder #}
-                <a class="d-block"
-                   href="{% url 'products:product_detail' product.id %}"
-                   target="_blank" rel="noopener">
-                  {% if product.image %}
-                    <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
-                  {% elif product.image_url %}
-                    <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
-                  {% else %}
-                    <img class="card-img-top img-fluid" src="{% static 'images/noimage.png' %}" alt="{{ product.name }}">
-                  {% endif %}
-                </a>
+        <!-- Image area wrapped so we can overlay the price on top of the photo -->
+        <div class="thumb-wrap">
+          <!-- Clicking the image opens the product detail -->
+          <a class="d-block"
+             href="{% url 'products:product_detail' product.id %}"
+             target="_blank" rel="noopener">
 
-                <div class="card-body pb-0">
-                  <p class="mb-0">
-                    <a class="text-dark"
-                       href="{% url 'products:product_detail' product.id %}"
-                       target="_blank" rel="noopener">
-                      {{ product.name }}
-                    </a>
-                  </p>
-                </div>
+            {% if product.image %}
+              <!-- Use uploaded image file -->
+              <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% elif product.image_url %}
+              <!-- Or external image URL if present -->
+              <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
+            {% else %}
+              <!-- Fallback placeholder when no image -->
+              <img class="card-img-top img-fluid" src="{% static 'images/noimage.png' %}" alt="{{ product.name }}">
+            {% endif %}
+          </a>
 
-                <div class="card-footer bg-white pt-0 border-0 text-left">
-                  <div class="row">
-                    <div class="col">
-                      <p class="lead mb-0 text-left font-weight-bold">${{ product.price }}</p>
-
-                      {# Category tag links back to filtered list #}
-                      {% if product.category %}
-                        <p class="small mt-1 mb-0">
-                          <a class="text-muted"
-                             href="{% url 'products:products_index' %}?category={{ product.category.name|urlencode }}">
-                            <i class="fas fa-tag mr-1"></i>{{ product.category.friendly_name|default:product.category.name }}
-                          </a>
-                        </p>
-                      {% endif %}
-
-                      {# Rating or "No Rating" label #}
-                      {% if product.rating %}
-                        <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
-                      {% else %}
-                        <small class="text-muted">No Rating</small>
-                      {% endif %}
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          {% empty %}
-            {# Empty state when no products match filters/search #}
-            <div class="col-12 text-center py-5">
-              <p class="text-muted mb-0">No products found.</p>
-            </div>
-          {% endfor %}
+          <!-- ★ NEW: price badge shown ON the image -->
+          <span class="price-badge">
+            ${{ product.price|floatformat:2 }}
+          </span>
         </div>
 
-        {# ----------------------- Pagination controls (keep filters on next/prev) ----------------------- #}
+        <!-- Product name/title -->
+        <div class="card-body pb-0">
+          <p class="mb-0">
+            <a class="text-dark"
+               href="{% url 'products:product_detail' product.id %}"
+               target="_blank" rel="noopener">
+              {{ product.name }}
+            </a>
+          </p>
+        </div>
+
+        <!-- Meta/footer row (keeps price below as well; remove if you only want the badge) -->
+        <div class="card-footer bg-white pt-0 border-0 text-left">
+          <div class="row">
+            <div class="col">
+
+              <!-- Price below the image (optional duplicate for accessibility/SEO) -->
+              <p class="lead mb-0 text-left font-weight-bold">
+                ${{ product.price|floatformat:2 }}
+              </p>
+
+              <!-- Category link back to filtered list -->
+              {% if product.category %}
+                <p class="small mt-1 mb-0">
+                  <a class="text-muted"
+                     href="{% url 'products:products_index' %}?category={{ product.category.name|urlencode }}">
+                    <i class="fas fa-tag mr-1"></i>
+                    {{ product.category.friendly_name|default:product.category.name }}
+                  </a>
+                </p>
+              {% endif %}
+
+              <!-- Rating, if any -->
+              {% if product.rating %}
+                <small class="text-muted">
+                  <i class="fas fa-star mr-1"></i>{{ product.rating }} / 5
+                </small>
+              {% else %}
+                <small class="text-muted">No Rating</small>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  {% empty %}
+    <!-- Empty state when no products match -->
+    <div class="col-12 text-center py-5">
+      <p class="text-muted mb-0">No products found.</p>
+    </div>
+  {% endfor %}
+
+</div>
+
         {% if page_obj and is_paginated %}
           <form method="get" class="d-flex align-items-center justify-content-center gap-2 my-4">
-            {# Preserve current filters/sort/search as hidden fields #}
             {% if search_term %}<input type="hidden" name="q" value="{{ search_term }}">{% endif %}
             {% if current_sort %}<input type="hidden" name="sort" value="{{ current_sort }}">{% endif %}
             {% if current_direction %}<input type="hidden" name="direction" value="{{ current_direction }}">{% endif %}
