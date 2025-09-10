@@ -71,4 +71,4 @@ def product_detail(request, product_id):
         Product.objects.select_related('category'),
         pk=product_id
     )
-    return render(request, 'products/product_detail.html', {'product': product})
+    return render(request, 'products/products_detail.html', {'product': product})
