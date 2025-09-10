@@ -2,14 +2,16 @@ html, body {
     height: 100%;
 }
 
+/* Default: hero background for homepage and other themed pages */
 body {
-    background: url('/media/pexels-cake1.jpg') no-repeat center center fixed;
+    background: url('/media/whitebgcake-flowers.png') no-repeat center center fixed;
     background-size: cover;
     height: calc(100vh - 164px);
     color: #fff; /* make text white for better contrast */
     font-family: 'Lato';
 }
-/* Background image with dark overlay */
+
+/* Dark overlay behind content (kept as originally structured) */
 body::before {
     content: "";
     position: fixed;
@@ -17,12 +19,24 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-        rgba(0, 0, 0, 0.4)   /* semi-transparent black overlay */
-        url('/media/pexels-cake1.jpg') no-repeat center center fixed;
+    background:
+        rgba(0, 0, 0, 0.4)
+        url('/media/whitebgcake-flowers.png') no-repeat center center fixed;
     background-size: cover;
     z-index: -1; /* put behind everything */
 }
+
+/* -------- Plain/white pages (e.g., products, product detail) -------- */
+body.plain-page {
+    background: #fff !important;      /* no image */
+    color: #000;                       /* normal text color */
+    height: auto;                      /* natural height */
+    background-image: none !important;
+}
+body.plain-page::before {
+    display: none !important;          /* remove overlay */
+}
+
 /* from Bulma */
 .icon {
     align-items: center;
@@ -91,6 +105,7 @@ body::before {
     .header-container {
         padding-top: 164px;
     }
+}
 
 /* pad the top a bit when navbar is collapsed on mobile */
 @media (max-width: 991px) {
@@ -105,10 +120,10 @@ body::before {
 
 /* Extra: adjust +3 model navitems px as needed */
 .navbar-nav .nav-item {
-    margin-right: 30px; 
-}
+    margin-right: 30px;
 }
 
+/* Green CTA styling overrides */
 .shop-now-button {
     background-color: #28a745;  /* Bootstrap green */
     color: #fff !important;     /* force white text */
@@ -119,4 +134,60 @@ body::before {
 .shop-now-button:hover {
     background-color: #218838;  /* darker green on hover */
     color: #fff !important;
+}
+
+/* Thumbnail area: background image lives in CSS, URL passed as --bg */
+.product-thumb {
+  width: 100%;
+  aspect-ratio: 4 / 3;        /* keeps consistent shape */
+  background-image: var(--bg);
+  background-size: cover;     /* crop to fill the box */
+  background-position: center;
+  border-radius: .25rem;
+  display: block;
+}
+
+/* Equal-height product cards */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Fix the image area height, crop with object-fit */
+.product-card .card-img-top {
+  width: 100%;
+  height: 300px;          /* pick a size you like: 240–340px works well */
+  object-fit: cover;      /* crop to fill the box */
+}
+
+/* Keep footer aligned at bottom */
+.product-card .card-body { flex: 1 1 auto; }
+.product-card .card-footer { margin-top: auto; }
+
+/* Keep thumbnail images consistent across cards */
+.product-card .card-img-top {
+  width: 100%;
+  aspect-ratio: 4 / 3;   /* maintain identical crop across items */
+  object-fit: cover;     /* fill the box without distortion */
+}
+
+/* Allow content (like the price) to sit on top of the image */
+.thumb-wrap {
+  position: relative;
+}
+
+/* Price pill shown on the image (top-right corner) */
+.price-badge {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  padding: .25rem .5rem;
+  background: rgba(0,0,0,.72); /* dark translucent background for contrast */
+  color: #fff;
+  font-weight: 700;
+  font-size: .9rem;
+  line-height: 1;
+  border-radius: .35rem;
+  backdrop-filter: blur(2px);  /* subtle glass effect (optional) */
 }
