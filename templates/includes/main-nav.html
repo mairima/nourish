@@ -1,64 +1,62 @@
 <div class="collapse navbar-collapse" id="main-nav">
-    <ul class="navbar-nav w-auto mx-auto">
-        <li class="nav-item dropdown">
-            <a class="logo-font font-weight-bold nav-link text-black mr-5" href="#" id="all-products-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                All Products
-            </a>
-            <div class="dropdown-menu border-0" aria-labelledby="all-products-link">
-                <a href="{% url 'products:products_index' %}?sort=price&direction=asc" class="dropdown-item">By Price</a>
-                <a href="{% url 'products:products_index' %}?sort=rating&direction=desc" class="dropdown-item ">By Rating</a>
-                <a href="{% url 'products:products_index' %}?sort=category&direction=asc" class="dropdown-item ">By Category</a>
-                <a href="{% url 'products:products_index' %}" class="dropdown-item">All Products</a>
-</div>
+  <ul class="navbar-nav w-auto mx-auto">
+    <!-- All products -->
+    <li class="nav-item dropdown">
+      <a class="logo-font font-weight-bold nav-link text-black mr-5" href="#" id="all-products-link"
+         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        All Products
+      </a>
+      <div class="dropdown-menu border-0" aria-labelledby="all-products-link">
+        <a href="{% url 'products:products_index' %}" class="dropdown-item"
+           target="_blank" rel="noopener noreferrer">All Products</a>
+        <a href="{% url 'products:products_index' %}?sort=price&direction=asc" class="dropdown-item"
+           target="_blank" rel="noopener noreferrer">By Price</a>
+        <a href="{% url 'products:products_index' %}?sort=rating&direction=desc" class="dropdown-item"
+           target="_blank" rel="noopener noreferrer">By Rating</a>
+        <a href="{% url 'products:products_index' %}?sort=category&direction=asc" class="dropdown-item"
+           target="_blank" rel="noopener noreferrer">By Category</a>
+      </div>
+    </li>
 
-            </div>
-        </li>
+    <!-- Categories shortcuts (static examples) -->
+    <li class="nav-item dropdown">
+      <a class="logo-font font-weight-bold nav-link text-black mr-5" href="#" id="categories-link"
+         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Categories
+      </a>
+      <div class="dropdown-menu border-0" aria-labelledby="categories-link">
+        <a href="{% url 'products:products_index' %}?category=Cakes" class="dropdown-item"
+           target="_blank" rel="noopener noreferrer">Cakes</a>
+        <a href="{% url 'products:products_index' %}?category=Snacks" class="dropdown-item"
+           target="_blank" rel="noopener noreferrer">Snacks</a>
+        <a href="{% url 'products:products_index' %}?category=Drinks" class="dropdown-item"
+           target="_blank" rel="noopener noreferrer">Drinks</a>
+      </div>
+    </li>
 
-        <li class="nav-item dropdown">
-            <a class="logo-font font-weight-bold nav-link text-black mr-5" href="#" id="clothing-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Categories
-            
-            </a>
-            <div class="dropdown-menu border-0" aria-labelledby="clothing-link">
-                <a href="" class="dropdown-item">Cakes</a>
-                <a href="" class="dropdown-item">Snacks</a>
-                <a href="" class="dropdown-item">Drinks</a>
-            </div>
-        </li>
+    <!-- Specials (placeholders) -->
+    <li class="nav-item dropdown">
+      <a class="logo-font font-weight-bold nav-link text-black" href="#" id="specials-link"
+         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Special Offers
+      </a>
+      <div class="dropdown-menu border-0" aria-labelledby="specials-link">
+        <a href="#" class="dropdown-item">New Arrivals</a>
+        <a href="#" class="dropdown-item">Deals</a>
+        <a href="#" class="dropdown-item">Clearance</a>
+        <a href="#" class="dropdown-item">All Specials</a>
+      </div>
+    </li>
 
-
-        <li class="nav-item dropdown">
-            <a class="logo-font font-weight-bold nav-link text-black" href="#" id="specials-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Special Offers
- 
-            </a>
-            <div class="dropdown-menu border-0" aria-labelledby="specials-link">
-                <a href="" class="dropdown-item">New Arrivals</a>
-                <a href="" class="dropdown-item">Deals</a>
-                <a href="" class="dropdown-item">Clearance</a>
-                <a href="" class="dropdown-item">All Specials</a>
-            </div>
-        </li>
-
-   <!-- Contact Page -->
-        <li class="nav-item">
-            <a class="logo-font font-weight-bold nav-link text-black mr-5" href="contact.html">
-                Contact
-            </a>
-        </li>
-
-        <!-- Newsletter -->
-        <li class="nav-item">
-            <a class="logo-font font-weight-bold nav-link text-black mr-5" href="newsletter.html">
-                Newsletter
-            </a>
-        </li>
-
-        <!-- FAQ -->
-        <li class="nav-item">
-            <a class="logo-font font-weight-bold nav-link text-black" href="faq.html">
-                FAQ
-            </a>
-        </li>
-    </ul>
+    <!-- Optional static pages -->
+    <li class="nav-item">
+      <a class="logo-font font-weight-bold nav-link text-black mr-5" href="#">Contact</a>
+    </li>
+    <li class="nav-item">
+      <a class="logo-font font-weight-bold nav-link text-black mr-5" href="#">Newsletter</a>
+    </li>
+    <li class="nav-item">
+      <a class="logo-font font-weight-bold nav-link text-black" href="#">FAQ</a>
+    </li>
+  </ul>
 </div>
