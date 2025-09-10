@@ -1,79 +1,241 @@
+{# products/templates/products/products.html
+   Product listing page with:
+   - Search, category filter, sort + direction
+   - Product count + "sorted by" text
+   - Grid of products with image fallback
+   - Pagination that preserves filters
+#}
+
 {% extends "base.html" %}
 {% load static %}
 
+{# Page header spacer to account for fixed navbar #}
 {% block page_header %}
-    <div class="container header-container">
-        <div class="row">
-            <div class="col"></div>
-        </div>
-    </div>
+  <div class="container header-container">
+    <div class="row"><div class="col"></div></div>
+  </div>
+{% endblock %}
+
+{# Page-specific CSS (optional) #}
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/products.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="overlay"></div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col text-center mt-3">
-                <h2 class="logo-font">Products</h2>
-                <hr class="w-50 mb-1">
-            </div>
-        </div>
-        <div class="row">
-            <div class="product-container col-10 offset-1">
-                <div class="row mt-1 mb-2"></div>
-                <div class="row">
-                    {% for product in products %}
-                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                            <div class="card h-100 border-0">
-                                {% if product.image %}
-                                <a href="">
-                                    <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
-                                </a>
-                                {% else %}
-                                <a href="">
-                                    <img class="card-img-top img-fluid" src="{{ MEDIA_URL }}noimage.png" alt="{{ product.name }}">
-                                </a>
-                                {% endif %}
-                                <div class="card-body pb-0">
-                                    <p class="mb-0">{{ product.name }}</p>
-                                </div>
-                                <div class="card-footer bg-white pt-0 border-0 text-left">
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="lead mb-0 text-left font-weight-bold">${{ product.price }}</p>
-                                            {% if product.rating %}
-                                                <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
-                                            {% else %}
-                                                <small class="text-muted">No Rating</small>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% if forloop.counter|divisibleby:1 %}
-                            <div class="col-12 d-sm-none mb-5">
-                                <hr>
-                            </div>
-                        {% endif %}                        
-                        {% if forloop.counter|divisibleby:2 %}
-                            <div class="col-12 d-none d-sm-block d-md-block d-lg-none mb-5">
-                                <hr>
-                            </div>
-                        {% endif %}
-                        {% if forloop.counter|divisibleby:3 %}
-                            <div class="col-12 d-none d-lg-block d-xl-none mb-5">
-                                <hr>
-                            </div>
-                        {% endif %}
-                        {% if forloop.counter|divisibleby:4 %}
-                            <div class="col-12 d-none d-xl-block mb-5">
-                                <hr>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+  <div class="container-fluid">
+
+    {# ----------------------- Title + active category badges ----------------------- #}
+    <div class="row">
+      <div class="col text-center mt-3">
+        <h2 class="logo-font">Products</h2>
+
+        {# Show badges only when filtering by one/more categories #}
+        {% if current_categories %}
+          {% for c in current_categories %}
+            <a class="category-badge text-decoration-none"
+               href="{% url 'products:products_index' %}?category={{ c.name|urlencode }}">
+              <span class="p-2 mt-2 badge badge-white text-black rounded-0 border border-dark">
+                {{ c.friendly_name|default:c.name }}
+              </span>
+            </a>
+          {% endfor %}
+        {% endif %}
+
+        <hr class="w-50 mb-1">
+      </div>
     </div>
+
+    {# ----------------------- Controls: search / category / sort / direction ----------------------- #}
+    <div class="row">
+      <div class="col-10 offset-1">
+        <form method="get" class="row g-2 align-items-center mb-3">
+
+          {# Search box (keeps previous search term) #}
+          <div class="col-12 col-md-auto">
+            <label for="q" class="sr-only">Search</label>
+            <input id="q" class="form-control" type="text" name="q"
+                   value="{{ search_term|default:'' }}" placeholder="Search products…">
+          </div>
+
+          {# Category dropdown populated from all_categories in view context #}
+          <div class="col-12 col-md-auto">
+            <label for="category" class="sr-only">Category</label>
+            <select id="category" name="category" class="form-select">
+              <option value="">All categories</option>
+              {% for c in all_categories %}
+                <option value="{{ c.name }}"
+                        {% if request.GET.category == c.name %}selected{% endif %}>
+                  {{ c.friendly_name|default:c.name }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          {# Sort field (server-side: name/price/rating/category) #}
+          <div class="col-6 col-md-auto">
+            <label for="sort" class="sr-only">Sort by</label>
+            <select id="sort" name="sort" class="form-select">
+              <option value="">Sort by…</option>
+              <option value="price"    {% if current_sort == 'price' %}selected{% endif %}>Price</option>
+              <option value="rating"   {% if current_sort == 'rating' %}selected{% endif %}>Rating</option>
+              <option value="name"     {% if current_sort == 'name' %}selected{% endif %}>Name</option>
+              <option value="category" {% if current_sort == 'category' %}selected{% endif %}>Category</option>
+            </select>
+          </div>
+
+          {# Direction for sorting (asc/desc) #}
+          <div class="col-6 col-md-auto">
+            <label for="direction" class="sr-only">Direction</label>
+            <select id="direction" name="direction" class="form-select">
+              <option value="asc"  {% if current_direction != 'desc' %}selected{% endif %}>Asc</option>
+              <option value="desc" {% if current_direction == 'desc' %}selected{% endif %}>Desc</option>
+            </select>
+          </div>
+
+          {# Submit & a convenience link to reopen list in a new tab #}
+          <div class="col-12 col-md-auto">
+            <button class="btn btn-primary" type="submit">Apply</button>
+            <a class="btn btn-outline-secondary ms-1"
+               href="{% url 'products:products_index' %}"
+               target="_blank" rel="noopener">Open in New Tab</a>
+          </div>
+        </form>
+
+        {# ----------------------- Result meta: count + current sorting text ----------------------- #}
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <p class="text-muted small mb-0">
+            {# Show "Products Home" reset link when any filter/sort/search is active #}
+            {% if search_term or current_categories or current_sort %}
+              <span class="small"><a href="{% url 'products:products_index' %}">Products Home</a> | </span>
+            {% endif %}
+
+            {# Count: use pagination info if present; fallback to simple length #}
+            {% if page_obj %}
+              Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }}
+            {% else %}
+              {{ products|length }} products
+            {% endif %}
+
+            {# When searching, show the term #}
+            {% if search_term %} for <strong>"{{ search_term }}"</strong>{% endif %}
+
+            {# Human-readable "sorted by" text #}
+            {% if current_sort %}
+              • sorted by
+              {% if current_sort == 'price' %}Price
+              {% elif current_sort == 'rating' %}Rating
+              {% elif current_sort == 'name' %}Name
+              {% elif current_sort == 'category' %}Category
+              {% else %}{{ current_sort|capfirst }}
+              {% endif %}
+              ({{ current_direction|default:'asc'|upper }})
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {# ----------------------- Product grid ----------------------- #}
+    <div class="row">
+      <div class="product-container col-10 offset-1">
+        <div class="row g-4 mt-1 mb-2">
+
+          {# Loop products (can be a page_obj or queryset) #}
+          {% for product in products %}
+            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card h-100 border-0">
+
+                {# Image links to detail; uses local file, then URL field, then static placeholder #}
+                <a class="d-block"
+                   href="{% url 'products:product_detail' product.id %}"
+                   target="_blank" rel="noopener">
+                  {% if product.image %}
+                    <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+                  {% elif product.image_url %}
+                    <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
+                  {% else %}
+                    <img class="card-img-top img-fluid" src="{% static 'images/noimage.png' %}" alt="{{ product.name }}">
+                  {% endif %}
+                </a>
+
+                <div class="card-body pb-0">
+                  <p class="mb-0">
+                    <a class="text-dark"
+                       href="{% url 'products:product_detail' product.id %}"
+                       target="_blank" rel="noopener">
+                      {{ product.name }}
+                    </a>
+                  </p>
+                </div>
+
+                <div class="card-footer bg-white pt-0 border-0 text-left">
+                  <div class="row">
+                    <div class="col">
+                      <p class="lead mb-0 text-left font-weight-bold">${{ product.price }}</p>
+
+                      {# Category tag links back to filtered list #}
+                      {% if product.category %}
+                        <p class="small mt-1 mb-0">
+                          <a class="text-muted"
+                             href="{% url 'products:products_index' %}?category={{ product.category.name|urlencode }}">
+                            <i class="fas fa-tag mr-1"></i>{{ product.category.friendly_name|default:product.category.name }}
+                          </a>
+                        </p>
+                      {% endif %}
+
+                      {# Rating or "No Rating" label #}
+                      {% if product.rating %}
+                        <small class="text-muted"><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
+                      {% else %}
+                        <small class="text-muted">No Rating</small>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          {% empty %}
+            {# Empty state when no products match filters/search #}
+            <div class="col-12 text-center py-5">
+              <p class="text-muted mb-0">No products found.</p>
+            </div>
+          {% endfor %}
+        </div>
+
+        {# ----------------------- Pagination controls (keep filters on next/prev) ----------------------- #}
+        {% if page_obj and is_paginated %}
+          <form method="get" class="d-flex align-items-center justify-content-center gap-2 my-4">
+            {# Preserve current filters/sort/search as hidden fields #}
+            {% if search_term %}<input type="hidden" name="q" value="{{ search_term }}">{% endif %}
+            {% if current_sort %}<input type="hidden" name="sort" value="{{ current_sort }}">{% endif %}
+            {% if current_direction %}<input type="hidden" name="direction" value="{{ current_direction }}">{% endif %}
+            {% if request.GET.category %}<input type="hidden" name="category" value="{{ request.GET.category }}">{% endif %}
+
+            <div class="btn-group" role="group" aria-label="Pagination">
+              {% if page_obj.has_previous %}
+                <button type="submit" name="page" value="1" class="btn btn-outline-secondary">&laquo; First</button>
+                <button type="submit" name="page" value="{{ page_obj.previous_page_number }}" class="btn btn-outline-secondary">Previous</button>
+              {% else %}
+                <button type="button" class="btn btn-outline-secondary disabled">&laquo; First</button>
+                <button type="button" class="btn btn-outline-secondary disabled">Previous</button>
+              {% endif %}
+
+              <span class="btn btn-outline-secondary disabled">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+              </span>
+
+              {% if page_obj.has_next %}
+                <button type="submit" name="page" value="{{ page_obj.next_page_number }}" class="btn btn-outline-secondary">Next</button>
+                <button type="submit" name="page" value="{{ page_obj.paginator.num_pages }}" class="btn btn-outline-secondary">Last &raquo;</button>
+              {% else %}
+                <button type="button" class="btn btn-outline-secondary disabled">Next</button>
+                <button type="button" class="btn btn-outline-secondary disabled">Last &raquo;</button>
+              {% endif %}
+            </div>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 {% endblock %}
