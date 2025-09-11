@@ -180,3 +180,19 @@ body.plain-page::before {
   border-radius: .35rem;
   backdrop-filter: blur(2px);  /* subtle glass effect (optional) */
 }
+/* Back to top button */
+.btt-button {
+    height: 42px;
+    width: 42px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+.btt-link {
+    cursor: pointer;
+}
