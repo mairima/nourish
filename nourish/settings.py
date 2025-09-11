@@ -165,6 +165,8 @@ USE_TZ = True
 # Static (keep as-is; not using Cloudinary for static unless you choose to)
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+# Where collectstatic will gather files for deployment (safe to keep in dev too)
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # --- Cloudinary media storage ---
 # Requires CLOUDINARY_URL in your .env, e.g.:
@@ -199,6 +201,27 @@ if not DEBUG:
     CSRF_TRUSTED_ORIGINS = [
         o.strip() for o in os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",") if o.strip()
     ]
+
+# -----------------------------------------------------------------------------
+# Logging (prints debug/info to console while developing)
+# -----------------------------------------------------------------------------
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO" if not DEBUG else "DEBUG",
+    },
+    "loggers": {
+        # Example: more verbose logs just for your apps
+        "products": {"handlers": ["console"], "level": "DEBUG", "propagate": False},
+    },
+}
 
 # -----------------------------------------------------------------------------
 # Default PK type
