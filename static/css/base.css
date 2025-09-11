@@ -136,17 +136,6 @@ body.plain-page::before {
     color: #fff !important;
 }
 
-/* Thumbnail area: background image lives in CSS, URL passed as --bg */
-.product-thumb {
-  width: 100%;
-  aspect-ratio: 4 / 3;        /* keeps consistent shape */
-  background-image: var(--bg);
-  background-size: cover;     /* crop to fill the box */
-  background-position: center;
-  border-radius: .25rem;
-  display: block;
-}
-
 /* Equal-height product cards */
 .product-card {
   display: flex;
