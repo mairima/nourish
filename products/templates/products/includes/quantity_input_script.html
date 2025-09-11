@@ -1,0 +1,44 @@
+<script type="text/javascript">
+  // Enable/disable +/- based on min/max
+  function handleEnableDisable(itemId) {
+    const input = $(`#id_qty_${itemId}`);
+    const current = parseInt(input.val(), 10);
+    const min = parseInt(input.attr('min') || 1, 10);
+    const max = parseInt(input.attr('max') || 99, 10);
+
+    $(`#decrement-qty_${itemId}`).prop('disabled', current <= min);
+    $(`#increment-qty_${itemId}`).prop('disabled', current >= max);
+  }
+
+  // On page load, set button states for all qty inputs
+  $('.qty_input').each(function () {
+    const itemId = $(this).data('item_id');
+    handleEnableDisable(itemId);
+  });
+
+  // When the quantity is typed/changed
+  $('.qty_input').on('change keyup', function () {
+    const itemId = $(this).data('item_id');
+    handleEnableDisable(itemId);
+  });
+
+  // Increment
+  $('.increment-qty').click(function (e) {
+    e.preventDefault();
+    const itemId = $(this).data('item_id');
+    const input = $(`#id_qty_${itemId}`);
+    const max = parseInt(input.attr('max') || 99, 10);
+    const newVal = Math.min(parseInt(input.val(), 10) + 1, max);
+    input.val(newVal).trigger('change');
+  });
+
+  // Decrement
+  $('.decrement-qty').click(function (e) {
+    e.preventDefault();
+    const itemId = $(this).data('item_id');
+    const input = $(`#id_qty_${itemId}`);
+    const min = parseInt(input.attr('min') || 1, 10);
+    const newVal = Math.max(parseInt(input.val(), 10) - 1, min);
+    input.val(newVal).trigger('change');
+  });
+</script>
