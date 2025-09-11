@@ -9,19 +9,19 @@
 {% extends "base.html" %}
 {% load static %}
 
+{# Use the plain white background styles from base.css #}
+{% block body_class %}plain-page{% endblock %}
+
 {% block page_header %}
   <div class="container header-container">
     <div class="row"><div class="col"></div></div>
   </div>
 {% endblock %}
 
-{% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/products.css' %}">
-{% endblock %}
-
 {% block content %}
   <div class="container-fluid">
 
+    <!-- Title + active category chips -->
     <div class="row">
       <div class="col text-center mt-3">
         <h2 class="logo-font">Products</h2>
@@ -41,15 +41,18 @@
       </div>
     </div>
 
+    <!-- Filters: search / category / sort / direction -->
     <div class="row">
       <div class="col-10 offset-1">
-        <form method="get" class="row g-2 align-items-center mb-3">
+        <form method="get" action="{% url 'products:products_index' %}" class="row g-2 align-items-center mb-3">
+          <!-- Search -->
           <div class="col-12 col-md-auto">
             <label for="q" class="sr-only">Search</label>
             <input id="q" class="form-control" type="text" name="q"
                    value="{{ search_term|default:'' }}" placeholder="Search products…">
           </div>
 
+          <!-- Category -->
           <div class="col-12 col-md-auto">
             <label for="category" class="sr-only">Category</label>
             <select id="category" name="category" class="form-select">
@@ -63,6 +66,7 @@
             </select>
           </div>
 
+          <!-- Sort -->
           <div class="col-6 col-md-auto">
             <label for="sort" class="sr-only">Sort by</label>
             <select id="sort" name="sort" class="form-select">
@@ -74,6 +78,7 @@
             </select>
           </div>
 
+          <!-- Direction -->
           <div class="col-6 col-md-auto">
             <label for="direction" class="sr-only">Direction</label>
             <select id="direction" name="direction" class="form-select">
@@ -82,6 +87,7 @@
             </select>
           </div>
 
+          <!-- Apply + open new tab -->
           <div class="col-12 col-md-auto">
             <button class="btn btn-primary" type="submit">Apply</button>
             <a class="btn btn-outline-secondary ms-1"
@@ -90,6 +96,7 @@
           </div>
         </form>
 
+        <!-- Results meta (count + human readable sort) -->
         <div class="d-flex justify-content-between align-items-center mb-2">
           <p class="text-muted small mb-0">
             {% if search_term or current_categories or current_sort %}
@@ -119,95 +126,85 @@
       </div>
     </div>
 
+    <!-- Product grid -->
     <div class="row">
       <div class="product-container col-10 offset-1">
-<div class="row g-4 mt-1 mb-2">
+        <div class="row g-4 mt-1 mb-2">
 
-  {% for product in products %}
-    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-      <!-- One product card -->
-      <div class="card product-card border-0">
+          {% for product in products %}
+            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <!-- One product card -->
+              <div class="card product-card border-0">
 
-        <!-- Image area wrapped so we can overlay the price on top of the photo -->
-        <div class="thumb-wrap">
-          <!-- Clicking the image opens the product detail -->
-          <a class="d-block"
-             href="{% url 'products:product_detail' product.id %}"
-             target="_blank" rel="noopener">
+                <!-- Image (click → detail). Price IS NOT on the image -->
+                <a class="d-block"
+                   href="{% url 'products:product_detail' product.id %}"
+                   target="_blank" rel="noopener">
+                  {% if product.image %}
+                    <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+                  {% elif product.image_url %}
+                    <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
+                  {% else %}
+                    <img class="card-img-top img-fluid" src="{% static 'images/noimage.png' %}" alt="{{ product.name }}">
+                  {% endif %}
+                </a>
 
-            {% if product.image %}
-              <!-- Use uploaded image file -->
-              <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
-            {% elif product.image_url %}
-              <!-- Or external image URL if present -->
-              <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
-            {% else %}
-              <!-- Fallback placeholder when no image -->
-              <img class="card-img-top img-fluid" src="{% static 'images/noimage.png' %}" alt="{{ product.name }}">
-            {% endif %}
-          </a>
+                <!-- Title -->
+                <div class="card-body pb-0">
+                  <p class="mb-0">
+                    <a class="text-dark"
+                       href="{% url 'products:product_detail' product.id %}"
+                       target="_blank" rel="noopener">
+                      {{ product.name }}
+                    </a>
+                  </p>
+                </div>
 
-          <!-- ★ NEW: price badge shown ON the image -->
-          <span class="price-badge">
-            ${{ product.price|floatformat:2 }}
-          </span>
-        </div>
+                <!-- Meta/footer -->
+                <div class="card-footer bg-white pt-0 border-0 text-left">
+                  <div class="row">
+                    <div class="col">
 
-        <!-- Product name/title -->
-        <div class="card-body pb-0">
-          <p class="mb-0">
-            <a class="text-dark"
-               href="{% url 'products:product_detail' product.id %}"
-               target="_blank" rel="noopener">
-              {{ product.name }}
-            </a>
-          </p>
-        </div>
+                      <!-- Price (text area, not on image) -->
+                      <p class="lead mb-0 text-left font-weight-bold">
+                        ${{ product.price|floatformat:2 }}
+                      </p>
 
-        <!-- Meta/footer row (keeps price below as well; remove if you only want the badge) -->
-        <div class="card-footer bg-white pt-0 border-0 text-left">
-          <div class="row">
-            <div class="col">
+                      <!-- Category link -->
+                      {% if product.category %}
+                        <p class="small mt-1 mb-0">
+                          <a class="text-muted"
+                             href="{% url 'products:products_index' %}?category={{ product.category.name|urlencode }}">
+                            <i class="fas fa-tag mr-1"></i>
+                            {{ product.category.friendly_name|default:product.category.name }}
+                          </a>
+                        </p>
+                      {% endif %}
 
-              <!-- Price below the image (optional duplicate for accessibility/SEO) -->
-              <p class="lead mb-0 text-left font-weight-bold">
-                ${{ product.price|floatformat:2 }}
-              </p>
+                      <!-- Rating -->
+                      {% if product.rating %}
+                        <small class="text-muted">
+                          <i class="fas fa-star mr-1"></i>{{ product.rating }} / 5
+                        </small>
+                      {% else %}
+                        <small class="text-muted">No Rating</small>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
 
-              <!-- Category link back to filtered list -->
-              {% if product.category %}
-                <p class="small mt-1 mb-0">
-                  <a class="text-muted"
-                     href="{% url 'products:products_index' %}?category={{ product.category.name|urlencode }}">
-                    <i class="fas fa-tag mr-1"></i>
-                    {{ product.category.friendly_name|default:product.category.name }}
-                  </a>
-                </p>
-              {% endif %}
-
-              <!-- Rating, if any -->
-              {% if product.rating %}
-                <small class="text-muted">
-                  <i class="fas fa-star mr-1"></i>{{ product.rating }} / 5
-                </small>
-              {% else %}
-                <small class="text-muted">No Rating</small>
-              {% endif %}
+              </div>
             </div>
-          </div>
+          {% empty %}
+            <!-- Empty state -->
+            <div class="col-12 text-center py-5">
+              <p class="text-muted mb-0">No products found.</p>
+            </div>
+          {% endfor %}
+
         </div>
 
-      </div>
-    </div>
-  {% empty %}
-    <!-- Empty state when no products match -->
-    <div class="col-12 text-center py-5">
-      <p class="text-muted mb-0">No products found.</p>
-    </div>
-  {% endfor %}
-
-</div>
-
+        <!-- Pagination (preserve filters) -->
         {% if page_obj and is_paginated %}
           <form method="get" class="d-flex align-items-center justify-content-center gap-2 my-4">
             {% if search_term %}<input type="hidden" name="q" value="{{ search_term }}">{% endif %}
