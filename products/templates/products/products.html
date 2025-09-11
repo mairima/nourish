@@ -242,3 +242,16 @@
     </div>
   </div>
 {% endblock %}
+
+{% block postloadjs %}
+<script>
+/* Auto-submit the filters form when sort/direction change */
+(function () {
+  const form = document.querySelector('form.row.g-2.align-items-center');
+  const sort = document.getElementById('sort');
+  const dir  = document.getElementById('direction');
+  if (form && sort) sort.addEventListener('change', () => form.submit());
+  if (form && dir)  dir.addEventListener('change',  () => form.submit());
+})();
+</script>
+{% endblock %}
