@@ -1,3 +1,9 @@
+<!-- templates/includes/mobile-top-header.html
+     Mobile header icons: Search / My Account / Bag total
+     - Search goes to products:products_index (namespaced)
+     - Account shows login/register or logout
+     - Bag link shows running total and points to view_bag
+-->
 <li class="list-inline-item">
   <a class="text-black nav-link d-block d-lg-none"
      href="#"
@@ -40,10 +46,10 @@
   <div class="dropdown-menu border-0" aria-labelledby="user-options">
     {% if request.user.is_authenticated %}
       {% if request.user.is_superuser %}
-        {# Replace '#' with your management URL name when ready, e.g. {% url 'add_product' %} #}
+        {# Replace '#' with your management URL when ready, e.g. {% url 'add_product' %} #}
         <a href="#" class="dropdown-item">Product Management</a>
       {% endif %}
-      {# Replace '#' with your profile URL name when ready, e.g. {% url 'profile' %} #}
+      {# Replace '#' with your profile URL when ready, e.g. {% url 'profile' %} #}
       <a href="#" class="dropdown-item">My Profile</a>
       <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
     {% else %}
