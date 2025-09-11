@@ -1,8 +1,7 @@
 # products/views.py
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
-from django.db import models
-from django.db.models import Q, Case, When, IntegerField
+from django.db.models import Q
 from django.db.models.functions import Lower
 from django.core.paginator import Paginator
 from .models import Product, Category
@@ -12,36 +11,29 @@ def all_products(request):
     """List products with search, category filter, sorting, and pagination."""
     qs = Product.objects.select_related('category').all()
 
-    # Params
+    # Params from query string
     query = (request.GET.get('q') or '').strip()
-    sort = request.GET.get('sort')                      # price | rating | name | category
+    sort = request.GET.get('sort')                           # 'price' | 'rating' | 'name' | 'category'
     direction = 'desc' if request.GET.get('direction') == 'desc' else 'asc'
-    category_param = request.GET.get('category')        # e.g. "Cakes,Drinks"
+    category_param = request.GET.get('category')             # e.g. "Cakes,Drinks"
 
-    # --- Sorting ---
-    if sort in {'price', 'rating', 'name', 'category'}:
-        sort_field = sort
+    # ---- Sorting (case-insensitive name; category sorts by category name) ----
+    if sort:
+        sortkey = None
         if sort == 'name':
-            qs = qs.annotate(_sort_name=Lower('name'))
-            sort_field = '_sort_name'
+            qs = qs.annotate(lower_name=Lower('name'))
+            sortkey = 'lower_name'
         elif sort == 'category':
-            sort_field = 'category__name'
+            sortkey = 'category__name'
+        elif sort in {'price', 'rating'}:
+            sortkey = sort
 
-        order_by_parts = []
-        if sort == 'rating':
-            # NULL ratings last
-            qs = qs.annotate(_rating_isnull=Case(
-                When(rating__isnull=True, then=1),
-                default=0,
-                output_field=IntegerField(),
-            ))
-            order_by_parts.append('_rating_isnull')
+        if sortkey:
+            if direction == 'desc':
+                sortkey = f'-{sortkey}'
+            qs = qs.order_by(sortkey)
 
-        prefix = '-' if direction == 'desc' else ''
-        order_by_parts.append(f'{prefix}{sort_field}')
-        qs = qs.order_by(*order_by_parts)
-
-    # --- Category filter ---
+    # ---- Category filter ----
     current_categories = None
     if category_param:
         names = [c.strip() for c in category_param.split(',') if c.strip()]
@@ -49,19 +41,20 @@ def all_products(request):
             qs = qs.filter(category__name__in=names)
             current_categories = Category.objects.filter(name__in=names)
 
-    # --- Search ---
-    if 'q' in request.GET and not query:
-        messages.error(request, "You didn't enter any search criteria!")
-        return redirect(reverse('products:products_index'))
+    # ---- Search (ignore empty q so sorting stays intact) ----
     if query:
         qs = qs.filter(Q(name__icontains=query) | Q(description__icontains=query))
 
-    # --- Pagination ---
+    # ---- Stable fallback ordering to avoid UnorderedObjectListWarning ----
+    if not qs.ordered:
+        qs = qs.order_by('pk')
+
+    # ---- Pagination ----
     paginator = Paginator(qs, 12)
     page_obj = paginator.get_page(request.GET.get('page'))
 
     context = {
-        'products': page_obj,
+        'products': page_obj,                        # iterate over this in template
         'page_obj': page_obj,
         'is_paginated': page_obj.has_other_pages(),
         'search_term': query,
@@ -76,5 +69,6 @@ def all_products(request):
 
 
 def product_detail(request, product_id):
+    """Show individual product details."""
     product = get_object_or_404(Product.objects.select_related('category'), pk=product_id)
     return render(request, 'products/product_detail.html', {'product': product})
