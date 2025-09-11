@@ -196,3 +196,9 @@ body.plain-page::before {
 .btt-link {
     cursor: pointer;
 }
+/* Center + dark text on the bag page */
+.bag-page .logo-font,
+.bag-page .empty-message {
+  text-align: center;
+  color: #212529; /* Bootstrap "text-dark" */
+}
