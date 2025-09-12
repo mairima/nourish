@@ -86,7 +86,7 @@ Product listing page with:
             <button class="btn btn-primary" type="submit">Apply</button>
             <a class="btn btn-outline-secondary ms-1"
                href="{% url 'products:products_index' %}{% if current_sort or current_direction or search_term or request.GET.category %}?{% endif %}{% if request.GET.category %}category={{ request.GET.category|urlencode }}{% endif %}{% if search_term %}{% if request.GET.category %}&{% endif %}q={{ search_term|urlencode }}{% endif %}{% if current_sort %}{% if request.GET.category or search_term %}&{% endif %}sort={{ current_sort }}{% endif %}{% if current_direction %}{% if request.GET.category or search_term or current_sort %}&{% endif %}direction={{ current_direction }}{% endif %}"
-               target="_blank" rel="noopener">Open in New Tab</a>
+                >Open in New Tab</a>
           </div>
         </form>
 
@@ -133,7 +133,7 @@ Product listing page with:
                 <!-- Image (click → detail). Price is shown below, not on image -->
                 <a class="d-block"
                    href="{% url 'products:product_detail' product.id %}"
-                   target="_blank" rel="noopener">
+                    >
                   {% if product.image %}
                     <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
                   {% elif product.image_url %}
@@ -148,7 +148,7 @@ Product listing page with:
                   <p class="mb-0">
                     <a class="text-dark"
                        href="{% url 'products:product_detail' product.id %}"
-                       target="_blank" rel="noopener">
+                        >
                       {{ product.name }}
                     </a>
                   </p>
