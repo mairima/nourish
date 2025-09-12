@@ -1,42 +1,50 @@
+/* ---- Base ---- */
 html, body {
     height: 100%;
 }
 
-/* Default: hero background for homepage and other themed pages */
 body {
-    height: calc(100vh - 164px);
-    color: #fff; /* make text white for better contrast */
+    /* Removed background image & calc heights */
+    color: #000;
     font-family: 'Lato';
 }
-#header-container {   background: url('/media/whitebgcake-flowers.png') no-repeat center center fixed;
-    background-size: cover;
+
+/* keep spacing for fixed header */
+.header-container {
+    padding-top: 140px;
 }
 
-/* Dark overlay behind content (kept as originally structured) 
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:
-        rgba(0, 0, 0, 0.4)
-        url('/media/whitebgcake-flowers.png') no-repeat center center fixed;
-    background-size: cover;
-    z-index: -1; /* put behind everything 
+/* ---- HERO ---- */
+.hero {
+    position: relative;
+    background: url("/media/whitebgcake-flowers.png") center/cover no-repeat;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
 }
-*/
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35); /* dark overlay */
+}
+
+.hero .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+}
 
 /* -------- Plain/white pages (e.g., products, product detail) -------- */
 body.plain-page {
-    background: #fff !important;      /* no image */
-    color: #000;                       /* normal text color */
-    height: auto;                      /* natural height */
+    background: #fff !important;
+    color: #000;
+    height: auto;
     background-image: none !important;
 }
 body.plain-page::before {
-    display: none !important;          /* remove overlay */
+    display: none !important;
 }
 
 /* from Bulma */
@@ -56,27 +64,6 @@ body.plain-page::before {
     width: fit-content;
 }
 
-.shop-now-button {
-    background: black;
-    color: white;
-    min-width: 260px;
-}
-
-.btn-black {
-    background: black;
-    color: white;
-}
-
-.shop-now-button:hover,
-.shop-now-button:active,
-.shop-now-button:focus,
-.btn-black:hover,
-.btn-black:active,
-.btn-black:focus {
-    background: #222;
-    color: white;
-}
-
 .text-black {
     color: #000 !important;
 }
@@ -85,13 +72,37 @@ body.plain-page::before {
     border: 1px solid black !important;
 }
 
+/* ---- Buttons ---- */
+.shop-now-button {
+    background-color: #28a745;  /* Bootstrap green */
+    color: #fff !important;
+    border: none;
+    min-width: 260px;
+    transition: background-color 0.3s ease;
+}
+.shop-now-button:hover {
+    background-color: #218838;
+    color: #fff !important;
+}
+
+.btn-black {
+    background: black;
+    color: white;
+}
+.btn-black:hover,
+.btn-black:active,
+.btn-black:focus {
+    background: #222;
+    color: white;
+}
+
 /* -------------------------------- Media Queries */
 
 /* Slightly larger container on xl screens */
 @media (min-width: 1200px) {
-  .container {
-    max-width: 80%;
-  }
+    .container {
+        max-width: 80%;
+    }
 }
 
 /* fixed top navbar only on medium and up */
@@ -103,7 +114,6 @@ body.plain-page::before {
         left: 0;
         z-index: 1030;
     }
-
     .header-container {
         padding-top: 164px;
     }
@@ -114,10 +124,6 @@ body.plain-page::before {
     .header-container {
         padding-top: 116px;
     }
-
-    body {
-        height: calc(100vh - 116px);
-    }
 }
 
 /* Extra: adjust +3 model navitems px as needed */
@@ -125,64 +131,43 @@ body.plain-page::before {
     margin-right: 30px;
 }
 
-/* Green CTA styling overrides */
-.shop-now-button {
-    background-color: #28a745;  /* Bootstrap green */
-    color: #fff !important;     /* force white text */
-    border: none;
-    transition: background-color 0.3s ease;
-}
-
-.shop-now-button:hover {
-    background-color: #218838;  /* darker green on hover */
-    color: #fff !important;
-}
-
-/* Equal-height product cards */
+/* ---- Product cards ---- */
 .product-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
-
-/* Fix the image area height, crop with object-fit */
 .product-card .card-img-top {
-  width: 100%;
-  height: 300px;          /* pick a size you like: 240–340px works well */
-  object-fit: cover;      /* crop to fill the box */
+    width: 100%;
+    aspect-ratio: 4 / 3;   /* maintain identical crop */
+    object-fit: cover;
+}
+.product-card .card-body {
+    flex: 1 1 auto;
+}
+.product-card .card-footer {
+    margin-top: auto;
 }
 
-/* Keep footer aligned at bottom */
-.product-card .card-body { flex: 1 1 auto; }
-.product-card .card-footer { margin-top: auto; }
-
-/* Keep thumbnail images consistent across cards */
-.product-card .card-img-top {
-  width: 100%;
-  aspect-ratio: 4 / 3;   /* maintain identical crop across items */
-  object-fit: cover;     /* fill the box without distortion */
-}
-
-/* Allow content (like the price) to sit on top of the image */
+/* Price badge overlay */
 .thumb-wrap {
-  position: relative;
+    position: relative;
+}
+.price-badge {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    padding: .25rem .5rem;
+    background: rgba(0,0,0,.72);
+    color: #fff;
+    font-weight: 700;
+    font-size: .9rem;
+    line-height: 1;
+    border-radius: .35rem;
+    backdrop-filter: blur(2px);
 }
 
-/* Price pill shown on the image (top-right corner) */
-.price-badge {
-  position: absolute;
-  top: .5rem;
-  right: .5rem;
-  padding: .25rem .5rem;
-  background: rgba(0,0,0,.72); /* dark translucent background for contrast */
-  color: #fff;
-  font-weight: 700;
-  font-size: .9rem;
-  line-height: 1;
-  border-radius: .35rem;
-  backdrop-filter: blur(2px);  /* subtle glass effect (optional) */
-}
-/* Back to top button */
+/* ---- Back to top button ---- */
 .btt-button {
     height: 42px;
     width: 42px;
@@ -198,37 +183,35 @@ body.plain-page::before {
 .btt-link {
     cursor: pointer;
 }
-/* Center + dark text on the bag page */
+
+/* ---- Bag page helpers ---- */
 .bag-page .logo-font,
 .bag-page .empty-message {
-  text-align: center;
-  color: #212529; /* Bootstrap "text-dark" */
-}
-/* --- Free delivery banner --- */
-#delivery-banner {               /* make sure it actually shows */
-  display: block;
-  background: #000;              /* black strip like the screenshot */
+    text-align: center;
+    color: #212529;
 }
 
+/* ---- Free delivery banner ---- */
+#delivery-banner {
+    display: block;
+    background: #000;
+}
 #delivery-banner .col {
-  color: #fff;                   /* white text */
-  text-align: center;
-  padding: 6px 0;                /* give it some height */
+    color: #fff;
+    text-align: center;
+    padding: 6px 0;
 }
-
 #delivery-banner h4 {
-  margin: 0;
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: .03em;
+    margin: 0;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
 }
-/* helper to match the class used in base.html */
-.bg-black { background-color: #000 !important; }
+.bg-black {
+    background-color: #000 !important;
+}
 
-
-/* If your page content sits under the fixed header, add a touch more space: */
-.header-container { padding-top: 140px; }  /* increase by ~20–30px vs before */
-/* Adjust the logo position as needed */
+/* ---- Header/logo spacing ---- */
 h2.logo-font {
-    margin-top: 30px; /* adjust px until it looks right */
+    margin-top: 30px;
 }
