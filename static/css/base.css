@@ -202,3 +202,28 @@ body.plain-page::before {
   text-align: center;
   color: #212529; /* Bootstrap "text-dark" */
 }
+/* --- Free delivery banner --- */
+#delivery-banner {               /* make sure it actually shows */
+  display: block;
+  background: #000;              /* black strip like the screenshot */
+}
+
+#delivery-banner .col {
+  color: #fff;                   /* white text */
+  text-align: center;
+  padding: 6px 0;                /* give it some height */
+}
+
+#delivery-banner h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+/* helper to match the class used in base.html */
+.bg-black { background-color: #000 !important; }
+
+
+/* If your page content sits under the fixed header, add a touch more space: */
+.header-container { padding-top: 140px; }  /* increase by ~20–30px vs before */
+
