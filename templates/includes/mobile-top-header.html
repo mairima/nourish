@@ -34,7 +34,7 @@
 <li class="list-inline-item dropdown">
   <a class="text-black nav-link d-block d-lg-none"
      href="#"
-     id="user-options"
+     id="user-options-mobile"
      data-toggle="dropdown"
      aria-haspopup="true"
      aria-expanded="false">
@@ -43,7 +43,7 @@
       <p class="my-0">My Account</p>
     </div>
   </a>
-  <div class="dropdown-menu border-0" aria-labelledby="user-options">
+  <div class="dropdown-menu border-0" aria-labelledby="user-options-mobile">
     {% if request.user.is_authenticated %}
       {% if request.user.is_superuser %}
         {# Replace '#' with your management URL when ready, e.g. {% url 'add_product' %} #}
