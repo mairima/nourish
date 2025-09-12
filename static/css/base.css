@@ -4,14 +4,15 @@ html, body {
 
 /* Default: hero background for homepage and other themed pages */
 body {
-    background: url('/media/whitebgcake-flowers.png') no-repeat center center fixed;
-    background-size: cover;
     height: calc(100vh - 164px);
     color: #fff; /* make text white for better contrast */
     font-family: 'Lato';
 }
+#header-container {   background: url('/media/whitebgcake-flowers.png') no-repeat center center fixed;
+    background-size: cover;
+}
 
-/* Dark overlay behind content (kept as originally structured) */
+/* Dark overlay behind content (kept as originally structured) 
 body::before {
     content: "";
     position: fixed;
@@ -23,8 +24,9 @@ body::before {
         rgba(0, 0, 0, 0.4)
         url('/media/whitebgcake-flowers.png') no-repeat center center fixed;
     background-size: cover;
-    z-index: -1; /* put behind everything */
+    z-index: -1; /* put behind everything 
 }
+*/
 
 /* -------- Plain/white pages (e.g., products, product detail) -------- */
 body.plain-page {
@@ -226,4 +228,7 @@ body.plain-page::before {
 
 /* If your page content sits under the fixed header, add a touch more space: */
 .header-container { padding-top: 140px; }  /* increase by ~20–30px vs before */
-
+/* Adjust the logo position as needed */
+h2.logo-font {
+    margin-top: 30px; /* adjust px until it looks right */
+}
