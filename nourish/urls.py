@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include('home.urls')), # / -> home/index.html
     path('products/', include(('products.urls', 'products'), namespace='products')),
     path('bag/', include('bag.urls')),
+    path('checkout/', include('checkout.urls')),
 
     # Optional: /dashboard/ shows the same home page
     path('dashboard/', TemplateView.as_view(template_name='home/index.html'), name='dashboard'),
