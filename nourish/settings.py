@@ -64,6 +64,8 @@ INSTALLED_APPS = [
     "products",
     "bag",
     "checkout",
+    # Other
+    'crispy_forms',
 ]
 
 SITE_ID = 1
@@ -89,6 +91,8 @@ ROOT_URLCONF = "nourish.urls"
 WSGI_APPLICATION = "nourish.wsgi.application"
 # ASGI_APPLICATION = "nourish.asgi.application"  # if you use ASGI
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 # -----------------------------------------------------------------------------
 # Templates
 # -----------------------------------------------------------------------------
@@ -108,6 +112,10 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "bag.contexts.bag_contents",
                 "django.template.context_processors.media",
+            ],
+            'builtins': [
+                'crispy_forms.templatetags.crispy_forms_tags',
+                'crispy_forms.templatetags.crispy_forms_field',
             ],
         },
     },
