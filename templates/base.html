@@ -15,7 +15,6 @@
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
             integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
             crossorigin="anonymous">
-      <!-- Icons (needed for user/shopping-bag icons) -->
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato&display=swap">
       <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% endblock %}
@@ -25,12 +24,9 @@
     {% block corejs %}
       <script src="https://kit.fontawesome.com/fa7e3e6dea.js" crossorigin="anonymous"></script>
       <script
-      src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-      crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"
-              integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-              crossorigin="anonymous"></script>
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
               integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
               crossorigin="anonymous"></script>
@@ -44,7 +40,6 @@
     <title>Nourish {% block extra_title %}{% endblock %}</title>
   </head>
 
-  <!-- Allow child templates to control page background via body class -->
   <body class="{% block body_class %}{% endblock %}">
     <header class="container-fluid fixed-top">
       <div id="topnav" class="row bg-white pt-lg-2 d-none d-lg-flex">
@@ -57,8 +52,7 @@
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
           <form method="GET" action="{% url 'products:products_index' %}">
             <div class="input-group w-100">
-              <input class="form-control border border-black rounded-0" type="text" name="q"
-                     placeholder="Search our site">
+              <input class="form-control border border-black rounded-0" type="text" name="q" placeholder="Search our site">
               <div class="input-group-append">
                 <button class="form-control btn btn-black border border-black rounded-0" type="submit">
                   <span class="icon"><i class="fas fa-search"></i></span>
@@ -71,8 +65,7 @@
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
           <ul class="list-inline list-unstyled text-center text-lg-right my-0">
             <li class="list-inline-item dropdown">
-              <a class="text-black nav-link" href="#" id="user-options" data-toggle="dropdown"
-                 aria-haspopup="true" aria-expanded="false">
+              <a class="text-black nav-link" href="#" id="user-options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="text-center">
                   <div><i class="fas fa-user fa-lg"></i></div>
                   <p class="my-0">My Account</p>
@@ -92,18 +85,13 @@
               </div>
             </li>
 
-            <!-- Desktop bag link (visible on lg+ only) -->
             <li class="list-inline-item">
               <a class="{% if grand_total %}text-primary font-weight-bold{% else %}text-black{% endif %} nav-link d-none d-lg-block"
                  href="{% url 'view_bag' %}">
                 <div class="text-center">
                   <div><i class="fas fa-shopping-bag fa-lg"></i></div>
                   <p class="my-0">
-                    {% if grand_total %}
-                      ${{ grand_total|floatformat:2 }}
-                    {% else %}
-                      $0.00
-                    {% endif %}
+                    {% if grand_total %}${{ grand_total|floatformat:2 }}{% else %}$0.00{% endif %}
                   </p>
                 </div>
               </a>
@@ -130,20 +118,86 @@
       </div>
     </header>
 
+    {# --- Toasts: messages or bag-filled fallback --- #}
     {% if messages %}
-      <div class="message-container">
-          {% for message in messages %}
-            {% include 'includes/toasts/toast_success.html' %}
-    {% endfor %}
+      <div class="message-container" aria-live="polite" aria-atomic="true">
+        {% for message in messages %}
+          {% with message.level as level %}
+            {% if level == 40 %}
+              {% include 'includes/toasts/toast_error.html' %}
+            {% elif level == 30 %}
+              {% include 'includes/toasts/toast_warning.html' %}
+            {% elif level == 25 %}
+              {% include 'includes/toasts/toast_success.html' %}
+            {% else %}
+              {% include 'includes/toasts/toast_info.html' %}
+            {% endif %}
+          {% endwith %}
+        {% endfor %}
+      </div>
+    {% elif product_count %}
+      <div class="message-container" aria-live="polite" aria-atomic="true">
+        <div class="toast custom-toast rounded-0 border-top-0" role="alert" aria-live="polite" aria-atomic="true" data-autohide="false">
+          <div class="arrow-up arrow-info"></div>
+          <div class="w-100 toast-capper bg-info"></div>
+          <div class="toast-header bg-white text-dark">
+            <strong class="mr-auto">Bag updated</strong>
+            <button type="button" class="ml-2 mb-1 close text-dark" data-dismiss="toast" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="toast-body bg-white">
+            You have {{ product_count }} item{{ product_count|pluralize }} in your bag (total ${{ grand_total|floatformat:2 }}).
+          </div>
+        </div>
       </div>
     {% endif %}
 
+    <script>
+      (function () {
+        // 1) Position the toast just below the fixed header (works across pages/screen sizes)
+        function placeToast() {
+          var header = document.querySelector('header.container-fluid.fixed-top');
+          var mc = document.querySelector('.message-container');
+          if (header && mc) {
+            var offset = header.offsetHeight + 10; // 10px gap
+            mc.style.top = offset + 'px';
+          }
+        }
+
+        // 2) Initialize and show toasts
+        function showToasts() {
+          var toasts = document.querySelectorAll('.toast');
+          if (!toasts.length) return;
+          try {
+            if (window.jQuery && typeof jQuery.fn.toast === 'function') {
+              jQuery(toasts).toast({ autohide: false });
+              jQuery(toasts).toast('show');
+            } else {
+              toasts.forEach(function (t) { t.classList.add('show'); });
+            }
+          } catch (e) {
+            toasts.forEach(function (t) { t.classList.add('show'); });
+          }
+        }
+
+        function initToasts() {
+          placeToast();
+          showToasts();
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initToasts);
+        } else {
+          initToasts();
+        }
+        window.addEventListener('resize', placeToast);
+      })();
+    </script>
+    {# --- /Toasts --- #}
+
     {% block page_header %}{% endblock %}
     {% block content %}{% endblock %}
-    {% block postloadjs %}
-      <script type="text/javascript">
-    $('.toast').toast('show');
-  </script>
-{% endblock %}
+    {% block postloadjs %}{% endblock %}
   </body>
 </html>
