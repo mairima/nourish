@@ -1,68 +1,88 @@
-from django.shortcuts import (render, redirect, reverse,
-                              HttpResponse, get_object_or_404)
+# bag/views.py
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.http import HttpResponse
 from django.contrib import messages
+from django.views.decorators.http import require_POST
 
 from products.models import Product
 
 
 def view_bag(request):
-    """Render the bag contents page."""
+    """Render the bag contents page (no sizes)."""
     return render(request, 'bag/bag.html')
 
 
+@require_POST
 def add_to_bag(request, item_id):
     """Add a quantity of the specified product to the shopping bag (no sizes)."""
     product = get_object_or_404(Product, pk=item_id)
 
-    quantity = int(request.POST.get('quantity', 1))
-    redirect_url = request.POST.get('redirect_url', reverse('products:products_index'))
+    # Safe quantity parse
+    try:
+        quantity = int(request.POST.get('quantity', 1))
+    except (TypeError, ValueError):
+        quantity = 1
+
+    redirect_url = request.POST.get('redirect_url') or reverse('products:products_index')
 
     bag = request.session.get('bag', {})
-    item_key = str(item_id)
+    key = str(item_id)
 
-    previous_qty = bag.get(item_key, 0)
-    bag[item_key] = previous_qty + quantity
-
+    previous_qty = bag.get(key, 0)
+    bag[key] = previous_qty + max(quantity, 0)
     request.session['bag'] = bag
 
     if previous_qty:
-        messages.success(request, f'Updated {product.name} quantity to {bag[item_key]}')
+        messages.success(request, f'Updated {product.name} quantity to {bag[key]}')
     else:
         messages.success(request, f'Added {product.name} to your bag')
 
     return redirect(redirect_url)
 
 
+@require_POST
 def adjust_bag(request, item_id):
     """Set the quantity for a product (no sizes)."""
     product = get_object_or_404(Product, pk=item_id)
 
-    quantity = int(request.POST.get('quantity', 0))
+    # Safe quantity parse
+    try:
+        quantity = int(request.POST.get('quantity', 0))
+    except (TypeError, ValueError):
+        quantity = 0
+
     bag = request.session.get('bag', {})
-    item_key = str(item_id)
+    key = str(item_id)
 
     if quantity > 0:
-        bag[item_key] = quantity
-        messages.success(request, f'Updated {product.name} quantity to {bag[item_key]}')
+        bag[key] = quantity
+        messages.success(request, f'Updated {product.name} quantity to {bag[key]}')
     else:
-        bag.pop(item_key, None)
-        messages.success(request, f'Removed {product.name} from your bag')
+        if key in bag:
+            bag.pop(key)
+            messages.success(request, f'Removed {product.name} from your bag')
+        else:
+            messages.error(request, f'{product.name} was not in your bag')
 
     request.session['bag'] = bag
     return redirect(reverse('view_bag'))
 
 
+@require_POST
 def remove_from_bag(request, item_id):
     """Remove the product from the shopping bag (no sizes)."""
     product = get_object_or_404(Product, pk=item_id)
-    item_key = str(item_id)
+    bag = request.session.get('bag', {})
+    key = str(item_id)
 
-    try:
-        bag = request.session.get('bag', {})
-        bag.pop(item_key, None)
+    if key in bag:
+        bag.pop(key)
         request.session['bag'] = bag
         messages.success(request, f'Removed {product.name} from your bag')
+    else:
+        messages.error(request, f'{product.name} was not in your bag')
+
+    # AJAX-friendly response
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return HttpResponse(status=200)
-    except Exception as e:
-        messages.error(request, f'Error removing item: {e}')
-        return HttpResponse(status=500)
+    return redirect(reverse('view_bag'))
