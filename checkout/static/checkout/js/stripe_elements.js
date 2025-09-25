@@ -1,155 +1,151 @@
 /*
-  Stripe Elements (robust init + full payment flow)
+    Accept a card payment with a confirm step
 
-  Expects in template:
-    <script src="https://js.stripe.com/v3/"></script>
-    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
-    {{ client_secret|json_script:"id_client_secret" }}
-  And the markup:
-    <div id="card-element"></div>
-    <div id="card-errors" role="alert"></div>
-    <form id="payment-form">...</form>
+    Based on Stripe’s accept-a-payment guide:
+    https://stripe.com/docs/payments/accept-a-payment
 */
 
 (function () {
-  // ---- helpers ----
-  function getJson(id) {
-    var el = document.getElementById(id);
-    if (!el) return null;
-    var t = (el.textContent || '').trim();
-    if (!t || t === 'null') return null;
-    try { return JSON.parse(t); } catch (e) { return t.replace(/^"|"$/g, ''); }
+  // --- Read keys the same way as the walkthrough ---
+  var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
+  var clientSecret    = $('#id_client_secret').text().slice(1, -1);
+  var stripe          = Stripe(stripePublicKey);
+  var elements        = stripe.elements();
+
+  var style = {
+    base: {
+      color: '#000',
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: 'antialiased',
+      fontSize: '16px',
+      '::placeholder': { color: '#aab7c4' }
+    },
+    invalid: { color: '#dc3545', iconColor: '#dc3545' }
+  };
+
+  var card = elements.create('card', { style: style });
+  card.mount('#card-element');
+
+  // --- Utilities ---
+  function showFieldError(msg) {
+    var $div = $('#card-errors');
+    var html = `
+      <span class="icon" role="alert">
+        <i class="fas fa-times"></i>
+      </span>
+      <span>${msg}</span>
+    `;
+    $div.html(html);
   }
-  function $(sel) { return document.querySelector(sel); }
-  function val(name) {
-    var el = document.querySelector('[name="' + name + '"]');
-    return el ? el.value : '';
-  }
-  function showError(msg) {
-    var errorDiv = $('#card-errors');
-    if (!errorDiv) return;
-    errorDiv.innerHTML =
-      '<span class="icon" role="alert"><i class="fas fa-times"></i></span> ' +
-      '<span>' + (msg || 'Payment error') + '</span>';
-  }
-  function clearError() {
-    var errorDiv = $('#card-errors');
-    if (errorDiv) errorDiv.textContent = '';
-  }
-  function setLoading(on) {
-    var overlay = document.querySelector('.overlay');
-    if (overlay) overlay.style.display = on ? 'block' : 'none';
+  function clearFieldError() {
+    $('#card-errors').text('');
   }
 
-  function init() {
-    var pubKey = getJson('id_stripe_public_key');
-    var clientSecret = getJson('id_client_secret');
+  function getOverlay() {
+    return $('#loading-overlay');
+  }
 
-    if (!window.Stripe) {
-      console.error('Stripe.js failed to load.');
-      showError('Unable to load payment library. Please refresh the page.');
-      return;
-    }
-    if (!pubKey) {
-      console.error('Stripe public key missing.');
-      showError('Payment not initialised (missing public key).');
-      return;
-    }
+  // Scrape the amount shown near the submit button (fallback if not found)
+  function getChargeAmountText() {
+    var txt = $('.submit-button p.small strong').first().text(); // e.g. "$19.99"
+    return txt || '$' + (window.__grand_total || '');
+  }
 
-    var container = document.getElementById('card-element');
-    if (!container) {
-      console.error('#card-element not found.');
-      return;
-    }
+  // Render a confirm question inside the overlay
+  function renderConfirm() {
+    var amountText = getChargeAmountText();
+    var html = `
+      <div class="bg-white rounded shadow p-4 text-center" role="dialog" aria-modal="true" style="max-width:420px; width:92%;">
+        <h5 class="mb-2">Confirm payment</h5>
+        <p class="mb-0">Charge <strong>${amountText}</strong> to your card?</p>
+        <div class="mt-3 d-flex justify-content-center">
+          <button type="button" id="pay-confirm" class="btn btn-primary mr-2">Yes, pay now</button>
+          <button type="button" id="pay-cancel"  class="btn btn-outline-secondary">Cancel</button>
+        </div>
+      </div>
+    `;
+    getOverlay().addClass('show').html(html);
+  }
 
-    var form = document.getElementById('payment-form');
-    var submitBtn = document.getElementById('submit-button');
+  // Render a spinner while processing
+  function renderSpinner() {
+    var html = `
+      <h1 class="text-light logo-font loading-spinner" role="status" aria-live="polite">
+        <span class="icon"><i class="fas fa-3x fa-sync-alt fa-spin" aria-hidden="true"></i></span>
+        <span class="sr-only">Processing payment…</span>
+      </h1>
+    `;
+    getOverlay().addClass('show').html(html);
+  }
 
-    var stripe = Stripe(pubKey);
-    var elements = stripe.elements();
-    var style = {
-      base: {
-        color: '#000',
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: 'antialiased',
-        fontSize: '16px',
-        '::placeholder': { color: '#aab7c4' }
-      },
-      invalid: { color: '#dc3545', iconColor: '#dc3545' }
+  function hideOverlay() {
+    getOverlay().removeClass('show').empty();
+  }
+
+  function lockUI(lock) {
+    try { card.update({ disabled: !!lock }); } catch (_) {}
+    $('#submit-button').prop('disabled', !!lock);
+    // Pointer-events guard in case overlay is hidden on error
+    $('#payment-form').css('pointer-events', lock ? 'none' : '');
+  }
+
+  // --- Realtime validation errors on the card element ---
+  card.addEventListener('change', function (event) {
+    if (event.error) showFieldError(event.error.message);
+    else clearFieldError();
+  });
+
+  // --- Two-step submit: confirm first, then pay ---
+  var $form = $('#payment-form');
+
+  $form.on('submit', function (ev) {
+    ev.preventDefault();
+    clearFieldError();
+    // Step 1: Ask for confirmation in the overlay
+    renderConfirm();
+  });
+
+  // Overlay button handlers (delegated since we inject the markup)
+  $(document).on('click', '#pay-cancel', function () {
+    hideOverlay(); // simply close; nothing else happens
+  });
+
+  $(document).on('click', '#pay-confirm', function () {
+    // Step 2: proceed with payment
+    renderSpinner();
+    lockUI(true);
+
+    // (Optional) supply billing_details from the form
+    var billingDetails = {
+      name:        $('[name="full_name"]').val() || undefined,
+      email:       $('[name="email"]').val() || undefined,
+      phone:       $('[name="phone_number"]').val() || undefined,
+      address: {
+        line1:      $('[name="street_address1"]').val() || undefined,
+        line2:      $('[name="street_address2"]').val() || undefined,
+        city:       $('[name="town_or_city"]').val() || undefined,
+        country:    $('[name="country"]').val() || undefined,
+        postal_code:$('[name="postcode"]').val() || undefined
+      }
     };
 
-    var card = elements.create('card', { style: style });
-    card.mount('#card-element');
-
-    // Realtime validation errors
-    card.addEventListener('change', function (event) {
-      if (event.error) showError(event.error.message);
-      else clearError();
+    stripe.confirmCardPayment(clientSecret, {
+      payment_method: { card: card, billing_details: billingDetails }
+    }).then(function (result) {
+      if (result.error) {
+        // Show Stripe error, re-enable UI, close overlay
+        showFieldError(result.error.message);
+        lockUI(false);
+        hideOverlay();
+      } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+        // Let Django finish the order
+        $form.off('submit'); // avoid recursion
+        $form.trigger('submit');
+      } else {
+        showFieldError('Unexpected payment status. Please try again.');
+        lockUI(false);
+        hideOverlay();
+      }
     });
-
-    // Full payment flow (only if we have a real client secret)
-    if (form) {
-      form.addEventListener('submit', function (ev) {
-        ev.preventDefault();
-
-        if (!clientSecret) {
-          showError('Payment not initialised. Please reload the page.');
-          return;
-        }
-
-        // Lock UI
-        try { card.update({ disabled: true }); } catch (_) {}
-        if (submitBtn) submitBtn.disabled = true;
-        setLoading(true);
-
-        // Optional: pass billing details from your form
-        var billingDetails = {
-          name: val('full_name'),
-          email: val('email'),
-          phone: val('phone_number'),
-          address: {
-            line1: val('street_address1'),
-            line2: val('street_address2'),
-            city: val('town_or_city'),
-            country: val('country'),
-            postal_code: val('postcode')
-          }
-        };
-
-        stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: card,
-            billing_details: billingDetails
-          }
-        }).then(function (result) {
-          if (result.error) {
-            // Show error and re-enable
-            showError(result.error.message);
-            try { card.update({ disabled: false }); } catch (_) {}
-            if (submitBtn) submitBtn.disabled = false;
-            setLoading(false);
-          } else {
-            // PaymentIntent succeeded → submit form to finish order
-            if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
-              form.submit();
-            } else {
-              // Unexpected status
-              showError('Unexpected payment status. Please try again.');
-              try { card.update({ disabled: false }); } catch (_) {}
-              if (submitBtn) submitBtn.disabled = false;
-              setLoading(false);
-            }
-          }
-        });
-      });
-    } else {
-      console.warn('#payment-form not found; skipping submit handler.');
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  });
 })();
