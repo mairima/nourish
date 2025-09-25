@@ -1,4 +1,6 @@
 {% load static %}
+{# Provide a namespaced products URL for reuse across includes #}
+{% url 'products:products_index' as products_index_url %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -33,7 +35,7 @@
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
               integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
               crossorigin="anonymous"></script>
-                <!-- Stripe -->
+      <!-- Stripe -->
       <script src="https://js.stripe.com/v3/"></script>
     {% endblock %}
 
@@ -52,7 +54,8 @@
         </div>
 
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
-          <form method="GET" action="{% url 'products:products_index' %}">
+          {# search submits to the namespaced products index #}
+          <form method="GET" action="{{ products_index_url }}">
             <div class="input-group w-100">
               <input class="form-control border border-black rounded-0" type="text" name="q" placeholder="Search our site">
               <div class="input-group-append">
@@ -108,8 +111,9 @@
                   aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          {% include 'includes/mobile-top-header.html' %}
-          {% include 'includes/main-nav.html' %}
+          {# pass the namespaced URL down to the includes, in case they want to use it #}
+          {% include 'includes/mobile-top-header.html' with products_index_url=products_index_url %}
+          {% include 'includes/main-nav.html' with products_index_url=products_index_url %}
         </nav>
       </div>
 
@@ -120,7 +124,6 @@
       </div>
     </header>
 
-    {# --- Toasts: messages or bag-filled fallback --- #}
     {% if messages %}
       <div class="message-container" aria-live="polite" aria-atomic="true">
         {% for message in messages %}
@@ -157,17 +160,14 @@
 
     <script>
       (function () {
-        // 1) Position the toast just below the fixed header (works across pages/screen sizes)
         function placeToast() {
           var header = document.querySelector('header.container-fluid.fixed-top');
           var mc = document.querySelector('.message-container');
           if (header && mc) {
-            var offset = header.offsetHeight + 10; // 10px gap
+            var offset = header.offsetHeight + 10;
             mc.style.top = offset + 'px';
           }
         }
-
-        // 2) Initialize and show toasts
         function showToasts() {
           var toasts = document.querySelectorAll('.toast');
           if (!toasts.length) return;
@@ -182,12 +182,7 @@
             toasts.forEach(function (t) { t.classList.add('show'); });
           }
         }
-
-        function initToasts() {
-          placeToast();
-          showToasts();
-        }
-
+        function initToasts() { placeToast(); showToasts(); }
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', initToasts);
         } else {
@@ -196,7 +191,6 @@
         window.addEventListener('resize', placeToast);
       })();
     </script>
-    {# --- /Toasts --- #}
 
     {% block page_header %}{% endblock %}
     {% block content %}{% endblock %}
