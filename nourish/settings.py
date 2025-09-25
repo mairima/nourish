@@ -213,7 +213,7 @@ STRIPE_PUBLIC_KEY = os.getenv(
     "pk_test_51LsAVSDbrSAzYrzcRSLdMAqeaXZkUNLmV0cXhl70xgfdimMu6ZPgf6orKSjM3KQR2JfEfxPjISBRhUV6xXX5WnyA00ZksvPBi2" if DEBUG else ""
 )
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "" if not DEBUG else "sk_test_your_secret_here")
-STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "whsec_c15e22072e824b3276e1ddf2dadb4071fb25496194fc8d8d7c242b7ccb5cd6e9")
 
 # ----------------------------------------------------------------------------- #
 # Production security (only when DEBUG=False)
