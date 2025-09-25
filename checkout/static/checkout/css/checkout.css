@@ -4,10 +4,9 @@
   height: 40px;
   padding: 10px 12px;
   border: 1px solid transparent;
-  border-radius: 0px;
-  background-color: white;
+  border-radius: 0;
+  background-color: #fff;
   box-shadow: 0 1px 3px 0 #e6ebf1;
-  -webkit-transition: box-shadow 150ms ease;
   transition: box-shadow 150ms ease;
 }
 
@@ -17,23 +16,38 @@
   box-shadow: 0 1px 3px 0 #cfd7df;
 }
 
-.StripeElement--webkit-autofill {
-  background-color: #fefde5 !important;
-}
+.StripeElement--webkit-autofill { background-color: #fefde5 !important; }
+.stripe-style-input::placeholder { color: #aab7c4; }
 
-.stripe-style-input::placeholder {
-    color: #aab7c4;
-}
-
-.fieldset-label {
-    position: relative;
-    right: .5rem;
-}
+.fieldset-label { position: relative; right: .5rem; }
 
 #payment-form .form-control,
 #card-element {
-    color: #000;
-    border: 1px solid #000;
+  color: #000;
+  border: 1px solid #000;
 }
-/* checkout/static/checkout/css/checkout.css */
-#card-element { min-height: 44px; }
+
+/* Full-screen overlay container (hidden by default) */
+#loading-overlay {
+  display: none;          /* hidden until .show is added by JS */
+  position: fixed;
+  inset: 0;               /* top:0; right:0; bottom:0; left:0 */
+  background: rgba(23,162,184,.85);
+  z-index: 2000;          /* above header/toasts */
+}
+
+/* When JS adds .show we center its contents */
+#loading-overlay.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fallback spinner (if JS swaps it out, fine) */
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  height: 100%;
+}
