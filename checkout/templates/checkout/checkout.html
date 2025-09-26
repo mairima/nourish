@@ -160,3 +160,12 @@
   {{ client_secret|json_script:"id_client_secret" }}
   <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
 {% endblock %}
+
+{#    Debugging script to check country field options #}
+<script>
+  (function () {
+    var el = document.getElementById('id_country');
+    if (el) console.log('Country select detected with', el.options.length, 'options');
+    else console.warn('Country field not found');
+  })();
+</script>
