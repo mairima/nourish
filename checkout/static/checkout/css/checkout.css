@@ -27,7 +27,45 @@
   border: 1px solid #000;
 }
 
-/* Full-screen overlay container (hidden by default) */
+/* ------------------------------- */
+/* Country <select> – ensure native */
+/* ------------------------------- */
+
+/* Force native select rendering; don’t hide the system arrow */
+select.stripe-style-input {
+  -webkit-appearance: menulist;
+  -moz-appearance: menulist;
+  appearance: menulist;
+
+  background-image: none;       /* remove any custom arrow */
+  background-color: #fff;
+  padding-right: 2rem;          /* breathing room near arrow */
+  min-height: 40px;
+  height: auto;                 /* let OS choose good height */
+  line-height: 1.25;
+  color: #000;                  /* text color for chosen option */
+  border: 1px solid #000;       /* match inputs */
+}
+
+select.stripe-style-input:focus {
+  outline: none;
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+/* Option coloring */
+select,
+select option { color: #000; }
+
+/* Placeholder grey when no country selected (relies on empty value="") */
+select:invalid,
+select option[value=""] {
+  color: #aab7c4 !important;
+}
+
+/* ------------------------------- */
+/* Loading overlay                 */
+/* ------------------------------- */
+
 #loading-overlay {
   display: none;          /* hidden until .show is added by JS */
   position: fixed;
@@ -36,14 +74,12 @@
   z-index: 2000;          /* above header/toasts */
 }
 
-/* When JS adds .show we center its contents */
 #loading-overlay.show {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Fallback spinner (if JS swaps it out, fine) */
 .loading-spinner {
   display: flex;
   align-items: center;
