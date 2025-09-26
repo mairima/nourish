@@ -85,7 +85,14 @@ INSTALLED_APPS = [
 
     # Other
     "crispy_forms",
+    "crispy_bootstrap4",
+    "django_countries",
+    
 ]
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+# For crispy-forms >=2.x this line is recommended:
+CRISPY_ALLOWED_TEMPLATE_PACKS = ("bootstrap", "bootstrap4")
+
 SITE_ID = 1
 
 # ----------------------------------------------------------------------------- #
@@ -98,6 +105,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -207,6 +215,7 @@ STANDARD_DELIVERY_PERCENTAGE = 10
 # ----------------------------------------------------------------------------- #
 # Stripe
 # ----------------------------------------------------------------------------- #
+STRIPE_CURRENCY = "usd"
 # Set these in your .env; leave empty in prod until configured.
 STRIPE_PUBLIC_KEY = os.getenv(
     "STRIPE_PUBLIC_KEY",
@@ -214,6 +223,14 @@ STRIPE_PUBLIC_KEY = os.getenv(
 )
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "" if not DEBUG else "sk_test_your_secret_here")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "whsec_c15e22072e824b3276e1ddf2dadb4071fb25496194fc8d8d7c242b7ccb5cd6e9")
+if not STRIPE_WEBHOOK_SECRET:
+    STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WH_SECRET", "whsec_c15e22072e824b3276e1ddf2dadb4071fb25496194fc8d8d7c242b7ccb5cd6e9")
+# --- Delivery thresholds (optional env-driven) ---
+FREE_DELIVERY_THRESHOLD = int(os.getenv("FREE_DELIVERY_THRESHOLD", 50))
+STANDARD_DELIVERY_PERCENTAGE = int(os.getenv("STANDARD_DELIVERY_PERCENTAGE", 10))
+
+# --- WhiteNoise storage (optional but recommended with WhiteNoise) ---
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # ----------------------------------------------------------------------------- #
 # Production security (only when DEBUG=False)
