@@ -4,9 +4,7 @@ import json
 
 from django.conf import settings
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
 
 from .forms import OrderForm
 from .models import Order, OrderLineItem
@@ -16,10 +14,18 @@ from bag.contexts import bag_contents
 import stripe
 
 
-def _create_payment_intent_if_possible(grand_total: Decimal, *, metadata: dict | None = None) -> str:
+def _bag_json(request) -> str:
+    """Serialize the current session bag to a compact JSON string for metadata."""
+    try:
+        return json.dumps(request.session.get("bag", {}), separators=(",", ":"))
+    except Exception:
+        return "{}"
+
+
+def _get_or_create_payment_intent(request, grand_total: Decimal) -> str:
     """
-    Create and return a Stripe PaymentIntent client_secret if keys are present.
-    Returns an empty string if it cannot create one.
+    Retrieve an existing PI from the session or create a new one.
+    Returns a client_secret (string) or "" if Stripe is not configured.
     """
     stripe_public_key = getattr(settings, "STRIPE_PUBLIC_KEY", "")
     stripe_secret_key = getattr(settings, "STRIPE_SECRET_KEY", "")
@@ -28,27 +34,56 @@ def _create_payment_intent_if_possible(grand_total: Decimal, *, metadata: dict |
     if not (stripe_public_key and stripe_secret_key and grand_total and grand_total > 0):
         return ""
 
-    try:
-        stripe.api_key = stripe_secret_key
-        # Stripe metadata values must be strings and have length limits.
-        safe_metadata = {}
-        if metadata:
-            for k, v in metadata.items():
-                try:
-                    safe_metadata[str(k)] = str(v)[:500]
-                except Exception:
-                    pass
+    stripe.api_key = stripe_secret_key
 
+    # Try to reuse a PI in the session
+    pi_id = request.session.get("pi_id")
+    amount = int(Decimal(grand_total) * 100)
+
+    # Helpful metadata
+    username = getattr(getattr(request, "user", None), "username", "") or "anonymous"
+    metadata = {
+        "username": username,
+        "bag": _bag_json(request),
+    }
+
+    try:
+        if pi_id:
+            intent = stripe.PaymentIntent.retrieve(pi_id)
+
+            # If PI is usable, ensure amount matches (update if different)
+            # If PI is in a terminal state, create a fresh one
+            if intent.status in {"requires_payment_method", "requires_confirmation", "requires_action", "processing"}:
+                if intent.amount != amount:
+                    intent = stripe.PaymentIntent.modify(
+                        intent.id,
+                        amount=amount,
+                        metadata=metadata,
+                    )
+                else:
+                    # refresh metadata in case bag/user changed
+                    stripe.PaymentIntent.modify(intent.id, metadata=metadata)
+                return intent.client_secret
+            else:
+                # e.g., succeeded/canceled; create new below
+                pass
+
+        # No PI or unusable → create fresh
         intent = stripe.PaymentIntent.create(
-            amount=int(grand_total * 100),  # smallest currency unit
+            amount=amount,
             currency=stripe_currency,
             automatic_payment_methods={"enabled": True},
-            metadata=safe_metadata or None,
+            metadata=metadata,
         )
+        # cache the id for reuse on refresh
+        request.session["pi_id"] = intent.id
         return intent.client_secret
+
     except Exception as e:
-        # Non-fatal: page can still render, just no payment confirmation.
-        print(f"[Stripe] Failed to create PaymentIntent: {e}")
+        # Non-fatal: page can still render, just no client-side confirmation
+        print(f"[Stripe] PaymentIntent error: {e}")
+        # Best effort: clear bad id so next render can recreate a fresh one
+        request.session.pop("pi_id", None)
         return ""
 
 
@@ -60,14 +95,14 @@ def checkout(request):
     # 1) Require a non-empty bag
     bag = request.session.get("bag", {})
     if not bag:
-        messages.error(request, "There's nothing in your bag at the moment")
-        return redirect(reverse("products:products_index"))
+        messages.error(request, "There's nothing in your bag at the moment.")
+        return redirect(reverse("products:products_index"))  # adjust if your products index name differs
 
     # 2) Totals from shared context helper
     totals = bag_contents(request)
     grand_total = Decimal(totals.get("grand_total") or 0)
 
-    # 3) Hints if Stripe keys are missing (page still renders; client can’t confirm payment)
+    # 3) Keys checks (render continues even if missing, but payment won’t confirm)
     stripe_public_key = getattr(settings, "STRIPE_PUBLIC_KEY", "")
     stripe_secret_key = getattr(settings, "STRIPE_SECRET_KEY", "")
     if not stripe_public_key:
@@ -105,24 +140,12 @@ def checkout(request):
                                 quantity=int(quantity),
                             )
 
-                # OPTIONAL: attach order_number back to PI metadata if client_secret is posted
-                try:
-                    client_secret = request.POST.get("client_secret") or ""
-                    if "_secret_" in client_secret:
-                        pi_id = client_secret.split("_secret", 1)[0]
-                        if pi_id:
-                            stripe.api_key = stripe_secret_key
-                            stripe.PaymentIntent.modify(
-                                pi_id,
-                                metadata={"order_number": order.order_number},
-                            )
-                except Exception as e:
-                    print(f"[Stripe] Could not attach order_number to PI: {e}")
-
-                # Clear bag after successful order creation
+                # Clear bag and cached PI after successful order creation
                 request.session["bag"] = {}
+                request.session.pop("pi_id", None)
 
                 return redirect(reverse("checkout_success", args=[order.order_number]))
+
             except Exception as e:
                 # Roll back and send user back to bag
                 print(f"[Checkout] Error creating order: {e}")
@@ -138,15 +161,10 @@ def checkout(request):
                 return redirect(reverse("view_bag"))
         else:
             messages.error(request, "There was an error with your form. Please double-check your details.")
-            # Fall through to render with errors and (re)create a PI
+            # Fall through to render with errors
 
-        # For POST with invalid form, create a fresh PaymentIntent to keep the page functional
-        metadata = {
-            "username": request.user.username if request.user.is_authenticated else "anonymous",
-            # Keep bag snapshot short to avoid metadata limits
-            "bag": json.dumps(bag)[:450],
-        }
-        client_secret = _create_payment_intent_if_possible(grand_total, metadata=metadata)
+        # For POST with invalid form, ensure a PI exists so the page remains functional
+        client_secret = _get_or_create_payment_intent(request, grand_total)
         context = {
             "order_form": order_form,  # show field errors
             "stripe_public_key": stripe_public_key,
@@ -161,13 +179,9 @@ def checkout(request):
         }
         return render(request, "checkout/checkout.html", context)
 
-    # ----- GET: create a PaymentIntent & render -----
+    # ----- GET: retrieve/create a PaymentIntent & render -----
     order_form = OrderForm()
-    metadata = {
-        "username": request.user.username if request.user.is_authenticated else "anonymous",
-        "bag": json.dumps(bag)[:450],
-    }
-    client_secret = _create_payment_intent_if_possible(grand_total, metadata=metadata)
+    client_secret = _get_or_create_payment_intent(request, grand_total)
 
     context = {
         "order_form": order_form,
@@ -191,57 +205,3 @@ def checkout_success(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
     messages.success(request, f"Order successfully processed! Your order number is {order_number}.")
     return render(request, "checkout/checkout_success.html", {"order": order})
-
-
-# ------------------------------
-# Stripe Webhook endpoint (CLI)
-# ------------------------------
-@csrf_exempt
-def stripe_webhook(request):
-    """
-    Receives Stripe events via Stripe CLI (stripe listen) and verifies the signature.
-    Add your event handling logic in the 'if event["type"] == ...' branches.
-    """
-    stripe.api_key = getattr(settings, "STRIPE_SECRET_KEY", "")
-    endpoint_secret = getattr(settings, "STRIPE_WEBHOOK_SECRET", "")
-
-    payload = request.body
-    sig_header = request.META.get("HTTP_STRIPE_SIGNATURE", "")
-
-    if not endpoint_secret:
-        # Require a secret in dev/test; safer defaults
-        return HttpResponseBadRequest("Webhook secret not configured")
-
-    try:
-        event = stripe.Webhook.construct_event(
-            payload=payload,
-            sig_header=sig_header,
-            secret=endpoint_secret,
-        )
-    except ValueError:
-        return HttpResponseBadRequest("Invalid payload")
-    except stripe.error.SignatureVerificationError:
-        return HttpResponseBadRequest("Invalid signature")
-
-    etype = event.get("type", "")
-    obj = event.get("data", {}).get("object", {})
-
-    if etype == "payment_intent.succeeded":
-        payment_intent_id = obj.get("id")
-        amount = obj.get("amount")
-        currency = obj.get("currency")
-        order_number = (obj.get("metadata") or {}).get("order_number")
-        print(f"[Webhook] payment_intent.succeeded: {payment_intent_id} {amount} {currency} order={order_number}")
-
-        # If you posted order_number metadata, you can reconcile here:
-        # if order_number:
-        #     try:
-        #         order = Order.objects.get(order_number=order_number)
-        #         # mark as paid / trigger emails, etc.
-        #     except Order.DoesNotExist:
-        #         pass
-
-    elif etype == "payment_intent.payment_failed":
-        print(f"[Webhook] payment_intent.payment_failed: {obj.get('id')}")
-
-    return HttpResponse(status=200)
