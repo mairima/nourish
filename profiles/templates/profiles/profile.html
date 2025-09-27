@@ -1,26 +1,56 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
+<link rel="stylesheet" href="{% static "profiles/css/profile.css" %}">
 {% endblock %}
 
 {% block page_header %}
-    <div class="container header-container">
-        <div class="row">
-            <div class="col"></div>
-        </div>
-    </div>
+<div class="container header-container">
+  <div class="row">
+    <div class="col"></div>
+  </div>
+</div>
 {% endblock %}
 
 {% block content %}
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <hr>
-                <h2 class="logo-font mb-4">My Profile</h2>
-                <hr>
-            </div>
+<div class="overlay"></div>
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h2 class="logo-font mb-3">My Profile</h2>
+
+          <h5>User</h5>
+          <p><strong>Username:</strong> {{ profile.user.username }}</p>
+          <p><strong>Email:</strong> {{ profile.user.email }}</p>
+
+          <hr>
+
+          <h5>Default delivery address</h5>
+          <p>
+            {{ profile.default_street_address1|default:"Not set" }}<br>
+            {% if profile.default_street_address2 %}{{ profile.default_street_address2 }}<br>{% endif %}
+            {{ profile.default_town_or_city|default:"" }}{% if profile.default_county %}, {{ profile.default_county }}{% endif %}<br>
+            {{ profile.default_postcode|default:"" }}<br>
+            {% if profile.default_country %}
+              {{ profile.default_country.name }}
+            {% else %}
+              Country not set
+            {% endif %}
+          </p>
+
+          <p><strong>Phone:</strong> {{ profile.default_phone_number|default:"Not set" }}</p>
+
+          <div class="mt-3">
+            <!-- Optional: create profile_edit view & url if you want editing -->
+            <!-- <a class="btn btn-outline-primary" href="{% url 'profile_edit' %}">Edit profile</a> -->
+          </div>
+
         </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
