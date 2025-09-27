@@ -44,3 +44,5 @@ yarn-error.log*
 *.pem
 *.key
 credentials.json
+# Local backup
+/nourish/settings.py.fixedbak
