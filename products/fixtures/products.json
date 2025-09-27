@@ -1,0 +1,98 @@
+[
+{
+  "model": "products.category",
+  "pk": 1,
+  "fields": {
+    "name": "Cakes",
+    "friendly_name": "cakes"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 2,
+  "fields": {
+    "name": "Snacks",
+    "friendly_name": "Snacks"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 3,
+  "fields": {
+    "name": "Drinks",
+    "friendly_name": "Drinks"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 2,
+  "fields": {
+    "category": 1,
+    "name": "Pistachio Cake",
+    "description": "Flourless Pistachio Cake with Chocolate Ganache – A rich, nutty pistachio-almond cake topped with smooth dark chocolate ganache and slivered pistachios. Naturally gluten-free. (450 g)",
+    "price": "15.00",
+    "rating": "5.00",
+    "image": "image/upload/media/products/pistachio-cake_i0nb3n"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 3,
+  "fields": {
+    "category": 1,
+    "name": "crunchy chocolate cake",
+    "description": "A rich and moist chocolate cake filled and topped with crunchy chocolate-covered Rice Krispies, frosted with silky whipped chocolate ganache — the ultimate treat for chocolate lovers. (450g).",
+    "price": "10.00",
+    "rating": "5.00",
+    "image": "image/upload/media/products/chococake_ot0on1"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 4,
+  "fields": {
+    "category": 2,
+    "name": "Groundnut sweets",
+    "description": "Discover the groundnut sweets are made with freshly roasted peanuts coated in a rich golden caramel, creating the perfect balance of crunch and sweetness. Every bite is packed with natural nutty flavor and a satisfying snap.",
+    "price": "2.70",
+    "rating": "5.00",
+    "image": "image/upload/media/products/groundnut-sweet_xusar8"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 5,
+  "fields": {
+    "category": 2,
+    "name": "Fish Pie",
+    "description": "Taste the baked Fish Pie! A golden, flaky pastry filled with a flavorful blend of spiced fish, onions, peppers, and aromatic herbs. Soft inside yet crisp outside, every bite delivers a burst of savory goodness. (450g)",
+    "price": "7.00",
+    "rating": "5.00",
+    "image": "image/upload/media/products/fish-pie_hrzzsl"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 6,
+  "fields": {
+    "category": 3,
+    "name": "Yogurt Drink",
+    "description": "Refreshing Yogurt Drink – Smooth, Creamy & Delicious! \r\nCool down and recharge with our irresistibly smooth yogurt drink! Made from fresh cultured milk, it’s naturally rich in protein, calcium, and probiotics to support healthy digestion and energy throughout the day.",
+    "price": "2.00",
+    "rating": "5.00",
+    "image": "image/upload/media/products/dairy-milk_cfjg9x"
+  }
+},
+{
+  "model": "products.product",
+  "pk": 7,
+  "fields": {
+    "category": 3,
+    "name": "Fresh Orange Drink",
+    "description": "Fresh Orange Drink – Pure Sunshine in a Glass! ☀️\r\nQuench your thirst with the natural goodness of our Orange Drink, made from juicy sun-ripened oranges. Smooth, refreshing, and full of vitamin C, it’s the perfect boost to start your day or enjoy as a light, energizing refreshment anytime. (500 ml)",
+    "price": "1.50",
+    "rating": "5.00",
+    "image": "image/upload/media/products/pexels-orangejuice_xlncus"
+  }
+}
+]
