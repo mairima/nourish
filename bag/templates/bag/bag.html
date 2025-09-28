@@ -45,7 +45,7 @@
                              alt="{{ item.product.name }}">
                       {% else %}
                         <img class="img-fluid rounded"
-                             src="{{ MEDIA_URL }}noimage.png"
+                             src="{% static 'images/noimage.png' %}"
                              alt="{{ item.product.name }}">
                       {% endif %}
                     </td>
