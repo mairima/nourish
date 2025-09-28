@@ -1,4 +1,4 @@
-﻿from django.db import models
+from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -9,7 +9,7 @@ from django_countries.fields import CountryField
 class UserProfile(models.Model):
     """
     A user profile model for maintaining default
-    delivery information and order history.
+    delivery information and order history
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     default_phone_number = models.CharField(max_length=20, null=True, blank=True)
@@ -22,20 +22,14 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
+    
+    
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     """
-    Create or update the user profile.
-    - If the User was just created, make a profile.
-    - If User updated and profile missing, create it; otherwise save it.
+    Create or update the user profile
     """
     if created:
         UserProfile.objects.create(user=instance)
-        return
-
-    try:
-        instance.userprofile.save()
-    except UserProfile.DoesNotExist:
-        UserProfile.objects.create(user=instance)
+    # Existing users: just save the profile
+    instance.userprofile.save()
