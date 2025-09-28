@@ -132,9 +132,8 @@ Product listing page with:
 
                 <!-- Image (click → detail). Price is shown below, not on image -->
                 <a class="d-block"
-                   href="{% url 'products:product_detail' product.id %}"
-                    >
-                  {% if product.image %}
+                   href="{% url 'products:product_detail' product.id %}">
+                  {% if product.image and product.image.name %}
                     <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
                   {% elif product.image_url %}
                     <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
@@ -147,8 +146,7 @@ Product listing page with:
                 <div class="card-body pb-0">
                   <p class="mb-0">
                     <a class="text-dark"
-                       href="{% url 'products:product_detail' product.id %}"
-                        >
+                       href="{% url 'products:product_detail' product.id %}">
                       {{ product.name }}
                     </a>
                   </p>
@@ -159,12 +157,12 @@ Product listing page with:
                   <div class="row">
                     <div class="col">
 
-                      <!-- Price (text area, not on image) -->
+                      <!-- Price -->
                       <p class="lead mb-0 text-left font-weight-bold">
                         ${{ product.price|floatformat:2 }}
                       </p>
 
-                      <!-- Category link (preserve sort/direction/search) -->
+                      <!-- Category link -->
                       {% if product.category %}
                         <p class="small mt-1 mb-0">
                           <a class="text-muted"
@@ -190,7 +188,6 @@ Product listing page with:
               </div>
             </div>
           {% empty %}
-            <!-- Empty state -->
             <div class="col-12 text-center py-5">
               <p class="text-muted mb-0">No products found.</p>
             </div>
@@ -231,17 +228,17 @@ Product listing page with:
       </div>
     </div>
   </div>
-   <div class="btt-button shadow-sm rounded-0 border border-black">
-        <a class="btt-link d-flex h-100">
-            <i class="fas fa-arrow-up text-black mx-auto my-auto"></i>
-        </a>	
-    </div>
+
+  <div class="btt-button shadow-sm rounded-0 border border-black">
+    <a class="btt-link d-flex h-100">
+      <i class="fas fa-arrow-up text-black mx-auto my-auto"></i>
+    </a> 
+  </div>
 {% endblock %}
 
 {% block postloadjs %}
   {{ block.super }}
   <script>
-    /* Back-to-top click handler (expects a .btt-link trigger somewhere in the layout) */
     (function () {
       document.querySelectorAll('.btt-link').forEach(function (el) {
         el.addEventListener('click', function (e) {
@@ -252,7 +249,6 @@ Product listing page with:
     })();
   </script>
   <script>
-    /* Option A: auto-submit on change for category/sort/direction */
     (function () {
       const form = document.querySelector('form.row.g-2.align-items-center');
       if (!form) return;
