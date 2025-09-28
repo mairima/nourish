@@ -24,6 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = os.environ.get("DJANGO_DEBUG", False)
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", get_random_secret_key())
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 
 # ALLOWED_HOSTS: accept comma-separated list in DJANGO_ALLOWED_HOSTS
 ALLOWED_HOSTS = []
@@ -31,7 +34,7 @@ CSRF_TRUSTED_ORIGINS = []
 host = os.environ.get("DJANGO_ALLOWED_HOSTS")
 if host:
     ALLOWED_HOSTS.append(host)
-    CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
+    #CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
 # ----------------------------------------------------------------------------- #
 # Apps
 # ----------------------------------------------------------------------------- #
