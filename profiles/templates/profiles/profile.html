@@ -1,8 +1,8 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static "profiles/css/profile.css" %}">
+<link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
 {% endblock %}
 
 {% block page_header %}
@@ -34,18 +34,14 @@
             {% if profile.default_street_address2 %}{{ profile.default_street_address2 }}<br>{% endif %}
             {{ profile.default_town_or_city|default:"" }}{% if profile.default_county %}, {{ profile.default_county }}{% endif %}<br>
             {{ profile.default_postcode|default:"" }}<br>
-            {% if profile.default_country %}
-              {{ profile.default_country.name }}
-            {% else %}
-              Country not set
-            {% endif %}
+            {{ profile.default_country.name if profile.default_country else "Country not set" }}
           </p>
 
           <p><strong>Phone:</strong> {{ profile.default_phone_number|default:"Not set" }}</p>
 
           <div class="mt-3">
-            <!-- Optional: create profile_edit view & url if you want editing -->
-            <!-- <a class="btn btn-outline-primary" href="{% url 'profile_edit' %}">Edit profile</a> -->
+            {# Edit link — create a view/URL named 'profile_edit' if you want this #}
+            <a class="btn btn-outline-primary" href="{% url 'profile_edit' %}">Edit profile</a>
           </div>
 
         </div>
