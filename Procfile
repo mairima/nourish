@@ -1,1 +1,1 @@
-web: gunicorn nourish.wsgi --log-file -
+web: gunicorn nourish.wsgi
