@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ----------------------------------------------------------------------------- #
 # Core env-driven settings
 # ----------------------------------------------------------------------------- #
-DEBUG = os.getenv("DJANGO_DEBUG", "0").strip().lower() in {"1","true","yes","on"}
+DEBUG = os.environ.get("DJANGO_DEBUG", False)
 
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", get_random_secret_key())
@@ -35,7 +35,7 @@ CSRF_TRUSTED_ORIGINS = []
 host = os.environ.get("DJANGO_ALLOWED_HOSTS")
 if host:
     ALLOWED_HOSTS.append(host)
-    #CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
+    CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
 # ----------------------------------------------------------------------------- #
 # Apps
 # ----------------------------------------------------------------------------- #
