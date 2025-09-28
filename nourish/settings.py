@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", get_random_secret_key())
 # ALLOWED_HOSTS: accept comma-separated list in DJANGO_ALLOWED_HOSTS
 ALLOWED_HOSTS = []
 CSRF_TRUSTED_ORIGINS = []
-host = os.environ.get("HOST")
+host = os.environ.get("DJANGO_ALLOWED_HOSTS")
 if host:
     ALLOWED_HOSTS.appaned(host)
     CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
