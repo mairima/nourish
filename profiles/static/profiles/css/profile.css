@@ -1,0 +1,8 @@
+/* small tweaks for profile pages */
+.card {
+  border-radius: 6px;
+}
+
+.logo-font {
+  font-family: 'Lato', sans-serif;
+}
