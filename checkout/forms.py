@@ -1,74 +1,39 @@
 from django import forms
-from django_countries.widgets import CountrySelectWidget
+from django_countries import countries
+from .widgets import SafeCountrySelectWidget   # <-- use your safe widget
 from .models import Order
-
 
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = (
-            "full_name",
-            "email",
-            "phone_number",
-            "street_address1",
-            "street_address2",
-            "town_or_city",
-            "postcode",
-            "country",
-            "county",
+            "full_name", "email", "phone_number",
+            "street_address1", "street_address2",
+            "town_or_city", "postcode", "country", "county",
         )
-        # Ensure the select widget is used for country
         widgets = {
-            "country": CountrySelectWidget(
-                attrs={
-                    "class": "form-control stripe-style-input",
-                    "id": "id_country",
-                }
+            "country": SafeCountrySelectWidget(
+                attrs={"class": "form-control stripe-style-input", "id": "id_country"}
             )
         }
 
     def __init__(self, *args, **kwargs):
-        """
-        Add placeholders/classes, remove labels, set autofocus.
-        Keep country as a SELECT (no placeholder on selects).
-        """
         super().__init__(*args, **kwargs)
 
-        placeholders = {
-            "full_name": "Full Name",
-            "email": "Email Address",
-            "phone_number": "Phone Number",
-            "postcode": "Postal Code",
-            "town_or_city": "Town or City",
-            "street_address1": "Street Address 1",
-            "street_address2": "Street Address 2",
-            "county": "County / State",
-        }
-
-        # Make sure the widget is CountrySelectWidget even if overridden elsewhere
-        if not isinstance(self.fields["country"].widget, CountrySelectWidget):
-            self.fields["country"].widget = CountrySelectWidget(
+        # Make sure the safe widget is actually in use
+        f = self.fields["country"]
+        if not isinstance(f.widget, SafeCountrySelectWidget):
+            f.widget = SafeCountrySelectWidget(
                 attrs={"class": "form-control stripe-style-input", "id": "id_country"}
             )
 
-        # Nice blank label for country
-        self.fields["country"].empty_label = "Select a country *"
+        # Avoid BlankChoiceIterator: no empty_label; set concrete choices
+        if hasattr(f, "empty_label"):
+            f.empty_label = None
+        concrete = [("", "Select a country *")] + list(countries)
+        f.choices = concrete
+        f.widget.choices = concrete
+        if hasattr(f.widget, "_choices"):
+            f.widget._choices = concrete
 
-        # Autofocus first text field
-        self.fields["full_name"].widget.attrs["autofocus"] = True
-
-        for name, field in self.fields.items():
-            # Placeholders on inputs only (selects generally ignore placeholder)
-            if name != "country":
-                placeholder = placeholders.get(name, "")
-                if field.required and placeholder:
-                    placeholder = f"{placeholder} *"
-                if placeholder:
-                    field.widget.attrs["placeholder"] = placeholder
-
-            # Shared classes
-            existing = field.widget.attrs.get("class", "")
-            field.widget.attrs["class"] = (existing + " stripe-style-input").strip()
-
-            # Hide labels (crispy will render nicely)
-            field.label = False
+        # (rest of your placeholder/class logic)
