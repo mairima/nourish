@@ -19,11 +19,6 @@ db.sqlite3.backup*
 *.backup
 *.bak
 
-# Collected static / build output
-staticfiles/
-static_root/
-static_collected/
-
 # Media / uploaded files
 media/
 uploads/
@@ -46,3 +41,5 @@ yarn-error.log*
 credentials.json
 # Local backup
 /nourish/settings.py.fixedbak
+# Test / coverage
+fixtures/
