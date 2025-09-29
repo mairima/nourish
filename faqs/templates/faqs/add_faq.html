@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container h-100">
+  <div class="row h-100">
+    <div class="col-12 col-lg-8 mx-auto my-4">
+      <h1 class="my-4">Add FAQ</h1>
+
+      <form action="{% url 'faqs:add_faq' %}" method="POST" class="mt-3">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="d-flex gap-2 mt-3">
+          <a href="{% url 'faqs:faqs' %}" class="btn btn-outline-secondary">Cancel</a>
+          <button class="btn btn-success" type="submit">Save FAQ</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
