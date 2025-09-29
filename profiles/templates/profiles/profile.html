@@ -34,7 +34,8 @@
             {% if profile.default_street_address2 %}{{ profile.default_street_address2 }}<br>{% endif %}
             {{ profile.default_town_or_city|default:"" }}{% if profile.default_county %}, {{ profile.default_county }}{% endif %}<br>
             {{ profile.default_postcode|default:"" }}<br>
-            {{ profile.default_country.name if profile.default_country else "Country not set" }}
+            {{ profile.get_default_country_display|default:"Country not set" }}
+
           </p>
 
           <p><strong>Phone:</strong> {{ profile.default_phone_number|default:"Not set" }}</p>
