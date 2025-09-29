@@ -1,16 +1,6 @@
-<!--
-products/templates/products/products.html
-Product listing page with:
-- Search, category filter, sort + direction
-- Product count + "sorted by" text
-- Grid of products with image fallback
-- Pagination that preserves filters
--->
-
 {% extends "base.html" %}
 {% load static %}
 
-{# Use the plain white background styles from base.css #}
 {% block body_class %}plain-page{% endblock %}
 
 {% block page_header %}
@@ -130,23 +120,27 @@ Product listing page with:
               <!-- One product card -->
               <div class="card product-card border-0">
 
-                <!-- Image (click → detail). Price is shown below, not on image -->
-                <a class="d-block"
-                   href="{% url 'products:product_detail' product.id %}">
-                  {% if product.image and product.image.name %}
-                    <img class="card-img-top img-fluid" src="{{ product.image.url }}" alt="{{ product.name }}">
+                <!-- Image (click → detail). Prefer static filename → then remote URL → then fallback -->
+                <a class="d-block" href="{% url 'products:product_detail' product.id %}">
+                  {% if product.image_filename %}
+                    <img class="card-img-top img-fluid"
+                         src="{{ product.static_image_url }}"
+                         alt="{{ product.name }}">
                   {% elif product.image_url %}
-                    <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
+                    <img class="card-img-top img-fluid"
+                         src="{{ product.image_url }}"
+                         alt="{{ product.name }}">
                   {% else %}
-                    <img class="card-img-top img-fluid" src="{% static 'images/noimage.png' %}" alt="{{ product.name }}">
+                    <img class="card-img-top img-fluid"
+                         src="{% static 'images/noimage.png' %}"
+                         alt="{{ product.name }}">
                   {% endif %}
                 </a>
 
                 <!-- Title -->
                 <div class="card-body pb-0">
                   <p class="mb-0">
-                    <a class="text-dark"
-                       href="{% url 'products:product_detail' product.id %}">
+                    <a class="text-dark" href="{% url 'products:product_detail' product.id %}">
                       {{ product.name }}
                     </a>
                   </p>
@@ -232,7 +226,7 @@ Product listing page with:
   <div class="btt-button shadow-sm rounded-0 border border-black">
     <a class="btt-link d-flex h-100">
       <i class="fas fa-arrow-up text-black mx-auto my-auto"></i>
-    </a> 
+    </a>
   </div>
 {% endblock %}
 
