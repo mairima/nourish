@@ -75,4 +75,4 @@ def delete_faq(request, id):
     faq = get_object_or_404(FAQ, id=id)
     faq.delete()
     messages.success(request, "FAQ updated successfully!")
-    return redirect("faqs")
+    return redirect("faqs:index")
