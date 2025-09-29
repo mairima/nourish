@@ -4,9 +4,7 @@
 
 {% block page_header %}
   <div class="container header-container">
-    <div class="row">
-      <div class="col"></div>
-    </div>
+    <div class="row"><div class="col"></div></div>
   </div>
 {% endblock %}
 
@@ -39,46 +37,63 @@
                 {% for item in bag_items %}
                   <tr>
                     <td class="p-3 w-25">
-                      {% if item.product.image %}
-                        <img class="img-fluid rounded"
-                             src="{{ item.product.image.url }}"
-                             alt="{{ item.product.name }}">
-                      {% else %}
-                        <img class="img-fluid rounded"
-                             src="{% static 'images/noimage.png' %}"
-                             alt="{{ item.product.name }}">
-                      {% endif %}
+                      <a href="{% url 'products:product_detail' item.product.id %}">
+                        {% if item.product.image_filename %}
+                          <img class="img-fluid rounded"
+                               src="{% static 'images/' %}{{ item.product.image_filename }}"
+                               alt="{{ item.product.name }}">
+                        {% elif item.product.image_url %}
+                          <img class="img-fluid rounded"
+                               src="{{ item.product.image_url }}"
+                               alt="{{ item.product.name }}">
+                        {% else %}
+                          <img class="img-fluid rounded"
+                               src="{% static 'images/noimage.png' %}"
+                               alt="{{ item.product.name }}">
+                        {% endif %}
+                      </a>
                     </td>
+
                     <td class="py-3">
                       <p class="my-0"><strong>{{ item.product.name }}</strong></p>
+                      {% if item.product.category %}
+                        <p class="my-0 small text-muted">
+                          {{ item.product.category.friendly_name|default:item.product.category.name }}
+                        </p>
+                      {% endif %}
                     </td>
+
                     <td class="py-3">
                       <p class="my-0">€{{ item.product.price|floatformat:2 }}</p>
                     </td>
+
                     <td class="py-3 w-25">
                       <form class="form update-form" method="POST" action="{% url 'adjust_bag' item.item_id %}">
                         {% csrf_token %}
                         <div class="form-group">
                           <div class="input-group">
                             <div class="input-group-prepend">
-                              <button
-                                class="decrement-qty btn btn-sm btn-black rounded-0"
-                                data-item_id="{{ item.item_id }}"
-                                id="decrement-qty_{{ item.item_id }}"
-                                type="button">
+                              <button class="decrement-qty btn btn-sm btn-black rounded-0"
+                                      data-item_id="{{ item.item_id }}"
+                                      id="decrement-qty_{{ item.item_id }}"
+                                      type="button">
                                 <span><i class="fas fa-minus fa-sm"></i></span>
                               </button>
                             </div>
-                            <input class="form-control form-control-sm qty_input" type="number"
-                                   name="quantity" value="{{ item.quantity }}" min="1" max="99"
+
+                            <input class="form-control form-control-sm qty_input"
+                                   type="number"
+                                   name="quantity"
+                                   value="{{ item.quantity }}"
+                                   min="1" max="99"
                                    data-item_id="{{ item.item_id }}"
                                    id="id_qty_{{ item.item_id }}">
+
                             <div class="input-group-append">
-                              <button
-                                class="increment-qty btn btn-sm btn-black rounded-0"
-                                data-item_id="{{ item.item_id }}"
-                                id="increment-qty_{{ item.item_id }}"
-                                type="button">
+                              <button class="increment-qty btn btn-sm btn-black rounded-0"
+                                      data-item_id="{{ item.item_id }}"
+                                      id="increment-qty_{{ item.item_id }}"
+                                      type="button">
                                 <span><i class="fas fa-plus fa-sm"></i></span>
                               </button>
                             </div>
@@ -95,6 +110,7 @@
                          <small>Remove</small>
                       </a>
                     </td>
+
                     <td class="py-3">
                       <p class="my-0">
                         €{{ item.product.price|calc_subtotal:item.quantity }}
@@ -107,9 +123,7 @@
                   <td colspan="5" class="pt-5 text-right">
                     <h6><strong>Bag Total: €{{ total|floatformat:2 }}</strong></h6>
                     <h6>Delivery: €{{ delivery|floatformat:2 }}</h6>
-                    <h4 class="mt-4">
-                      <strong>Grand Total: €{{ grand_total|floatformat:2 }}</strong>
-                    </h4>
+                    <h4 class="mt-4"><strong>Grand Total: €{{ grand_total|floatformat:2 }}</strong></h4>
                     {% if free_delivery_delta > 0 %}
                       <p class="mb-1 text-danger">
                         You could get free delivery by spending just
@@ -154,12 +168,11 @@
 {% include 'products/includes/quantity_input_script.html' %}
 <script type="text/javascript">
   // Update quantity on click
-  $('.update-link').click(function(e) {
-    var form = $(this).prev('.update-form');
-    form.submit();
+  $('.update-link').click(function() {
+    $(this).prev('.update-form').submit();
   });
 
-  // Remove item and reload on click (uses server-generated URL with trailing slash)
+  // Remove item and reload
   $('.remove-item').click(function(e) {
     e.preventDefault();
     var csrfToken = "{{ csrf_token }}";
