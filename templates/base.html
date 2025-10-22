@@ -1,52 +1,32 @@
 {% load static %}
-{# Provide a namespaced products URL for reuse across includes #}
 {% url 'products:products_index' as products_index_url %}
 <!doctype html>
 <html lang="en">
   <head>
-    {% block meta %}
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% endblock %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    {% block extra_meta %}{% endblock %}
+    <!-- Bootstrap + Fonts -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato&display=swap">
 
-    {% block corecss %}
-      <link rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-            crossorigin="anonymous">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato&display=swap">
-      <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    {% endblock %}
-
+    <!-- Project CSS -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
-
-    {% block corejs %}
-      <script src="https://kit.fontawesome.com/fa7e3e6dea.js" crossorigin="anonymous"></script>
-      <script
-        src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-        crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-              integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-              crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-              integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-              crossorigin="anonymous"></script>
-      <!-- Stripe -->
-      <script src="https://js.stripe.com/v3/"></script>
-    {% endblock %}
-
-    {% block extra_js %}{% endblock %}
 
     <title>Nourish {% block extra_title %}{% endblock %}</title>
   </head>
 
-  <body class="{% block body_class %}{% endblock %}">
-    <header class="container-fluid fixed-top">
-      <div id="topnav" class="row bg-white pt-lg-2 d-none d-lg-flex">
+  <!-- Page uses flexbox layout to push footer to bottom -->
+  <body class="d-flex flex-column min-vh-100 {% block body_class %}{% endblock %}">
+
+    <!-- Header / Navigation -->
+    <header class="container-fluid fixed-top bg-white">
+      <div id="topnav" class="row pt-lg-2 d-none d-lg-flex">
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0 text-center text-lg-left">
           <a href="{% url 'home' %}" class="nav-link main-logo-link">
             <h2 class="logo-font text-black my-0"><strong>Nourish</strong></h2>
@@ -54,7 +34,6 @@
         </div>
 
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
-          {# search submits to the namespaced products index #}
           <form method="GET" action="{{ products_index_url }}">
             <div class="input-group w-100">
               <input class="form-control border border-black rounded-0" type="text" name="q" placeholder="Search our site">
@@ -76,15 +55,12 @@
                   <p class="my-0">My Account</p>
                 </div>
               </a>
-
               <div class="dropdown-menu border-0" aria-labelledby="user-options">
                 {% if request.user.is_authenticated %}
                   {% if request.user.is_superuser %}
                     <a href="{% url 'products:add_product' %}" class="dropdown-item">Product Management</a>
                   {% endif %}
                   <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
-
-                  {# ✅ allauth logout must be POST #}
                   <form method="post" action="{% url 'account_logout' %}" class="px-3 py-1">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-link p-0">Logout</button>
@@ -129,6 +105,7 @@
       </div>
     </header>
 
+    <!-- Toast container (notifications) -->
     {% if messages %}
       <div class="message-container" aria-live="polite" aria-atomic="true">
         {% for message in messages %}
@@ -145,107 +122,63 @@
           {% endwith %}
         {% endfor %}
       </div>
-    {% elif product_count %}
-      <div class="message-container" aria-live="polite" aria-atomic="true">
-        <div class="toast custom-toast rounded-0 border-top-0" role="alert" aria-live="polite" aria-atomic="true" data-autohide="false">
-          <div class="arrow-up arrow-info"></div>
-          <div class="w-100 toast-capper bg-info"></div>
-          <div class="toast-header bg-white text-dark">
-            <strong class="mr-auto">Bag updated</strong>
-            <button type="button" class="ml-2 mb-1 close text-dark" data-dismiss="toast" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="toast-body bg-white">
-            You have {{ product_count }} item{{ product_count|pluralize }} in your bag (total ${{ grand_total|floatformat:2 }}).
-          </div>
-        </div>
-      </div>
     {% endif %}
 
-    {# ❌ Removed Bootstrap 5 bundle that conflicted with BS4 #}
-    {# <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script> #}
+    <!-- Main Content -->
+    <main class="flex-fill">
+      {% block page_header %}{% endblock %}
+      {% block content %}{% endblock %}
+    </main>
 
-    {% block page_header %}{% endblock %}
-    {% block content %}{% endblock %}
+    <!-- Footer (sticky via flex layout) -->
+    <footer class="footer bg-dark text-white mt-auto py-4">
+      <div class="container text-center">
+        <!-- Social Media Links -->
+        <div class="mb-3">
+          <a href="https://www.facebook.com/NourishBakery" target="_blank" rel="noopener" aria-label="Facebook" class="text-white mx-3">
+            <i class="fab fa-facebook fa-lg"></i>
+          </a>
+          <a href="https://github.com/NourishOfficial" target="_blank" rel="noopener" aria-label="GitHub" class="text-white mx-3">
+            <i class="fab fa-github fa-lg"></i>
+          </a>
+          <a href="https://www.instagram.com/NourishBakery" target="_blank" rel="noopener" aria-label="Instagram" class="text-white mx-3">
+            <i class="fab fa-instagram fa-lg"></i>
+          </a>
+          <a href="https://www.youtube.com/@NourishBakery" target="_blank" rel="noopener" aria-label="YouTube" class="text-white mx-3">
+            <i class="fab fa-youtube fa-lg"></i>
+          </a>
+        </div>
 
- <script>
-      (function () {
-        function placeToast() {
-          var header = document.querySelector('header.container-fluid.fixed-top');
-          var mc = document.querySelector('.message-container');
-          if (header && mc) {
-            var offset = header.offsetHeight + 10;
-            mc.style.top = offset + 'px';
-          }
-        }
-        function showToasts() {
-          var toasts = document.querySelectorAll('.toast');
-          if (!toasts.length) return;
-          try {
-            if (window.jQuery && typeof jQuery.fn.toast === 'function') {
-              jQuery(toasts).toast({ autohide: false });
-              jQuery(toasts).toast('show');
-            } else {
-              toasts.forEach(function (t) { t.classList.add('show'); });
-            }
-          } catch (e) {
-            toasts.forEach(function (t) { t.classList.add('show'); });
-          }
-        }
-        function initToasts() { placeToast(); showToasts(); }
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', initToasts);
-        } else {
-          initToasts();
-        }
-        window.addEventListener('resize', placeToast);
-      })();
-    </script>
+        <!-- Address Section -->
+        <div class="small mb-2">
+          <p class="text-warning mb-0">
+            <i class="fas fa-map-marker-alt"></i> Nourish Bakery, 123 Sweet Street, Berlin, Germany
+          </p>
+          <p class="text-warning mb-0">
+            <i class="fas fa-envelope"></i> contact@nourish.com
+          </p>
+          <p class="text-warning">
+            <i class="fas fa-phone"></i> +49 176 123 4567
+          </p>
+        </div>
+
+        <!-- Copyright -->
+        <div class="small text-secondary">
+          &copy; {% now "Y" %} Nourish. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <!-- Core JS -->
+    <script src="https://kit.fontawesome.com/fa7e3e6dea.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <!-- Project JS -->
+    <script src="{% static 'js/base.js' %}"></script>
 
     {% block postloadjs %}{% endblock %}
-<footer class="footer bg-dark text-white mt-0 py-4">
-  <div class="container text-center">
-
-    <!-- Social Media Icons -->
-    <div class="mb-3">
-      <a href="https://www.facebook.com/NourishBakery" target="_blank" rel="noopener" aria-label="Facebook" class="text-white mx-3 fs-4">
-        <i class="fab fa-facebook"></i>
-      </a>
-      <a href="https://github.com/NourishOfficial" target="_blank" rel="noopener" aria-label="GitHub" class="text-white mx-3 fs-4">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="https://www.instagram.com/NourishBakery" target="_blank" rel="noopener" aria-label="Instagram" class="text-white mx-3 fs-4">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <a href="https://www.youtube.com/@NourishBakery" target="_blank" rel="noopener" aria-label="YouTube" class="text-white mx-3 fs-4">
-        <i class="fab fa-youtube"></i>
-      </a>
-    </div>
-
-    <!-- Address Section -->
-    <div class="small mb-2">
-      <p class="text-warning mb-0">
-        <i class="fas fa-map-marker-alt"></i> Nourish Bakery, 123 Sweet Street, Berlin, Germany
-      </p>
-      <p class="text-warning mb-0">
-        <i class="fas fa-envelope"></i> contact@nourish.com
-      </p>
-      <p class="text-warning">
-        <i class="fas fa-phone"></i> +49 176 123 4567
-      </p>
-    </div>
-
-    <!-- Copyright -->
-    <div class="small text-secondary">
-      &copy; {% now "Y" %} Nourish. All rights reserved.
-    </div>
-
-  </div>
-</footer>
-
-
-<script src="https://kit.fontawesome.com/fa7e3e6dea.js" crossorigin="anonymous"></script>
-
   </body>
 </html>
