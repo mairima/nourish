@@ -5,6 +5,8 @@ html, body {
 
 body {
     /* Removed background image & calc heights */
+    background-size: cover;
+    height: calc(100vh - 164px)
     color: #000;
     font-family: 'Lato';
 }
