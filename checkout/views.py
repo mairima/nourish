@@ -8,6 +8,9 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
 from django.views.decorators.http import require_POST
 
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+
 from .forms import OrderForm
 from .models import Order, OrderLineItem
 from products.models import Product
@@ -75,6 +78,26 @@ def _get_or_create_payment_intent(request, grand_total: Decimal):
         print(f"[Stripe] PaymentIntent error: {e}")
         request.session.pop("pi_id", None)
         return ""
+
+
+# in checkout/views.py
+
+def _send_order_confirmation(order):
+    """Send order confirmation email using your subject/body templates."""
+    ctx = {"order": order}
+    subject = render_to_string(
+        "checkout/confirmation_emails/confirmation_email_subject.txt", ctx
+    ).strip()  # keep subject on one line
+    body_txt = render_to_string(
+        "checkout/confirmation_emails/confirmation_email_body.txt", ctx
+    )
+
+    send_mail(
+        subject,
+        body_txt,
+        settings.DEFAULT_FROM_EMAIL,
+        [order.email],
+    )
 
 
 # ---------- Re-added from v1: cache pre-checkout metadata ----------
@@ -278,5 +301,7 @@ def checkout_success(request, order_number):
     # Clear the bag
     request.session.pop('bag', None)
 
-    # ✅ Correct template path
+    # Send confirmation email
+    _send_order_confirmation(order)
+
     return render(request, 'checkout/checkout_success.html', {'order': order})
