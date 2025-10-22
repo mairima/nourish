@@ -6,44 +6,34 @@ from .models import FAQ
 
 
 def faqs(request):
-    """FAQs page to list all FAQs"""
-    faqs = FAQ.objects.all()
-    template = "faqs/faqs.html"
-    context = {
-        "faqs": faqs,
-    }
-    return render(request, template, context)
+    """FAQs page to list all FAQs."""
+    items = FAQ.objects.all().order_by("id")
+    return render(request, "faqs/faqs.html", {"faqs": items})
 
 
 @login_required
 def add_faq(request):
     """Create a new FAQ (superusers only)."""
     if not request.user.is_superuser:
-        messages.error(request, "Access Denied: Invalid Credentials.")
-        return redirect("home")
+        messages.error(request, "Access denied: invalid credentials.")
+        return redirect("home")  # keep if your home URL name is 'home'
 
     form = FAQForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
             form.save()
             messages.success(request, "FAQ added successfully!")
-            return redirect("faqs")
-        else:
-            # error on submission
-            messages.error(request, "ERROR, please try again.")
+            return redirect("faqs:index")   # <-- namespaced URL name
+        messages.error(request, "There was an error. Please fix the form and try again.")
 
-    template = "faqs/add_faq.html"
-    context = {
-        "form": form,
-    }
-    return render(request, template, context)
+    return render(request, "faqs/add_faq.html", {"form": form})
 
 
 @login_required
 def update_faq(request, id):
     """Update an existing FAQ (superusers only)."""
     if not request.user.is_superuser:
-        messages.error(request, "Access Denied: Invalid Credentials.")
+        messages.error(request, "Access denied: invalid credentials.")
         return redirect("home")
 
     faq = get_object_or_404(FAQ, id=id)
@@ -52,27 +42,20 @@ def update_faq(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "FAQ updated successfully!")
-            return redirect("faqs")
-        else:
-            # error on submission
-            messages.error(request, "ERROR, please try again.")
+            return redirect("faqs:index")   # <-- namespaced URL name
+        messages.error(request, "There was an error. Please fix the form and try again.")
 
-    template = "faqs/update_faq.html"
-    context = {
-        "faq": faq,
-        "form": form,
-    }
-    return render(request, template, context)
+    return render(request, "faqs/update_faq.html", {"faq": faq, "form": form})
 
 
 @login_required
 def delete_faq(request, id):
     """Delete an existing FAQ (superusers only)."""
     if not request.user.is_superuser:
-        messages.error(request, "Access Denied: Invalid Credentials.")
+        messages.error(request, "Access denied: invalid credentials.")
         return redirect("home")
 
     faq = get_object_or_404(FAQ, id=id)
     faq.delete()
-    messages.success(request, "FAQ updated successfully!")
-    return redirect("faqs:index")
+    messages.success(request, "FAQ deleted successfully!")
+    return redirect("faqs:index")  # <-- namespaced URL name
