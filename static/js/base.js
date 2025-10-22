@@ -39,3 +39,11 @@
 
   window.addEventListener("resize", placeToast);
 })();
+
+// Set CSS var to header height so pages can offset correctly
+window.addEventListener('load', () => {
+  const header = document.querySelector('header.container-fluid.fixed-top');
+  if (header) {
+    document.documentElement.style.setProperty('--header-height', header.offsetHeight + 'px');
+  }
+});
