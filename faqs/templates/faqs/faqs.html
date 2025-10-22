@@ -2,94 +2,73 @@
 {% load static %}
 
 {% block content %}
-<div class="container h-100">
-    <div class="row h-100">
-        <div class="col-7 col-md-6 my-auto">
-            <h1 class="my-5">FAQs</h1>
-            {% if request.user.is_superuser %}
-                <a href="{% url 'faqs:add_faq' %}" class="btn btn-lg btn-primary my-3 mx-auto text-center">Add FAQ</a>
-            {% endif %}
+<div class="container faq-container mt-5 pt-5 mb-5">
+  <h1 class="mb-4">Frequently Asked Questions</h1>
 
-            <div class="my-5">
-                <div class="accordion" id="accordionfaqs">
-                    {% for faq in faqs %}
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapse{{ faq.id }}"
-                                        aria-expanded="true"
-                                        aria-controls="collapse{{ faq.id }}">
-                                    {{ faq.question }}
-                                </button>
-                            </h2>
-                            <div id="collapse{{ faq.id }}" class="accordion-collapse collapse"
-                                 data-bs-parent="#accordionfaqs">
-                                <div class="accordion-body">
-                                    {{ faq.answer }}
-                                    {% if request.user.is_superuser %}
-                                        <hr>
-                                        <div class="accordion-footer">
-                                            <a href="{% url 'faqs:update_faq' id=faq.id %}" class="btn btn-success">Update</a>
-                                            <a href="#" class="btn btn-danger"
-                                               data-bs-toggle="modal"
-                                               data-bs-target="#modal-delete-faq-{{ faq.id }}">
-                                                Delete
-                                            </a>
+  {% if faqs %}
+    <div id="faqAccordion" class="accordion">
+      {% for f in faqs %}
+        <div class="card mb-2">
+          <div class="card-header p-0" id="faq-heading-{{ f.id }}">
+            <button
+              class="btn btn-link btn-block text-left py-3 px-3 faq-toggle"
+              type="button"
+              data-toggle="collapse"               {# Bootstrap 4 collapse #}
+              data-target="#faq-panel-{{ f.id }}"
+              aria-expanded="false"
+              aria-controls="faq-panel-{{ f.id }}"
+            >
+              <span class="font-weight-bold">{{ f.question }}</span>
+            </button>
+          </div>
 
-                                            <!-- Delete Modal -->
-                                            <div class="modal fade" id="modal-delete-faq-{{ faq.id }}" tabindex="-1"
-                                                 aria-labelledby="modal-delete-faq-{{ faq.id }}-label" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5"
-                                                                id="modal-delete-faq-{{ faq.id }}-label">
-                                                                Delete FAQ
-                                                            </h1>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                    aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Are you sure you want to delete this FAQ?
-                                                            <br>
-                                                            <strong>{{ faq.question }}</strong>
-                                                            <span class="text-danger">
-                                                                This is permanent and cannot be undone.
-                                                            </span>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
-                                                            <a href="{% url 'faqs:delete_faq' id=faq.id %}" class="btn btn-success">Yes - Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    {% empty %}
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapse0"
-                                        aria-expanded="true"
-                                        aria-controls="collapse0">
-                                    No FAQs found
-                                </button>
-                            </h2>
-                            <div id="collapse0" class="accordion-collapse collapse"
-                                 data-bs-parent="#accordionfaqs">
-                                <div class="accordion-body"></div>
-                            </div>
-                        </div>
-                    {% endfor %}
+          <div
+            id="faq-panel-{{ f.id }}"
+            class="collapse"
+            aria-labelledby="faq-heading-{{ f.id }}"
+            data-parent="#faqAccordion"
+          >
+            <div class="card-body">
+              {{ f.answer|linebreaks }}
+              {% if request.user.is_superuser %}
+                <hr>
+                <div class="d-flex gap-2">
+                  <a href="{% url 'faqs:update_faq' id=f.id %}" class="btn btn-sm btn-outline-success">Update</a>
+                  <a href="{% url 'faqs:delete_faq' id=f.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
                 </div>
+              {% endif %}
             </div>
+          </div>
         </div>
+      {% endfor %}
     </div>
+  {% else %}
+    <p>No FAQs yet.</p>
+  {% endif %}
+
+  {% if request.user.is_superuser %}
+    <div class="mt-4">
+      <a class="btn btn-success" href="{% url 'faqs:add_faq' %}">Add FAQ</a>
+    </div>
+  {% endif %}
 </div>
+{% endblock %}
+
+{% block postloadjs %}
+  {{ block.super }}
+  <script>
+    // Keyboard toggle helper
+    document.querySelectorAll('.faq-toggle').forEach(btn => {
+      btn.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+      });
+    });
+  </script>
+  <style>
+    /* Push the page content below any fixed header/promo bar */
+    .faq-container { 
+      /* margin/padding already added via mt-5 pt-5; keep CSS as a safety net */
+      scroll-margin-top: 6rem; /* if you ever link to #anchors here */
+    }
+  </style>
 {% endblock %}
