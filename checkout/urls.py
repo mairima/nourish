@@ -1,4 +1,3 @@
-# checkout/urls.py
 from django.urls import path
 from . import views
 from .webhooks import webhook as stripe_webhook
