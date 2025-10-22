@@ -348,6 +348,59 @@ h2.logo-font {
 }
 
 
+/*footer*/
+.footer {
+  background-color: #000; /* Black background */
+  color: #fff; /* White text */
+  font-size: 0.95rem;
+}
+
+.footer .social-icon {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.2s ease;
+  filter: brightness(0) invert(1); /* make white */
+}
+
+.footer .social-icon:hover {
+  transform: scale(1.1);
+  filter: brightness(1) invert(0.8);
+}
+
+.footer i {
+  margin-right: 6px;
+  color: #ffd700; /* Gold accent for icons */
+}
+
+.footer a:hover i {
+  color: #ffd700; /* gold hover */
+  transition: color 0.2s ease;
+}
+
+/* Remove unwanted white space between main content and footer */
+main, .content, body {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+footer {
+  margin-top: 0 !important;
+}
+
+.footer a {
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover i {
+  color: #ffd700; /* gold hover */
+}
+
+.footer i {
+  vertical-align: middle;
+}
+
+
 /* page adjustments signup */
 /*  */
 /* Auth pages: space content below the fixed header */
