@@ -28,6 +28,6 @@ urlpatterns = [
     path("checkout/", include("checkout.urls")),
     path("profiles/", include("profiles.urls")),
     path('contact/', include('contact.urls')),
-    path('faqs/', include('faqs.urls')),
+    path("faqs/", include(("faqs.urls", "faqs"), namespace="faqs")),
 
 ]
