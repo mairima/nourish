@@ -7,34 +7,27 @@
         All Products
       </a>
       <div class="dropdown-menu border-0" aria-labelledby="all-products-link">
-        <a href="{% url 'products:products_index' %}" class="dropdown-item"
-           >All Products</a>
-        <a href="{% url 'products:products_index' %}?sort=price&direction=asc" class="dropdown-item"
-           >By Price</a>
-        <a href="{% url 'products:products_index' %}?sort=rating&direction=desc" class="dropdown-item"
-           >By Rating</a>
-        <a href="{% url 'products:products_index' %}?sort=category&direction=asc" class="dropdown-item"
-           >By Category</a>
+        <a href="{% url 'products:products_index' %}" class="dropdown-item">All Products</a>
+        <a href="{% url 'products:products_index' %}?sort=price&direction=asc" class="dropdown-item">By Price</a>
+        <a href="{% url 'products:products_index' %}?sort=rating&direction=desc" class="dropdown-item">By Rating</a>
+        <a href="{% url 'products:products_index' %}?sort=category&direction=asc" class="dropdown-item">By Category</a>
       </div>
     </li>
 
-    <!-- Categories shortcuts (static examples) -->
+    <!-- Categories shortcuts -->
     <li class="nav-item dropdown">
       <a class="logo-font font-weight-bold nav-link text-black mr-5" href="#" id="categories-link"
          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Categories
       </a>
       <div class="dropdown-menu border-0" aria-labelledby="categories-link">
-        <a href="{% url 'products:products_index' %}?category=Cakes" class="dropdown-item"
-           >Cakes</a>
-        <a href="{% url 'products:products_index' %}?category=Snacks" class="dropdown-item"
-           >Snacks</a>
-        <a href="{% url 'products:products_index' %}?category=Drinks" class="dropdown-item"
-           >Drinks</a>
+        <a href="{% url 'products:products_index' %}?category=Cakes" class="dropdown-item">Cakes</a>
+        <a href="{% url 'products:products_index' %}?category=Snacks" class="dropdown-item">Snacks</a>
+        <a href="{% url 'products:products_index' %}?category=Drinks" class="dropdown-item">Drinks</a>
       </div>
     </li>
 
-    <!-- Optional static pages -->
+    <!-- Static pages -->
     <li class="nav-item">
       <a class="logo-font font-weight-bold nav-link text-black mr-5" href="{% url 'contact:index' %}">Contact</a>
     </li>
@@ -44,5 +37,6 @@
     <li class="nav-item">
       <a class="logo-font font-weight-bold nav-link text-black" href="{% url 'faqs:index' %}">FAQ</a>
     </li>
+
   </ul>
 </div>
