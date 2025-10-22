@@ -5,15 +5,18 @@ import stripe
 
 from django.conf import settings
 from django.contrib import messages
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404, HttpResponse
+from django.views.decorators.http import require_POST
 
 from .forms import OrderForm
 from .models import Order, OrderLineItem
 from products.models import Product
-from profiles.forms import ProfileForm   # ← use ProfileForm instead of UserProfileForm
+from profiles.forms import ProfileForm
 from profiles.models import UserProfile
 from bag.contexts import bag_contents
 
+
+# ---------- Helpers ----------
 
 def _bag_json(request):
     """Serialize the current session bag to a compact JSON string for metadata."""
@@ -54,7 +57,7 @@ def _get_or_create_payment_intent(request, grand_total: Decimal):
                 else:
                     stripe.PaymentIntent.modify(intent.id, metadata=metadata)
                 return intent.client_secret
-            # else: succeeded/canceled → fall through to create new
+            # else: succeeded/canceled → create a fresh one
 
         intent = stripe.PaymentIntent.create(
             amount=amount,
@@ -71,6 +74,35 @@ def _get_or_create_payment_intent(request, grand_total: Decimal):
         return ""
 
 
+# ---------- Re-added from v1: cache pre-checkout metadata ----------
+
+@require_POST
+def cache_checkout_data(request):
+    """
+    Caches bag/save_info/username into the existing PaymentIntent metadata.
+    Matches the flow used by Code Institute's stripe_elements.js.
+    """
+    try:
+        client_secret = request.POST.get("client_secret", "")
+        if not client_secret or "_secret" not in client_secret:
+            return HttpResponse("Invalid client_secret", status=400)
+
+        pid = client_secret.split("_secret")[0]
+        stripe.api_key = getattr(settings, "STRIPE_SECRET_KEY", "")
+
+        stripe.PaymentIntent.modify(pid, metadata={
+            "bag": _bag_json(request),
+            "save_info": request.POST.get("save_info") or "",
+            "username": getattr(request.user, "username", "") or "anonymous",
+        })
+        return HttpResponse(status=200)
+    except Exception as e:
+        messages.error(request, "Sorry, your payment cannot be processed right now. Please try again later.")
+        return HttpResponse(content=str(e), status=400)
+
+
+# ---------- Main views ----------
+
 def checkout(request):
     """
     GET: render checkout with PI client_secret, totals, and form.
@@ -79,7 +111,7 @@ def checkout(request):
     bag = request.session.get("bag", {})
     if not bag:
         messages.error(request, "There's nothing in your bag at the moment.")
-        return redirect(reverse("products:products_index"))  # adjust if your products index name differs
+        return redirect(reverse("products:products_index"))
 
     totals = bag_contents(request)
     grand_total = Decimal(totals.get("grand_total") or 0)
@@ -95,10 +127,24 @@ def checkout(request):
         order_form = OrderForm(request.POST)
         if order_form.is_valid():
             try:
-                # Create the order
-                order = order_form.save(commit=True)
+                # Save order (commit=False so we can optionally set stripe fields safely)
+                order = order_form.save(commit=False)
 
-                # (Optional) Attach profile immediately so FK exists before redirect
+                # If your Order model has these fields, set them; otherwise skip harmlessly
+                client_secret = request.POST.get("client_secret", "")
+                if client_secret and "_secret" in client_secret:
+                    pid = client_secret.split("_secret")[0]
+                else:
+                    pid = ""
+
+                if hasattr(order, "stripe_pid") and pid:
+                    order.stripe_pid = pid
+                if hasattr(order, "original_bag"):
+                    order.original_bag = _bag_json(request)
+
+                order.save()
+
+                # Attach profile immediately so FK exists before redirect
                 if request.user.is_authenticated and not order.user_profile_id:
                     try:
                         profile, _ = UserProfile.objects.get_or_create(user=request.user)
@@ -110,7 +156,19 @@ def checkout(request):
 
                 # Create line items from bag
                 for item_id, item_data in bag.items():
-                    product = get_object_or_404(Product, pk=item_id)
+                    try:
+                        product = Product.objects.get(id=item_id)
+                    except Product.DoesNotExist:
+                        messages.error(
+                            request,
+                            "One of the products in your bag wasn't found in our database. Please call us for assistance!"
+                        )
+                        # remove partial order so totals don't linger
+                        try:
+                            order.delete()
+                        except Exception:
+                            pass
+                        return redirect(reverse("view_bag"))
 
                     if isinstance(item_data, int):
                         OrderLineItem.objects.create(
@@ -125,6 +183,9 @@ def checkout(request):
                 # Clear bag & cached PI
                 request.session["bag"] = {}
                 request.session.pop("pi_id", None)
+
+                # Persist the user's choice to save info
+                request.session["save_info"] = "save-info" in request.POST
 
                 return redirect(reverse("checkout_success", args=[order.order_number]))
 
@@ -196,7 +257,6 @@ def checkout_success(request, order_number):
                 order.user_profile = profile
                 order.save(update_fields=["user_profile"])
         except Exception:
-            # Don't break success page if something goes wrong
             pass
 
         # Optionally persist address info to the profile
@@ -210,7 +270,6 @@ def checkout_success(request, order_number):
                 'default_street_address2': order.street_address2,
                 'default_county': order.county,
             }
-            # ← use ProfileForm here (you don't have UserProfileForm)
             user_profile_form = ProfileForm(profile_data, instance=profile)
             if user_profile_form.is_valid():
                 user_profile_form.save()
