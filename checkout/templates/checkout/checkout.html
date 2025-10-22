@@ -41,9 +41,20 @@
             <div class="col-2 mb-1">
               <a href="{% url 'products:product_detail' item.product.id %}">
                 {% if item.product.image %}
-                  <img class="w-100" src="{{ item.product.static_image_url }}" alt="{{ item.product.name }}">
+                  <img class="w-100"
+                       src="{{ item.product.image.url }}"
+                       alt="{{ item.product.name }}"
+                       style="width:64px; height:64px; object-fit:cover;">
+                {% elif item.product.image_url %}
+                  <img class="w-100"
+                       src="{{ item.product.image_url }}"
+                       alt="{{ item.product.name }}"
+                       style="width:64px; height:64px; object-fit:cover;">
                 {% else %}
-                  <img class="w-100" src="{% static 'images/noimage.png' %}" alt="{{ item.product.name }}">
+                  <img class="w-100"
+                       src="{% static 'images/noimage.png' %}"
+                       alt="{{ item.product.name }}"
+                       style="width:64px; height:64px; object-fit:cover;">
                 {% endif %}
               </a>
             </div>
