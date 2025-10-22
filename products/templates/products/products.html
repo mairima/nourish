@@ -75,8 +75,9 @@
           <div class="col-12 col-md-auto">
             <button class="btn btn-primary" type="submit">Apply</button>
             <a class="btn btn-outline-secondary ms-1"
-               href="{% url 'products:products_index' %}{% if current_sort or current_direction or search_term or request.GET.category %}?{% endif %}{% if request.GET.category %}category={{ request.GET.category|urlencode }}{% endif %}{% if search_term %}{% if request.GET.category %}&{% endif %}q={{ search_term|urlencode }}{% endif %}{% if current_sort %}{% if request.GET.category or search_term %}&{% endif %}sort={{ current_sort }}{% endif %}{% if current_direction %}{% if request.GET.category or search_term or current_sort %}&{% endif %}direction={{ current_direction }}{% endif %}"
-                >Open in New Tab</a>
+               href="{% url 'products:products_index' %}{% if current_sort or current_direction or search_term or request.GET.category %}?{% endif %}{% if request.GET.category %}category={{ request.GET.category|urlencode }}{% endif %}{% if search_term %}{% if request.GET.category %}&{% endif %}q={{ search_term|urlencode }}{% endif %}{% if current_sort %}{% if request.GET.category or search_term %}&{% endif %}sort={{ current_sort }}{% endif %}{% if current_direction %}{% if request.GET.category or search_term or current_sort %}&{% endif %}direction={{ current_direction }}{% endif %}">
+              Open in New Tab
+            </a>
           </div>
         </form>
 
@@ -84,7 +85,9 @@
           <p class="text-muted small mb-0">
             {% if search_term or current_categories or current_sort %}
               <span class="small">
-                <a href="{% url 'products:products_index' %}?{% if current_sort %}sort={{ current_sort }}{% endif %}{% if current_direction %}{% if current_sort %}&{% endif %}direction={{ current_direction }}{% endif %}{% if search_term %}{% if current_sort or current_direction %}&{% endif %}q={{ search_term|urlencode }}{% endif %}">Products Home</a> |
+                <a href="{% url 'products:products_index' %}?{% if current_sort %}sort={{ current_sort }}{% endif %}{% if current_direction %}{% if current_sort %}&{% endif %}direction={{ current_direction }}{% endif %}{% if search_term %}{% if current_sort or current_direction %}&{% endif %}q={{ search_term|urlencode }}{% endif %}">
+                  Products Home
+                </a> |
               </span>
             {% endif %}
 
@@ -114,49 +117,30 @@
     <div class="row">
       <div class="product-container col-10 offset-1">
         <div class="row g-4 mt-1 mb-2">
-
           {% for product in products %}
             <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-              <!-- One product card -->
               <div class="card product-card border-0">
-
-                <!-- Image (click → detail). Prefer static filename → then remote URL → then fallback -->
                 <a class="d-block" href="{% url 'products:product_detail' product.id %}">
                   {% if product.image_filename %}
-                    <img class="card-img-top img-fluid"
-                         src="{{ product.static_image_url }}"
-                         alt="{{ product.name }}">
+                    <img class="card-img-top img-fluid" src="{{ product.static_image_url }}" alt="{{ product.name }}">
                   {% elif product.image_url %}
-                    <img class="card-img-top img-fluid"
-                         src="{{ product.image_url }}"
-                         alt="{{ product.name }}">
+                    <img class="card-img-top img-fluid" src="{{ product.image_url }}" alt="{{ product.name }}">
                   {% else %}
-                    <img class="card-img-top img-fluid"
-                         src="{% static 'images/noimage.png' %}"
-                         alt="{{ product.name }}">
+                    <img class="card-img-top img-fluid" src="{% static 'images/noimage.png' %}" alt="{{ product.name }}">
                   {% endif %}
                 </a>
 
-                <!-- Title -->
                 <div class="card-body pb-0">
                   <p class="mb-0">
-                    <a class="text-dark" href="{% url 'products:product_detail' product.id %}">
-                      {{ product.name }}
-                    </a>
+                    <a class="text-dark" href="{% url 'products:product_detail' product.id %}">{{ product.name }}</a>
                   </p>
                 </div>
 
-                <!-- Meta/footer -->
                 <div class="card-footer bg-white pt-0 border-0 text-left">
                   <div class="row">
                     <div class="col">
+                      <p class="lead mb-0 text-left font-weight-bold">${{ product.price|floatformat:2 }}</p>
 
-                      <!-- Price -->
-                      <p class="lead mb-0 text-left font-weight-bold">
-                        ${{ product.price|floatformat:2 }}
-                      </p>
-
-                      <!-- Category link -->
                       {% if product.category %}
                         <p class="small mt-1 mb-0">
                           <a class="text-muted"
@@ -167,7 +151,6 @@
                         </p>
                       {% endif %}
 
-                      <!-- Rating -->
                       {% if product.rating %}
                         <small class="text-muted">
                           <i class="fas fa-star mr-1"></i>{{ product.rating }} / 5
@@ -186,7 +169,6 @@
               <p class="text-muted mb-0">No products found.</p>
             </div>
           {% endfor %}
-
         </div>
 
         {% if page_obj and is_paginated %}
@@ -222,26 +204,10 @@
       </div>
     </div>
   </div>
-
-  <div class="btt-button shadow-sm rounded-0 border border-black">
-    <a class="btt-link d-flex h-100">
-      <i class="fas fa-arrow-up text-black mx-auto my-auto"></i>
-    </a>
-  </div>
 {% endblock %}
 
 {% block postloadjs %}
   {{ block.super }}
-  <script>
-    (function () {
-      document.querySelectorAll('.btt-link').forEach(function (el) {
-        el.addEventListener('click', function (e) {
-          e.preventDefault();
-          window.scrollTo(0, 0);
-        });
-      });
-    })();
-  </script>
   <script>
     (function () {
       const form = document.querySelector('form.row.g-2.align-items-center');
