@@ -341,3 +341,45 @@ h2.logo-font {
     overflow-y: auto;
 }
 
+.contact-container {
+  margin-top: 70px;
+}
+
+
+/* page adjustments signup */
+/*  */
+/* Auth pages: space content below the fixed header */
+/* .auth-offset { */
+/*   padding-top: 96px;            */
+/* } */
+/* @media (min-width: 992px) { */
+/*   .auth-offset { */
+/*     padding-top: 112px; */
+/*   } */
+/* } */
+/*  */
+/* Auth pages: keep content below the fixed header */
+/* .auth-offset { */
+/*   padding-top: 96px; */
+/* } */
+/* @media (min-width: 992px) { */
+/*   .auth-offset { */
+/*     padding-top: 112px; */
+/*   } */
+/* } */
+/*  */
+/* FAQ: push content down below the fixed navbar a bit more */
+/* .faq-offset { */
+/*   padding-top: 8rem;             */
+/* } */
+/* @media (min-width: 992px) { */
+/*   .faq-offset { */
+/*     padding-top: 10rem;          */
+/*   } */
+/* } */
+/*  */
+/* Helpful when linking to #anchors within FAQ so header doesn't cover them */
+/* .faq-container { */
+/*   scroll-margin-top: 6rem; */
+/* } */
+
