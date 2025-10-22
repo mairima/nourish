@@ -36,26 +36,47 @@
               <tbody>
                 {% for item in bag_items %}
                   <tr>
+                    <!-- Product image (Cloudinary first, then image_url, then placeholder) -->
                     <td class="p-3 w-25">
                       <a href="{% url 'products:product_detail' item.product.id %}">
-                        {% if item.product.image_filename %}
-                          <img class="img-fluid rounded"
-                               src="{% static 'images/' %}{{ item.product.image_filename }}"
-                               alt="{{ item.product.name }}">
+                        {% if item.product.image %}
+                          <img
+                            class="img-fluid rounded"
+                            src="{{ item.product.image.url }}"
+                            alt="{{ item.product.name }}"
+                            style="width: 80px; height: 80px; object-fit: cover;"
+                          >
                         {% elif item.product.image_url %}
-                          <img class="img-fluid rounded"
-                               src="{{ item.product.image_url }}"
-                               alt="{{ item.product.name }}">
+                          <img
+                            class="img-fluid rounded"
+                            src="{{ item.product.image_url }}"
+                            alt="{{ item.product.name }}"
+                            style="width: 80px; height: 80px; object-fit: cover;"
+                          >
+                        {% elif item.product.image_filename %}
+                          <img
+                            class="img-fluid rounded"
+                            src="{% static 'images/' %}{{ item.product.image_filename }}"
+                            alt="{{ item.product.name }}"
+                            style="width: 80px; height: 80px; object-fit: cover;"
+                          >
                         {% else %}
-                          <img class="img-fluid rounded"
-                               src="{% static 'images/noimage.png' %}"
-                               alt="{{ item.product.name }}">
+                          <img
+                            class="img-fluid rounded"
+                            src="{% static 'images/noimage.png' %}"
+                            alt="{{ item.product.name }}"
+                            style="width: 80px; height: 80px; object-fit: cover;"
+                          >
                         {% endif %}
                       </a>
                     </td>
 
+                    <!-- Product name / category (and size if present) -->
                     <td class="py-3">
                       <p class="my-0"><strong>{{ item.product.name }}</strong></p>
+                      {% if item.size %}
+                        <p class="my-0 small text-muted">Size: {{ item.size }}</p>
+                      {% endif %}
                       {% if item.product.category %}
                         <p class="my-0 small text-muted">
                           {{ item.product.category.friendly_name|default:item.product.category.name }}
@@ -63,10 +84,12 @@
                       {% endif %}
                     </td>
 
+                    <!-- Price -->
                     <td class="py-3">
                       <p class="my-0">€{{ item.product.price|floatformat:2 }}</p>
                     </td>
 
+                    <!-- Quantity controls -->
                     <td class="py-3 w-25">
                       <form class="form update-form" method="POST" action="{% url 'adjust_bag' item.item_id %}">
                         {% csrf_token %}
@@ -111,14 +134,14 @@
                       </a>
                     </td>
 
+                    <!-- Subtotal -->
                     <td class="py-3">
-                      <p class="my-0">
-                        €{{ item.product.price|calc_subtotal:item.quantity }}
-                      </p>
+                      <p class="my-0">€{{ item.product.price|calc_subtotal:item.quantity }}</p>
                     </td>
                   </tr>
                 {% endfor %}
 
+                <!-- Totals -->
                 <tr>
                   <td colspan="5" class="pt-5 text-right">
                     <h6><strong>Bag Total: €{{ total|floatformat:2 }}</strong></h6>
@@ -133,10 +156,10 @@
                   </td>
                 </tr>
 
+                <!-- Actions -->
                 <tr>
                   <td colspan="5" class="text-right">
-                    <a href="{% url 'products:products_index' %}"
-                       class="btn btn-outline-black rounded-0 btn-lg">
+                    <a href="{% url 'products:products_index' %}" class="btn btn-outline-black rounded-0 btn-lg">
                       <span class="icon"><i class="fas fa-chevron-left"></i></span>
                       <span class="text-uppercase">Keep Shopping</span>
                     </a>
