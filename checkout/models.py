@@ -5,6 +5,7 @@ from django.db.models import Sum
 from django.conf import settings
 from django_countries.fields import CountryField
 from products.models import Product
+from profiles.models import UserProfile
 
 
 class Order(models.Model):
@@ -23,6 +24,18 @@ class Order(models.Model):
     order_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
 
+    # Link orders to profiles (so profile.orders.all() works)
+    user_profile = models.ForeignKey(
+        UserProfile,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="orders",
+    )
+
+    class Meta:
+        ordering = ["-date"]  # convenient for history lists
+
     def _generate_order_number(self):
         """Generate a random, unique order number using UUID."""
         return uuid.uuid4().hex.upper()
@@ -36,19 +49,38 @@ class Order(models.Model):
             self.lineitems.aggregate(Sum("lineitem_total"))["lineitem_total__sum"] or 0
         )
         if self.order_total < settings.FREE_DELIVERY_THRESHOLD:
-            self.delivery_cost = self.order_total * settings.STANDARD_DELIVERY_PERCENTAGE / 100
+            self.delivery_cost = (
+                self.order_total * settings.STANDARD_DELIVERY_PERCENTAGE / 100
+            )
         else:
             self.delivery_cost = 0
         self.grand_total = self.order_total + self.delivery_cost
-        self.save()
+        self.save(update_fields=["order_total", "delivery_cost", "grand_total"])
 
     def save(self, *args, **kwargs):
         """
-        Override the original save method to set the order number
-        if it hasn't been set already.
+        Override save to ensure:
+        - order_number is set
+        - user_profile is auto-attached by matching the order email to a User's email
+          (only if user_profile is empty). This makes profile.orders appear even
+          for guest checkouts once a profile with the same email exists.
         """
         if not self.order_number:
             self.order_number = self._generate_order_number()
+
+        # Auto-link to profile by email if not already linked
+        if self.user_profile_id is None and self.email:
+            # Avoid circular imports & be lenient on case
+            try:
+                matching_profile = UserProfile.objects.select_related("user").filter(
+                    user__email__iexact=self.email.strip()
+                ).first()
+                if matching_profile:
+                    self.user_profile = matching_profile
+            except Exception:
+                # don't block order saving if anything goes wrong
+                pass
+
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -63,7 +95,9 @@ class OrderLineItem(models.Model):
     # Example sizes: XS, S, M, L, XL
     product_size = models.CharField(max_length=2, null=True, blank=True)
     quantity = models.IntegerField(null=False, blank=False, default=0)
-    lineitem_total = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False, editable=False)
+    lineitem_total = models.DecimalField(
+        max_digits=6, decimal_places=2, null=False, blank=False, editable=False
+    )
 
     def save(self, *args, **kwargs):
         """
