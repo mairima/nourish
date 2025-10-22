@@ -82,9 +82,13 @@
                   {% if request.user.is_superuser %}
                     <a href="#" class="dropdown-item">Product Management</a>
                   {% endif %}
-                  <!-- Fixed: proper href and dropdown-item class -->
                   <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
-                  <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
+
+                  {# ✅ allauth logout must be POST #}
+                  <form method="post" action="{% url 'account_logout' %}" class="px-3 py-1">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link p-0">Logout</button>
+                  </form>
                 {% else %}
                   <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
                   <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
@@ -113,7 +117,6 @@
                   aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          {# pass the namespaced URL down to the includes, in case they want to use it #}
           {% include 'includes/mobile-top-header.html' with products_index_url=products_index_url %}
           {% include 'includes/main-nav.html' with products_index_url=products_index_url %}
         </nav>
@@ -160,7 +163,13 @@
       </div>
     {% endif %}
 
-    <script>
+    {# ❌ Removed Bootstrap 5 bundle that conflicted with BS4 #}
+    {# <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script> #}
+
+    {% block page_header %}{% endblock %}
+    {% block content %}{% endblock %}
+
+ <script>
       (function () {
         function placeToast() {
           var header = document.querySelector('header.container-fluid.fixed-top');
@@ -194,8 +203,6 @@
       })();
     </script>
 
-    {% block page_header %}{% endblock %}
-    {% block content %}{% endblock %}
     {% block postloadjs %}{% endblock %}
   </body>
 </html>
