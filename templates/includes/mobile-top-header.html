@@ -46,8 +46,8 @@
   <div class="dropdown-menu border-0" aria-labelledby="user-options-mobile">
     {% if request.user.is_authenticated %}
       {% if request.user.is_superuser %}
-        {# Replace '#' with your management URL when ready, e.g. {% url 'add_product' %} #}
-        <a href="#" class="dropdown-item">Product Management</a>
+        {# Replace '#' with your management URL when ready, e.g. {% url 'products:add_product' %} #}
+        <a href="{% url 'products:add_product' %}" class="dropdown-item">Product Management</a>
       {% endif %}
       {# Replace '#' with your profile URL when ready, e.g. {% url 'profile' %} #}
       <a href="#" class="dropdown-item">My Profile</a>
