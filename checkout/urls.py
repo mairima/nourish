@@ -1,10 +1,13 @@
+# checkout/urls.py
 from django.urls import path
 from . import views
 from .webhooks import webhook as stripe_webhook
 
+app_name = "checkout"
+
 urlpatterns = [
-    path('', views.checkout, name='checkout'),
-    path('checkout_success/<order_number>', views.checkout_success, name='checkout_success'),
+    path("", views.checkout, name="checkout"),
+    path("checkout_success/<order_number>/", views.checkout_success, name="checkout_success"),
     path("cache_checkout_data/", views.cache_checkout_data, name="cache_checkout_data"),
-    path('wh/', stripe_webhook, name='webhook'),
+    path("wh/", stripe_webhook, name="webhook"),
 ]
