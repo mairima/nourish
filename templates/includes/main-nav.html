@@ -1,8 +1,10 @@
 <div class="collapse navbar-collapse" id="main-nav">
   <ul class="navbar-nav w-auto mx-auto">
-    <!-- All products -->
-    <li class="nav-item dropdown">
-      <a class="logo-font font-weight-bold nav-link text-black mr-5" href="#" id="all-products-link"
+
+    <!-- All Products -->
+    <li class="nav-item dropdown {% if request.resolver_match.namespace == 'products' %}active{% endif %}">
+      <a class="logo-font font-weight-bold nav-link mr-5 {% if request.resolver_match.namespace == 'products' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
+         href="#" id="all-products-link"
          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         All Products
       </a>
@@ -14,9 +16,10 @@
       </div>
     </li>
 
-    <!-- Categories shortcuts -->
-    <li class="nav-item dropdown">
-      <a class="logo-font font-weight-bold nav-link text-black mr-5" href="#" id="categories-link"
+    <!-- Categories -->
+    <li class="nav-item dropdown {% if 'category' in request.get_full_path %}active{% endif %}">
+      <a class="logo-font font-weight-bold nav-link mr-5 {% if 'category' in request.get_full_path %}text-success border-bottom border-success{% else %}text-black{% endif %}"
+         href="#" id="categories-link"
          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Categories
       </a>
@@ -27,15 +30,22 @@
       </div>
     </li>
 
-    <!-- Static pages -->
-    <li class="nav-item">
-      <a class="logo-font font-weight-bold nav-link text-black mr-5" href="{% url 'contact:index' %}">Contact</a>
+    <!-- Contact -->
+    <li class="nav-item {% if request.resolver_match.namespace == 'contact' %}active{% endif %}">
+      <a class="logo-font font-weight-bold nav-link mr-5 {% if request.resolver_match.namespace == 'contact' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
+         href="{% url 'contact:index' %}">Contact</a>
     </li>
-    <li class="nav-item">
-      <a class="logo-font font-weight-bold nav-link text-black mr-5" href="{% url 'newsletter' %}">Newsletter</a>
+
+    <!-- Newsletter -->
+    <li class="nav-item {% if request.resolver_match.namespace == 'newsletter' %}active{% endif %}">
+      <a class="logo-font font-weight-bold nav-link mr-5 {% if request.resolver_match.namespace == 'newsletter' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
+         href="{% url 'newsletter' %}">Newsletter</a>
     </li>
-    <li class="nav-item">
-      <a class="logo-font font-weight-bold nav-link text-black" href="{% url 'faqs:index' %}">FAQ</a>
+
+    <!-- FAQ -->
+    <li class="nav-item {% if request.resolver_match.namespace == 'faqs' %}active{% endif %}">
+      <a class="logo-font font-weight-bold nav-link {% if request.resolver_match.namespace == 'faqs' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
+         href="{% url 'faqs:index' %}">FAQ</a>
     </li>
 
   </ul>
