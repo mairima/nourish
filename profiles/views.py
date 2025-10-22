@@ -55,7 +55,7 @@ def order_history(request, order_number):
         f'This is a past confirmation for order number {order_number}. '
         'A confirmation email was sent on the order date.'
     ))
-    return render(request, "checkout/checkout_success.html", {
+    return render(request, "checkout/checkout:checkout_success.html", {
         "order": order,
         "from_profile": True,
     })
