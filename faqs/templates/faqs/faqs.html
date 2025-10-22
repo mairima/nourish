@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="container faq-container mt-5 pt-5 mb-5">
+<div class="container faq-page mb-5">
   <h1 class="mb-4">Frequently Asked Questions</h1>
 
   {% if faqs %}
@@ -13,7 +13,7 @@
             <button
               class="btn btn-link btn-block text-left py-3 px-3 faq-toggle"
               type="button"
-              data-toggle="collapse"               {# Bootstrap 4 collapse #}
+              data-toggle="collapse"
               data-target="#faq-panel-{{ f.id }}"
               aria-expanded="false"
               aria-controls="faq-panel-{{ f.id }}"
@@ -57,7 +57,7 @@
 {% block postloadjs %}
   {{ block.super }}
   <script>
-    // Keyboard toggle helper
+    // Keyboard toggle helper for accessibility
     document.querySelectorAll('.faq-toggle').forEach(btn => {
       btn.addEventListener('keydown', e => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
@@ -65,10 +65,10 @@
     });
   </script>
   <style>
-    /* Push the page content below any fixed header/promo bar */
-    .faq-container { 
-      /* margin/padding already added via mt-5 pt-5; keep CSS as a safety net */
-      scroll-margin-top: 6rem; /* if you ever link to #anchors here */
+    /* Push the FAQ page below the fixed header (uses runtime header height if available) */
+    .faq-page {
+      padding-top: calc(var(--header-height, 100px) + 20px);
+      scroll-margin-top: calc(var(--header-height, 100px) + 20px);
     }
   </style>
 {% endblock %}
