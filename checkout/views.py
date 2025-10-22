@@ -51,7 +51,10 @@ def _get_or_create_payment_intent(request, grand_total: Decimal):
     try:
         if pi_id:
             intent = stripe.PaymentIntent.retrieve(pi_id)
-            if intent.status in {"requires_payment_method", "requires_confirmation", "requires_action", "processing"}:
+            if intent.status in {
+                "requires_payment_method", "requires_confirmation",
+                "requires_action", "processing"
+            }:
                 if intent.amount != amount:
                     intent = stripe.PaymentIntent.modify(intent.id, amount=amount, metadata=metadata)
                 else:
@@ -130,12 +133,8 @@ def checkout(request):
                 # Save order (commit=False so we can optionally set stripe fields safely)
                 order = order_form.save(commit=False)
 
-                # If your Order model has these fields, set them; otherwise skip harmlessly
                 client_secret = request.POST.get("client_secret", "")
-                if client_secret and "_secret" in client_secret:
-                    pid = client_secret.split("_secret")[0]
-                else:
-                    pid = ""
+                pid = client_secret.split("_secret")[0] if "_secret" in client_secret else ""
 
                 if hasattr(order, "stripe_pid") and pid:
                     order.stripe_pid = pid
@@ -151,8 +150,7 @@ def checkout(request):
                         order.user_profile = profile
                         order.save(update_fields=["user_profile"])
                     except Exception:
-                        # don't block checkout if linkage fails
-                        pass
+                        pass  # don't block checkout if linkage fails
 
                 # Create line items from bag
                 for item_id, item_data in bag.items():
@@ -163,7 +161,6 @@ def checkout(request):
                             request,
                             "One of the products in your bag wasn't found in our database. Please call us for assistance!"
                         )
-                        # remove partial order so totals don't linger
                         try:
                             order.delete()
                         except Exception:
@@ -171,9 +168,7 @@ def checkout(request):
                         return redirect(reverse("view_bag"))
 
                     if isinstance(item_data, int):
-                        OrderLineItem.objects.create(
-                            order=order, product=product, quantity=int(item_data)
-                        )
+                        OrderLineItem.objects.create(order=order, product=product, quantity=int(item_data))
                     else:
                         for size, quantity in item_data.get("items_by_size", {}).items():
                             OrderLineItem.objects.create(
@@ -187,7 +182,7 @@ def checkout(request):
                 # Persist the user's choice to save info
                 request.session["save_info"] = "save-info" in request.POST
 
-                return redirect(reverse("checkout_success", args=[order.order_number]))
+                return redirect(reverse("checkout:checkout_success", args=[order.order_number]))
 
             except Exception as e:
                 print(f"[Checkout] Error creating order: {e}")
@@ -283,4 +278,5 @@ def checkout_success(request, order_number):
     # Clear the bag
     request.session.pop('bag', None)
 
+    # ✅ Correct template path
     return render(request, 'checkout/checkout_success.html', {'order': order})
