@@ -5,6 +5,8 @@ from django.db.models import Q
 from django.db.models.functions import Lower
 from django.core.paginator import Paginator
 from .models import Product, Category
+from .forms import ProductForm
+
 
 
 def all_products(request):
@@ -72,3 +74,13 @@ def product_detail(request, product_id):
     """Show individual product details."""
     product = get_object_or_404(Product.objects.select_related('category'), pk=product_id)
     return render(request, 'products/products_detail.html', {'product': product})
+
+def add_product(request):
+    """ Add a product to the store """
+    form = ProductForm()
+    template = 'products/add_product.html'
+    context = {
+        'form': form,
+    }
+
+    return render(request, template, context)
