@@ -23,7 +23,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("newsletter/", include("newsletter.urls")),
     path("", include("home.urls")),
-    path("products/", include(("products.urls", "products"), namespace="products")),
+    path("products/", include("products.urls", namespace="products")),
     path("bag/", include("bag.urls")),
     path("checkout/", include(("checkout.urls", "checkout"), namespace="checkout")),
     path("profiles/", include("profiles.urls")),
