@@ -1,9 +1,3 @@
-<!-- templates/includes/mobile-top-header.html
-     Mobile header icons: Search / My Account / Bag total
-     - Search goes to products:products_index (namespaced)
-     - Account shows login/register or logout
-     - Bag link shows running total and points to view_bag
--->
 <li class="list-inline-item">
   <a class="text-black nav-link d-block d-lg-none"
      href="#"
@@ -17,12 +11,12 @@
     </div>
   </a>
   <div class="dropdown-menu border-0 w-100 p-3 rounded-0 my-0" aria-labelledby="mobile-search">
-    <form class="form" method="GET" action="{% url 'products:products_index' %}">
+    <form class="form" method="GET" action="{{ products_index_url }}">
       <div class="input-group w-100">
         <input class="form-control border border-black rounded-0"
                type="text" name="q" placeholder="Search our site">
         <div class="input-group-append">
-          <button class="form-control form-control btn btn-black border border-black rounded-0" type="submit">
+          <button class="form-control btn btn-black border border-black rounded-0" type="submit">
             <span class="icon"><i class="fas fa-search"></i></span>
           </button>
         </div>
@@ -46,12 +40,13 @@
   <div class="dropdown-menu border-0" aria-labelledby="user-options-mobile">
     {% if request.user.is_authenticated %}
       {% if request.user.is_superuser %}
-        {# Replace '#' with your management URL when ready, e.g. {% url 'products:add_product' %} #}
         <a href="{% url 'products:add_product' %}" class="dropdown-item">Product Management</a>
       {% endif %}
-      {# Replace '#' with your profile URL when ready, e.g. {% url 'profile' %} #}
-      <a href="#" class="dropdown-item">My Profile</a>
-      <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
+      <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
+      <form method="post" action="{% url 'account_logout' %}" class="px-3 py-1">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-link p-0">Logout</button>
+      </form>
     {% else %}
       <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
       <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
