@@ -159,8 +159,8 @@
                 <!-- Actions -->
                 <tr>
                   <td colspan="5" class="text-right">
-                    <a href="{% url 'products:products_index' %}" class="btn btn-outline-black rounded-0 btn-lg">
-                      <span class="icon"><i class="fas fa-chevron-left"></i></span>
+                    <a href="" class="btn btn-outline-black rounded-0 btn-lg">
+                      <span {% url 'products:products' %}class="icon"><i class="fas fa-chevron-left"></i></span>
                       <span class="text-uppercase">Keep Shopping</span>
                     </a>
                     <a href="{% url 'checkout:checkout' %}" class="btn btn-black rounded-0 btn-lg">
@@ -175,7 +175,7 @@
         {% else %}
           <p class="mb-4 h5 text-center text-dark empty-message">Your bag is empty.</p>
           <div class="text-center">
-            <a href="{% url 'products:products_index' %}" class="btn btn-outline-black rounded-0 btn-lg">
+            <a href="{% url 'products:products' %}" class="btn btn-outline-black rounded-0 btn-lg">
               <span class="icon"><i class="fas fa-chevron-left"></i></span>
               <span class="text-uppercase">Keep Shopping</span>
             </a>
