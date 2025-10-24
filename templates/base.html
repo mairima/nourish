@@ -60,8 +60,6 @@
               </a>
 
               <div class="dropdown-menu border-0" aria-labelledby="user-options">
-                <a href="{% url 'products:products' %}" class="dropdown-item">All products</a>
-
                 {% if request.user.is_authenticated and request.user.is_superuser %}
                   <a href="{% url 'products:add_product' %}" class="dropdown-item font-weight-bold">
                     <i class="fas fa-cogs mr-1"></i> Product Management
