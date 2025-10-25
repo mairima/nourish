@@ -37,15 +37,18 @@
       <p class="my-0">My Account</p>
     </div>
   </a>
+
   <div class="dropdown-menu border-0" aria-labelledby="user-options-mobile">
     {% if request.user.is_authenticated %}
       {% if request.user.is_superuser %}
         <a href="{% url 'products:add_product' %}" class="dropdown-item">Product Management</a>
       {% endif %}
       <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
-      <form method="post" action="{% url 'account_logout' %}" class="px-3 py-1">
+
+      <!-- CSRF-protected logout (POST) -->
+      <form method="post" action="{% url 'account_logout' %}">
         {% csrf_token %}
-        <button type="submit" class="btn btn-link p-0">Logout</button>
+        <button type="submit" class="dropdown-item">Logout</button>
       </form>
     {% else %}
       <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
