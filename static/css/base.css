@@ -5,28 +5,23 @@
   /* Fallback until JS sets the actual header height */
   --header-height: 120px;
 }
-
 html, body {
   height: 100%;
 }
-
 body {
   color: #000;
   font-family: 'Lato', sans-serif;
 }
-
 /* If a page needs explicit spacing for the fixed header,
    add this helper class to a wrapper (used on some pages) */
 .header-container {
   padding-top: 140px;
 }
-
 /* Use on plain pages to ensure white background and no hero overlay */
 body.plain-page {
   background: #fff !important;
   color: #000;
 }
-
 /* Small utility bits */
 .icon {
   align-items: center;
@@ -35,12 +30,10 @@ body.plain-page {
   height: 1.5rem;
   width: 1.5rem;
 }
-
 .logo-font { text-transform: uppercase; }
 .main-logo-link { width: fit-content; }
 .text-black { color: #000 !important; }
 .border-black { border: 1px solid black !important; }
-
 /* =========================
    Hero (home)
 ========================= */
@@ -62,7 +55,6 @@ body.plain-page {
   z-index: 1;
   color: #fff;
 }
-
 /* =========================
    Buttons
 ========================= */
@@ -74,17 +66,14 @@ body.plain-page {
   transition: background-color 0.3s ease;
 }
 .shop-now-button:hover { background-color: #218838; color: #fff !important; }
-
 .btn-black { background: #000; color: #fff; }
 .btn-black:hover,
 .btn-black:active,
 .btn-black:focus { background: #222; color: #fff; }
-
 /* =========================
    Navbar spacing / tweaks
 ========================= */
 .navbar-nav .nav-item { margin-right: 30px; }
-
 /* Highlight current page in navbar */
 .navbar-nav .nav-item.active .nav-link {
   color: #28a745 !important;
@@ -92,12 +81,6 @@ body.plain-page {
 }
 .navbar-nav .nav-link { transition: all 0.2s ease-in-out; }
 .navbar-nav .nav-link:hover { color: #28a745 !important; }
-
-/* NEW: restore comfy spacing on desktop; compact only on small screens */
-/* UPDATED: desktop defaults */
-.navbar .nav-link { padding: .5rem 1rem; }         /* UPDATED */
-#topnav { padding-top: .25rem; padding-bottom: .25rem; } /* UPDATED */
-
 /* =========================
    Delivery banner
 ========================= */
@@ -114,10 +97,8 @@ body.plain-page {
   letter-spacing: .03em;
 }
 .bg-black { background-color: #000 !important; }
-
 /* Header/logo spacing tweak */
 h2.logo-font { margin-top: 30px; }
-
 /* =========================
    Product cards
 ========================= */
@@ -133,7 +114,6 @@ h2.logo-font { margin-top: 30px; }
 }
 .product-card .card-body { flex: 1 1 auto; }
 .product-card .card-footer { margin-top: auto; }
-
 /* Price badge on thumbnails */
 .thumb-wrap { position: relative; }
 .price-badge {
@@ -148,7 +128,6 @@ h2.logo-font { margin-top: 30px; }
   border-radius: .35rem;
   backdrop-filter: blur(2px);
 }
-
 /* =========================
    Toasts (Bootstrap)
 ========================= */
@@ -160,7 +139,6 @@ h2.logo-font { margin-top: 30px; }
 }
 .custom-toast { overflow: visible; }
 .toast-capper { height: 2px; }
-
 /* CSS-triangle for toast pointer */
 .arrow-up {
   width: 0; height: 0;
@@ -179,21 +157,15 @@ h2.logo-font { margin-top: 30px; }
 .arrow-info     { border-bottom-color: #17a2b8 !important; }
 .arrow-light    { border-bottom-color: #f8f9fa !important; }
 .arrow-dark     { border-bottom-color: #343a40 !important; }
-
 .bag-notification-wrapper {
   height: 100px;
   overflow-x: hidden;
   overflow-y: auto;
 }
-
 /* =========================
    Contact page tweak
 ========================= */
-/* UPDATED: use header-height so the heading is visible on all sizes */
-.contact-container {
-  padding-top: calc(var(--header-height, 120px) + 20px);  /* UPDATED */
-}
-
+.contact-container { margin-top: 70px; }
 /* =========================
    Footer
 ========================= */
@@ -212,11 +184,9 @@ h2.logo-font { margin-top: 30px; }
   transition: color 0.3s ease;
 }
 .footer a:hover i { color: #ffd700; }
-
 /* Remove unwanted gap above footer on short pages */
 main, .content, body { margin-bottom: 0 !important; padding-bottom: 0 !important; }
 footer { margin-top: 0 !important; }
-
 /* =========================
    Back-to-top button
 ========================= */
@@ -240,35 +210,29 @@ footer { margin-top: 0 !important; }
 #scrollToTopBtn.show { display: block; opacity: 1; }
 #scrollToTopBtn:hover { background-color: #218838; transform: translateY(-2px); }
 
-
 /* Product Form */
-
 .btn-file {
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
-
 .btn-file input[type="file"] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  min-width: 100%;
-  min-height: 100%;
-  opacity: 0;
-  cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    opacity: 0;
+    cursor: pointer;
 }
-
 .custom-checkbox .custom-control-label::before {
-  border-radius: 0;
-  border-color: #dc3545;
+    border-radius: 0;
+    border-color: #dc3545;
 }
-
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-  background-color: #dc3545;
-  border-color: #dc3545;
-  border-radius: 0;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    border-radius: 0;
 }
-
 
 /* =========================
    Responsive tweaks
@@ -276,7 +240,6 @@ footer { margin-top: 0 !important; }
 @media (min-width: 1200px) {
   .container { max-width: 80%; }
 }
-
 /* Fixed-top navbar helpers on desktop only */
 @media (min-width: 992px) {
   .fixed-top-desktop-only {
@@ -284,7 +247,6 @@ footer { margin-top: 0 !important; }
   }
   .header-container { padding-top: 164px; }
 }
-
 /* When navbar is collapsed on mobile, give a bit less space */
 @media (max-width: 991px) {
   .header-container { padding-top: 116px; }
@@ -294,31 +256,14 @@ footer { margin-top: 0 !important; }
    Bag / misc helpers
 ========================= */
 .btt-link, .update-link, .remove-item { cursor: pointer; }
-
 .bag-page .logo-font,
 .bag-page .empty-message {
   text-align: center;
   color: #212529;
 }
-
-/* ===== Your small-size compressions — now SCOPED to mobile/tablet only ===== */
-/* UPDATED: these used to apply globally and squashed the desktop navbar */
-.display-4.logo-font.text-black { font-size: 2rem; } /* keep as-is */
-
-@media (max-width: 991.98px) {                       /* UPDATED: scope start */
-  .navbar .nav-link { padding: 0.15rem; }            /* UPDATED */
-  .nav-link i.fa-lg { font-size: 1rem; }             /* UPDATED */
-  .navbar-toggler { padding: .6rem .6rem; font-size: 1rem; } /* UPDATED */
-  #delivery-banner h4 { font-size: .9rem; }          /* UPDATED */
-
-  .btn.btn-outline-black.rounded-0,
-  .btn.btn-black.rounded-0 { padding: .375rem .375rem; }     /* UPDATED */
-
-  .btn.btn-outline-black.rounded-0.btn-lg,
-  .btn.btn-black.rounded-0.btn-lg {
-    padding: .375rem .375rem;
-    font-size: .75rem;
-  }
-
-  .increment-qty, .decrement-qty { padding: .25rem .5rem !important; }
-}                                                    /* UPDATED: scope end */
+   .display-4.logo-font.text-black {
+        font-size: 2rem;
+    }
+    .nav-link {
+        padding: 0.15rem;
+    }
