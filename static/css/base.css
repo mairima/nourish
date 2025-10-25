@@ -5,23 +5,28 @@
   /* Fallback until JS sets the actual header height */
   --header-height: 120px;
 }
+
 html, body {
   height: 100%;
 }
+
 body {
   color: #000;
   font-family: 'Lato', sans-serif;
 }
+
 /* If a page needs explicit spacing for the fixed header,
    add this helper class to a wrapper (used on some pages) */
 .header-container {
   padding-top: 140px;
 }
+
 /* Use on plain pages to ensure white background and no hero overlay */
 body.plain-page {
   background: #fff !important;
   color: #000;
 }
+
 /* Small utility bits */
 .icon {
   align-items: center;
@@ -30,10 +35,12 @@ body.plain-page {
   height: 1.5rem;
   width: 1.5rem;
 }
+
 .logo-font { text-transform: uppercase; }
 .main-logo-link { width: fit-content; }
 .text-black { color: #000 !important; }
 .border-black { border: 1px solid black !important; }
+
 /* =========================
    Hero (home)
 ========================= */
@@ -43,18 +50,57 @@ body.plain-page {
   min-height: 90vh;
   display: flex;
   align-items: center;
+  text-align: left;
+  padding-top: calc(var(--header-height, 120px) / 2);
+  padding-bottom: 40px;
 }
+
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.35);
 }
+
 .hero .hero-content {
   position: relative;
   z-index: 1;
   color: #fff;
 }
+
+.hero h1 {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  line-height: 1.2;
+}
+
+.hero .btn {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+}
+
+/* Mobile adjustments to ensure text fits */
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    padding-top: calc(var(--header-height, 80px) + 20px);
+    padding-bottom: 60px;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+    text-align: center;
+  }
+
+  .hero .btn {
+    display: block;
+    margin: 20px auto 0;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .hero-content .col-12 { text-align: center; }
+}
+
 /* =========================
    Buttons
 ========================= */
@@ -65,22 +111,35 @@ body.plain-page {
   min-width: 260px;
   transition: background-color 0.3s ease;
 }
-.shop-now-button:hover { background-color: #218838; color: #fff !important; }
+
+.shop-now-button:hover {
+  background-color: #218838;
+  color: #fff !important;
+}
+
 .btn-black { background: #000; color: #fff; }
+
 .btn-black:hover,
 .btn-black:active,
-.btn-black:focus { background: #222; color: #fff; }
+.btn-black:focus {
+  background: #222;
+  color: #fff;
+}
+
 /* =========================
    Navbar spacing / tweaks
 ========================= */
 .navbar-nav .nav-item { margin-right: 30px; }
+
 /* Highlight current page in navbar */
 .navbar-nav .nav-item.active .nav-link {
   color: #28a745 !important;
   border-bottom: 2px solid #28a745;
 }
+
 .navbar-nav .nav-link { transition: all 0.2s ease-in-out; }
 .navbar-nav .nav-link:hover { color: #28a745 !important; }
+
 /* =========================
    Delivery banner
 ========================= */
@@ -90,15 +149,19 @@ body.plain-page {
   text-align: center;
   padding: 6px 0;
 }
+
 #delivery-banner h4 {
   margin: 0;
   font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: .03em;
 }
+
 .bg-black { background-color: #000 !important; }
+
 /* Header/logo spacing tweak */
 h2.logo-font { margin-top: 30px; }
+
 /* =========================
    Product cards
 ========================= */
@@ -107,18 +170,23 @@ h2.logo-font { margin-top: 30px; }
   flex-direction: column;
   height: 100%;
 }
+
 .product-card .card-img-top {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
 }
+
 .product-card .card-body { flex: 1 1 auto; }
 .product-card .card-footer { margin-top: auto; }
+
 /* Price badge on thumbnails */
 .thumb-wrap { position: relative; }
+
 .price-badge {
   position: absolute;
-  top: .5rem; right: .5rem;
+  top: .5rem;
+  right: .5rem;
   padding: .25rem .5rem;
   background: rgba(0,0,0,.72);
   color: #fff;
@@ -128,6 +196,7 @@ h2.logo-font { margin-top: 30px; }
   border-radius: .35rem;
   backdrop-filter: blur(2px);
 }
+
 /* =========================
    Toasts (Bootstrap)
 ========================= */
@@ -137,17 +206,22 @@ h2.logo-font { margin-top: 30px; }
   right: 15px;
   z-index: 99999999999;
 }
+
 .custom-toast { overflow: visible; }
 .toast-capper { height: 2px; }
+
 /* CSS-triangle for toast pointer */
 .arrow-up {
-  width: 0; height: 0;
+  width: 0;
+  height: 0;
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
   border-bottom: 10px solid black;
   position: absolute;
-  top: -10px; right: 36px;
+  top: -10px;
+  right: 36px;
 }
+
 /* Convenience color classes */
 .arrow-primary  { border-bottom-color: #007bff !important; }
 .arrow-secondary{ border-bottom-color: #6c757d !important; }
@@ -157,15 +231,20 @@ h2.logo-font { margin-top: 30px; }
 .arrow-info     { border-bottom-color: #17a2b8 !important; }
 .arrow-light    { border-bottom-color: #f8f9fa !important; }
 .arrow-dark     { border-bottom-color: #343a40 !important; }
+
 .bag-notification-wrapper {
   height: 100px;
   overflow-x: hidden;
   overflow-y: auto;
 }
+
 /* =========================
    Contact page tweak
 ========================= */
-.contact-container { margin-top: 70px; }
+.contact-container {
+  margin-top: 70px;
+}
+
 /* =========================
    Footer
 ========================= */
@@ -174,19 +253,28 @@ h2.logo-font { margin-top: 30px; }
   color: #fff;
   font-size: 0.95rem;
 }
+
 .footer i {
   margin-right: 6px;
   color: #ffd700; /* gold accent */
   vertical-align: middle;
 }
+
 .footer a {
   text-decoration: none;
   transition: color 0.3s ease;
 }
+
 .footer a:hover i { color: #ffd700; }
+
 /* Remove unwanted gap above footer on short pages */
-main, .content, body { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+main, .content, body {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
 footer { margin-top: 0 !important; }
+
 /* =========================
    Back-to-top button
 ========================= */
@@ -207,31 +295,154 @@ footer { margin-top: 0 !important; }
   box-shadow: 0 4px 6px rgba(0,0,0,.2);
   transition: opacity .25s ease, transform .25s ease, background-color .3s ease;
 }
+
 #scrollToTopBtn.show { display: block; opacity: 1; }
 #scrollToTopBtn:hover { background-color: #218838; transform: translateY(-2px); }
 
-/* Product Form */
+/* =========================
+   Product Form
+========================= */
 .btn-file {
-    position: relative;
-    overflow: hidden;
+  position: relative;
+  overflow: hidden;
 }
+
 .btn-file input[type="file"] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    opacity: 0;
-    cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  opacity: 0;
+  cursor: pointer;
 }
+
 .custom-checkbox .custom-control-label::before {
-    border-radius: 0;
-    border-color: #dc3545;
+  border-radius: 0;
+  border-color: #dc3545;
 }
+
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-    background-color: #dc3545;
-    border-color: #dc3545;
-    border-radius: 0;
+  background-color: #dc3545;
+  border-color: #dc3545;
+  border-radius: 0;
+}
+
+/* =========================
+   FAQ, Newsletter, Contact, Auth Pages
+========================= */
+.faq-page,
+.newsletter-page,
+.contact-container,
+.signup-page,
+.login-page {
+  padding-top: calc(var(--header-height, 100px) + 24px);
+  scroll-margin-top: calc(var(--header-height, 100px) + 24px);
+  padding-bottom: 56px;
+}
+
+.faq-page > h1:first-child,
+.newsletter-page > h1:first-child,
+.contact-container > h1:first-child,
+.signup-page > h1:first-child,
+.login-page > h1:first-child,
+.login-page > h2:first-child {
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 767.98px) {
+  .faq-page,
+  .newsletter-page,
+  .contact-container,
+  .signup-page,
+  .login-page {
+    padding-top: calc(var(--header-height, 80px) + 18px);
+    padding-bottom: 44px;
+  }
+
+  .faq-page > h1:first-child,
+  .newsletter-page > h1:first-child,
+  .contact-container > h1:first-child,
+  .signup-page > h1:first-child,
+  .login-page > h1:first-child,
+  .login-page > h2:first-child {
+    margin-top: 4px;
+  }
+}
+
+/* FAQ styles */
+.faq-page .accordion .card {
+  border: 1px solid #e6e6e6;
+  border-radius: .25rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,.05);
+}
+
+.faq-page .card-header { background-color: #f8f9fa; }
+
+.faq-page .faq-toggle {
+  width: 100%;
+  text-align: left;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #000;
+  text-decoration: none;
+  transition: background-color .2s ease;
+}
+
+.faq-page .faq-toggle:hover { background-color: #e9ecef; }
+
+.faq-page .card-body {
+  background-color: #fff;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Newsletter styles */
+.newsletter-page .card {
+  border: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+}
+
+.newsletter-page .card-body {
+  padding: 1.25rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .newsletter-page .card-body {
+    padding: 1.75rem 2rem;
+  }
+}
+
+/* Contact styles */
+.contact-container .card {
+  border: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+}
+
+.contact-container .card-body {
+  padding: 1.25rem 1.5rem;
+}
+
+/* Auth forms */
+.signup-page form,
+.login-page form {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 575.98px) {
+  .signup-page form,
+  .login-page form {
+    padding-left: .25rem;
+    padding-right: .25rem;
+  }
+}
+
+.signup-page .invalid-feedback,
+.login-page .invalid-feedback {
+  font-size: .95rem;
 }
 
 /* =========================
@@ -240,13 +451,20 @@ footer { margin-top: 0 !important; }
 @media (min-width: 1200px) {
   .container { max-width: 80%; }
 }
+
 /* Fixed-top navbar helpers on desktop only */
 @media (min-width: 992px) {
   .fixed-top-desktop-only {
-    position: fixed; top: 0; right: 0; left: 0; z-index: 1030;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
   }
+
   .header-container { padding-top: 164px; }
 }
+
 /* When navbar is collapsed on mobile, give a bit less space */
 @media (max-width: 991px) {
   .header-container { padding-top: 116px; }
@@ -256,77 +474,17 @@ footer { margin-top: 0 !important; }
    Bag / misc helpers
 ========================= */
 .btt-link, .update-link, .remove-item { cursor: pointer; }
+
 .bag-page .logo-font,
 .bag-page .empty-message {
   text-align: center;
   color: #212529;
 }
-   .display-4.logo-font.text-black {
-        font-size: 2rem;
-    }
-    .nav-link {
-        padding: 0.15rem;
-    }
 
-    /* =========================
-   FAQ and Newsletter Pages
-========================= */
-/* =========================
-   FAQ Page Styles
-========================= */
-
-/* Push the FAQ page below the fixed header (uses runtime header height if available) */
-.faq-page {
-  padding-top: calc(var(--header-height, 100px) + 20px);
-  scroll-margin-top: calc(var(--header-height, 100px) + 20px);
+.display-4.logo-font.text-black {
+  font-size: 2rem;
 }
 
-/* Accordion spacing and behavior */
-.faq-page .accordion .card {
-  border: 1px solid #e0e0e0;
-  border-radius: 0.25rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.faq-page .card-header {
-  background-color: #f8f9fa;
-}
-
-.faq-page .faq-toggle {
-  color: #000;
-  text-decoration: none;
-  width: 100%;
-  text-align: left;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: background-color 0.2s ease;
-}
-
-.faq-page .faq-toggle:hover {
-  background-color: #e9ecef;
-}
-
-.faq-page .card-body {
-  background-color: #fff;
-  line-height: 1.6;
-  color: #333;
-}
-
-
-/* =========================
-   Auth Pages (Login / Signup)
-========================= */
-.signup-page,
-.login-page {
-  padding-top: calc(var(--header-height, 100px) + 30px);
-  padding-bottom: 60px;
-  scroll-margin-top: calc(var(--header-height, 100px) + 20px);
-}
-
-@media (max-width: 767px) {
-  .signup-page,
-  .login-page {
-    padding-top: calc(var(--header-height, 80px) + 15px);
-    padding-bottom: 40px;
-  }
+.nav-link {
+  padding: 0.15rem;
 }
