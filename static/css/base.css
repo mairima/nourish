@@ -271,17 +271,45 @@ footer { margin-top: 0 !important; }
     /* =========================
    FAQ and Newsletter Pages
 ========================= */
-.faq-page,
-.newsletter-page {
+/* =========================
+   FAQ Page Styles
+========================= */
+
+/* Push the FAQ page below the fixed header (uses runtime header height if available) */
+.faq-page {
   padding-top: calc(var(--header-height, 100px) + 20px);
   scroll-margin-top: calc(var(--header-height, 100px) + 20px);
 }
 
-@media (max-width: 767px) {
-  .faq-page,
-  .newsletter-page {
-    padding-top: calc(var(--header-height, 80px) + 10px);
-  }
+/* Accordion spacing and behavior */
+.faq-page .accordion .card {
+  border: 1px solid #e0e0e0;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.faq-page .card-header {
+  background-color: #f8f9fa;
+}
+
+.faq-page .faq-toggle {
+  color: #000;
+  text-decoration: none;
+  width: 100%;
+  text-align: left;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.faq-page .faq-toggle:hover {
+  background-color: #e9ecef;
+}
+
+.faq-page .card-body {
+  background-color: #fff;
+  line-height: 1.6;
+  color: #333;
 }
 
 
