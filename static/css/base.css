@@ -267,3 +267,38 @@ footer { margin-top: 0 !important; }
     .nav-link {
         padding: 0.15rem;
     }
+
+    /* =========================
+   FAQ and Newsletter Pages
+========================= */
+.faq-page,
+.newsletter-page {
+  padding-top: calc(var(--header-height, 100px) + 20px);
+  scroll-margin-top: calc(var(--header-height, 100px) + 20px);
+}
+
+@media (max-width: 767px) {
+  .faq-page,
+  .newsletter-page {
+    padding-top: calc(var(--header-height, 80px) + 10px);
+  }
+}
+
+
+/* =========================
+   Auth Pages (Login / Signup)
+========================= */
+.signup-page,
+.login-page {
+  padding-top: calc(var(--header-height, 100px) + 30px);
+  padding-bottom: 60px;
+  scroll-margin-top: calc(var(--header-height, 100px) + 20px);
+}
+
+@media (max-width: 767px) {
+  .signup-page,
+  .login-page {
+    padding-top: calc(var(--header-height, 80px) + 15px);
+    padding-bottom: 40px;
+  }
+}
