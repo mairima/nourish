@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
     "django_countries",
     'django_extensions',
+    'django.contrib.sitemaps',
 
 ]
 
