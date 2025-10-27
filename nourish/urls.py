@@ -17,6 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+from django.contrib import sitemaps
+from django.contrib.sitemaps.views import sitemap
+from products.sitemaps import ProductSitemap, StaticViewSitemap
+
+sitemaps_dict = {
+    'products': ProductSitemap,
+    'static': StaticViewSitemap,
+}
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -29,4 +37,6 @@ urlpatterns = [
     path("profiles/", include("profiles.urls")),
     path("contact/", include("contact.urls")),
     path("faqs/", include(("faqs.urls", "faqs"), namespace="faqs")),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps_dict},
+         name='django.contrib.sitemaps.views.sitemap'),
 ]
