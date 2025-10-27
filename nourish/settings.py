@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap4",
     "django_countries",
+    'django_extensions',
 
 ]
 
@@ -206,6 +207,9 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Allow iframe embedding temporarily for mockup
+X_FRAME_OPTIONS = 'ALLOWALL'
 
 # Cloudinary media storage
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
