@@ -1,0 +1,82 @@
+erDiagram
+    Category {
+        int id PK
+        varchar name
+        varchar friendly_name
+    }
+
+    Product {
+        int id PK
+        int category
+        varchar name
+        text description
+        decimal price
+        decimal rating
+        varchar image_filename
+        varchar image_url
+    }
+
+    Order {
+        int id PK
+        varchar order_number
+        varchar full_name
+        varchar email
+        varchar phone_number
+        varchar country
+        varchar postcode
+        varchar town_or_city
+        varchar street_address1
+        varchar street_address2
+        varchar county
+        datetime date
+        decimal delivery_cost
+        decimal order_total
+        decimal grand_total
+        int user_profile
+    }
+
+    OrderLineItem {
+        int id PK
+        int order
+        int product
+        varchar product_size
+        int quantity
+        decimal lineitem_total
+    }
+
+    UserProfile {
+        int id PK
+        int user
+        varchar default_phone_number
+        varchar default_country
+        varchar default_postcode
+        varchar default_town_or_city
+        varchar default_street_address1
+        varchar default_street_address2
+        varchar default_county
+    }
+
+    Newsletter {
+        int id PK
+        varchar email
+    }
+
+    Contact {
+        int id PK
+        varchar name
+        varchar email
+        text message
+        datetime sent
+    }
+
+    FAQ {
+        int id PK
+        varchar question
+        text answer
+    }
+
+    Order }o--|| UserProfile : user_profile
+    OrderLineItem }o--|| Order : order
+    OrderLineItem }o--|| Product : product
+    Product }o--|| Category : category
+    UserProfile }o--|| User : user
