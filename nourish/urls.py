@@ -1,4 +1,5 @@
-"""Nourish URL Configuration
+"""
+Nourish URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -13,7 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-"""Nourish URL Configuration"""
+
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
@@ -22,8 +23,8 @@ from django.contrib.sitemaps.views import sitemap
 from products.sitemaps import ProductSitemap, StaticViewSitemap
 
 sitemaps_dict = {
-    'products': ProductSitemap,
-    'static': StaticViewSitemap,
+    "products": ProductSitemap,
+    "static": StaticViewSitemap,
 }
 
 urlpatterns = [
@@ -31,12 +32,16 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path("newsletter/", include("newsletter.urls")),
     path("", include("home.urls")),
-    path("products/", include("products.urls", namespace="products")),
+    path("products/", include(("products.urls", "products"), namespace="products")),
     path("bag/", include("bag.urls")),
     path("checkout/", include(("checkout.urls", "checkout"), namespace="checkout")),
     path("profiles/", include("profiles.urls")),
     path("contact/", include("contact.urls")),
     path("faqs/", include(("faqs.urls", "faqs"), namespace="faqs")),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps_dict},
-         name='django.contrib.sitemaps.views.sitemap'),
+    path(
+        "sitemap.xml",
+        sitemap,
+        {"sitemaps": sitemaps_dict},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
 ]
