@@ -2,7 +2,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from .models import UserProfile
 from .forms import ProfileForm
 from checkout.models import Order
@@ -67,4 +66,4 @@ def profile_edit(request):
     return render(request, "profiles/profile_edit.html", {})
 
 # Optional alias
-profile_edit = profile
+profile_edit_alias = profile
