@@ -1,6 +1,5 @@
 from django import forms
 from .models import UserProfile
-from django_countries.widgets import CountrySelectWidget
 
 class ProfileForm(forms.ModelForm):
     class Meta:
