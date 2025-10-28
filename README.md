@@ -241,132 +241,40 @@ I've used [Balsamiq](https://balsamiq.com/wireframes) to design my site wirefram
 
 ## User Stories
 
+
 | Target | Expectation | Outcome |
 | --- | --- | --- |
 | As a guest user | I would like to browse all available baked goods without needing to register | so that I can explore the shop before deciding to create an account. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a guest user | I would like to be prompted to create an account or log in at checkout | so that I can complete my purchase and receive an order confirmation. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a guest user | I would like to filter products by category | so that I can quickly narrow down to the type of baked goods I'm looking for. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a guest user | I would like to sort products by price and name | so that I can organize items in a way that suits my browsing preference. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a customer | I would like to view consistent product images, names, prices, and descriptions | so that I can compare items easily and make informed purchasing decisions. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a customer | I would like to click on individual products to view detailed information | so that I can see ingredients, sizes, and prices before adding to my bag. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a customer | I would like to add items to my shopping bag | so that I can save them for checkout. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a customer | I would like to view and manage my shopping bag | so that I can adjust, add, or remove items before proceeding to checkout. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a customer | I would like to adjust the quantity of products in my shopping bag | so that I can modify how many items I wish to purchase. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a customer | I would like to remove products from my shopping bag | so that I can manage what I plan to buy. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a customer | I would like to see an updated subtotal, delivery cost, and total in my bag | so that I can clearly understand the overall cost. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a customer | I would like to securely enter my payment details via Stripe | so that I can confidently complete transactions online. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a customer | I would like to proceed through a simple checkout process | so that I can complete my purchase with minimal friction. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a customer | I would like to be redirected to a checkout success page after payment | so that I know my purchase was successful. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a customer | I would like to receive an email confirmation after purchasing | so that I have a record of my transaction and order details. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a new user | I would like to register an account with email verification | so that I can create a secure and validated profile. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a returning customer | I would like to log in and out easily | so that I can access my saved details and order history from any device. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a returning customer | I would like to view my past orders on my profile | so that I can review previous purchases or reorder favorite items. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a returning customer | I would like my checkout information (name, address) to be remembered | so that I can complete future orders faster. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a user | I would like a responsive navigation bar and footer | so that I can browse comfortably across mobile, tablet, and desktop devices. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a user | I would like the active navbar link to be highlighted | so that I can easily identify which page I am on. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a user | I would like a delivery banner visible across pages | so that I can quickly see promotions or free delivery offers. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a user | I would like to receive clear toast notifications | so that I have immediate feedback after actions like adding to bag or submitting forms. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a user | I would like to subscribe to a newsletter | so that I can stay updated on new products and seasonal promotions. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a user | I would like to contact the shop through a contact form | so that I can ask questions or make special requests. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a user | I would like to read frequently asked questions (FAQs) | so that I can quickly find answers to common queries. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a site owner | I would like to add new products with a name, description, price, and image | so that I can keep the online store stocked and updated. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a site owner | I would like to update existing product details | so that I can make price or description changes at any time. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a site owner | I would like to delete products no longer available | so that I can maintain an accurate and relevant product catalog. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a site owner | I would like to manage categories for baked goods | so that items are organized and easy for customers to navigate. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a site owner | I would like to view and manage all customer orders | so that I can fulfill purchases efficiently. |
-
-| Target | Expectation | Outcome |
-| --- | --- | --- |
 | As a user | I would like to see a branded 404 error page | so that I know when I've reached a broken or non-existent link and can return to the homepage. |
 
 ## Features
