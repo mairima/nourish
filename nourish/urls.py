@@ -33,3 +33,6 @@ urlpatterns = [
         name="django.contrib.sitemaps.views.sitemap",
     ),
 ]
+
+# Correct custom error handler
+handler404 = 'nourish.views.handler404'
