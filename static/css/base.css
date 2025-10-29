@@ -423,22 +423,28 @@ footer {
 }
 
 /* ==============================================
-   FIX: Prevent content from hiding behind fixed navbar
+   FIX v2: Prevent content hiding behind fixed navbar + banner
    ----------------------------------------------
-   - Ensures all pages (home, products, etc.) start below navbar
-   - Keeps consistent padding for plain and hero pages
-   - Adjust 90px if your navbar height changes
+   - Adds enough offset for navbar + free-delivery bar
+   - Adapts padding for desktop and mobile
 ============================================== */
+
+/* Default (desktop) — both bars visible */
 body {
-  padding-top: 90px !important; /* push content below fixed navbar */
+  padding-top: 140px !important; /* 90px navbar + ~50px banner */
 }
 
-/* Ensure .header-container respects fixed header height */
-.header-container {
-  padding-top: 90px !important;
+/* Make sure main content containers respect spacing */
+.header-container,
+main {
+  padding-top: 140px !important;
 }
 
-/* Optional: hero section margin fix if hero overlaps navbar */
-.hero {
-  margin-top: 90px !important;
+/* For mobile view (collapsed nav shorter) */
+@media (max-width: 991px) {
+  body,
+  .header-container,
+  main {
+    padding-top: 120px !important; /* slightly smaller header stack */
+  }
 }
