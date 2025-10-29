@@ -17,7 +17,7 @@
     <!-- Project CSS -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
-    
+
     <!-- Favicon -->
     <link rel="icon" href="{% static 'favicon.ico' %}">
 
@@ -150,34 +150,49 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer bg-dark text-white mt-auto py-4">
-      <div class="container text-center">
-        <div class="mb-3">
-          <a href="https://www.facebook.com/NourishBakery" target="_blank" rel="noopener" aria-label="Facebook" class="text-white mx-3">
-            <i class="fab fa-facebook fa-lg"></i>
-          </a>
-          <a href="https://github.com/NourishOfficial" target="_blank" rel="noopener" aria-label="GitHub" class="text-white mx-3">
-            <i class="fab fa-github fa-lg"></i>
-          </a>
-          <a href="https://www.instagram.com/NourishBakery" target="_blank" rel="noopener" aria-label="Instagram" class="text-white mx-3">
-            <i class="fab fa-instagram fa-lg"></i>
-          </a>
-          <a href="https://www.youtube.com/@NourishBakery" target="_blank" rel="noopener" aria-label="YouTube" class="text-white mx-3">
-            <i class="fab fa-youtube fa-lg"></i>
-          </a>
-        </div>
+<footer class="footer bg-dark text-white mt-auto py-4">
+  <div class="container text-center">
+    <!-- Social icons -->
+    <div class="mb-3">
+      <a href="https://www.facebook.com/NourishBakery" target="_blank" rel="noopener" aria-label="Facebook" class="text-white mx-3">
+        <i class="fab fa-facebook fa-lg"></i>
+      </a>
+      <a href="https://github.com/NourishOfficial" target="_blank" rel="noopener" aria-label="GitHub" class="text-white mx-3">
+        <i class="fab fa-github fa-lg"></i>
+      </a>
+      <a href="https://www.instagram.com/NourishBakery" target="_blank" rel="noopener" aria-label="Instagram" class="text-white mx-3">
+        <i class="fab fa-instagram fa-lg"></i>
+      </a>
+      <a href="https://www.youtube.com/@NourishBakery" target="_blank" rel="noopener" aria-label="YouTube" class="text-white mx-3">
+        <i class="fab fa-youtube fa-lg"></i>
+      </a>
+    </div>
 
-        <div class="small mb-2">
-          <p class="text-warning mb-0"><i class="fas fa-map-marker-alt"></i> Nourish Bakery, Seestr 20, Berlin, Germany</p>
-          <p class="text-warning mb-0"><i class="fas fa-envelope"></i> contact@nourish.com</p>
-          <p class="text-warning"><i class="fas fa-phone"></i> +49 176 123 4567</p>
-        </div>
+    <!-- Contact info -->
+    <div class="small mb-2">
+      <p class="text-warning mb-0"><i class="fas fa-map-marker-alt"></i> Nourish Bakery, Seestr 20, Berlin, Germany</p>
+      <p class="text-warning mb-0"><i class="fas fa-envelope"></i> contact@nourish.com</p>
+      <p class="text-warning"><i class="fas fa-phone"></i> +49 176 123 4567</p>
+    </div>
 
-        <div class="small text-secondary">
-          &copy; {% now "Y" %} Nourish. All rights reserved.
-        </div>
-      </div>
-    </footer>
+    <!-- Legal links -->
+    <div class="small mb-2">
+      <a href="{% url 'privacy_policy' %}" class="text-secondary text-decoration-none mx-2">
+        Privacy Policy
+      </a>
+      |
+      <a href="#" class="text-secondary text-decoration-none mx-2">
+        Terms & Conditions
+      </a>
+    </div>
+
+    <!-- Copyright -->
+    <div class="small text-secondary">
+      &copy; {% now "Y" %} Nourish. All rights reserved.
+    </div>
+  </div>
+</footer>
+
 
     <!-- Scroll to Top Button -->
     <button id="scrollToTopBtn" title="Go to top">
