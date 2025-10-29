@@ -421,3 +421,24 @@ footer {
     padding: 1.75rem 2rem;
   }
 }
+
+/* ==============================================
+   FIX: Prevent content from hiding behind fixed navbar
+   ----------------------------------------------
+   - Ensures all pages (home, products, etc.) start below navbar
+   - Keeps consistent padding for plain and hero pages
+   - Adjust 90px if your navbar height changes
+============================================== */
+body {
+  padding-top: 90px !important; /* push content below fixed navbar */
+}
+
+/* Ensure .header-container respects fixed header height */
+.header-container {
+  padding-top: 90px !important;
+}
+
+/* Optional: hero section margin fix if hero overlaps navbar */
+.hero {
+  margin-top: 90px !important;
+}
