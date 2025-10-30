@@ -29,13 +29,9 @@ SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
-# ALLOWED_HOSTS: accept comma-separated list in DJANGO_ALLOWED_HOSTS
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1',
-    'http://localhost',
-    'https://127.0.0.1'
-]
+# ALLOWED_HOSTS: config var is DJANGO_ALLOWED_HOSTS
+ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = []
 host = os.environ.get("DJANGO_ALLOWED_HOSTS")
 if host:
     ALLOWED_HOSTS.append(host)
