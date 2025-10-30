@@ -36,42 +36,34 @@
               <tbody>
                 {% for item in bag_items %}
                   <tr>
-                    <!-- Product image (Cloudinary first, then image_url, then placeholder) -->
+                    <!-- Product image -->
                     <td class="p-3 w-25">
                       <a href="{% url 'products:product_detail' item.product.id %}">
                         {% if item.product.image %}
-                          <img
-                            class="img-fluid rounded"
-                            src="{{ item.product.image.url }}"
-                            alt="{{ item.product.name }}"
-                            style="width: 80px; height: 80px; object-fit: cover;"
-                          >
+                          <img class="img-fluid rounded"
+                               src="{{ item.product.image.url }}"
+                               alt="{{ item.product.name }}"
+                               style="width: 80px; height: 80px; object-fit: cover;">
                         {% elif item.product.image_url %}
-                          <img
-                            class="img-fluid rounded"
-                            src="{{ item.product.image_url }}"
-                            alt="{{ item.product.name }}"
-                            style="width: 80px; height: 80px; object-fit: cover;"
-                          >
+                          <img class="img-fluid rounded"
+                               src="{{ item.product.image_url }}"
+                               alt="{{ item.product.name }}"
+                               style="width: 80px; height: 80px; object-fit: cover;">
                         {% elif item.product.image_filename %}
-                          <img
-                            class="img-fluid rounded"
-                            src="{% static 'images/' %}{{ item.product.image_filename }}"
-                            alt="{{ item.product.name }}"
-                            style="width: 80px; height: 80px; object-fit: cover;"
-                          >
+                          <img class="img-fluid rounded"
+                               src="{% static 'images/' %}{{ item.product.image_filename }}"
+                               alt="{{ item.product.name }}"
+                               style="width: 80px; height: 80px; object-fit: cover;">
                         {% else %}
-                          <img
-                            class="img-fluid rounded"
-                            src="{% static 'images/noimage.png' %}"
-                            alt="{{ item.product.name }}"
-                            style="width: 80px; height: 80px; object-fit: cover;"
-                          >
+                          <img class="img-fluid rounded"
+                               src="{% static 'images/noimage.png' %}"
+                               alt="{{ item.product.name }}"
+                               style="width: 80px; height: 80px; object-fit: cover;">
                         {% endif %}
                       </a>
                     </td>
 
-                    <!-- Product name / category (and size if present) -->
+                    <!-- Product name / category -->
                     <td class="py-3">
                       <p class="my-0"><strong>{{ item.product.name }}</strong></p>
                       {% if item.size %}
@@ -159,8 +151,8 @@
                 <!-- Actions -->
                 <tr>
                   <td colspan="5" class="text-right">
-                    <a href="" class="btn btn-outline-black rounded-0 btn-lg">
-                      <span {% url 'products:products' %}class="icon"><i class="fas fa-chevron-left"></i></span>
+                    <a href="{% url 'products:products' %}" class="btn btn-outline-black rounded-0 btn-lg">
+                      <span class="icon"><i class="fas fa-chevron-left"></i></span>
                       <span class="text-uppercase">Keep Shopping</span>
                     </a>
                     <a href="{% url 'checkout:checkout' %}" class="btn btn-black rounded-0 btn-lg">

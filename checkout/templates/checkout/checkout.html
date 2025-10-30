@@ -68,7 +68,7 @@
             </div>
             <div class="col-3 text-right">
               <p class="my-0 small text-muted">
-                ${{ item.product.price|calc_subtotal:item.quantity }}
+                €{{ item.product.price|calc_subtotal:item.quantity }}
               </p>
             </div>
           </div>
@@ -82,9 +82,9 @@
             <p class="my-0">Grand Total:</p>
           </div>
           <div class="col-3">
-            <p class="my-0">${{ total|floatformat:2 }}</p>
-            <p class="my-0">${{ delivery|floatformat:2 }}</p>
-            <p class="my-0"><strong>${{ grand_total|floatformat:2 }}</strong></p>
+            <p class="my-0">€{{ total|floatformat:2 }}</p>
+            <p class="my-0">€{{ delivery|floatformat:2 }}</p>
+            <p class="my-0"><strong>€{{ grand_total|floatformat:2 }}</strong></p>
           </div>
         </div>
       </div>
@@ -149,7 +149,7 @@
 
             <p class="small text-danger my-0">
               <span class="icon"><i class="fas fa-exclamation-circle"></i></span>
-              <span>Your card will be charged <strong>${{ grand_total|floatformat:2 }}</strong></span>
+              <span>Your card will be charged <strong>€{{ grand_total|floatformat:2 }}</strong></span>
             </p>
           </div>
         </form>
@@ -157,7 +157,6 @@
     </div>
   </div>
 
-  {# Overlay container; JS injects the confirm dialog or a spinner here #}
   <div id="loading-overlay" aria-hidden="true">
     <h1 class="text-light logo-font loading-spinner">
       <span class="icon"><i class="fas fa-3x fa-sync-alt fa-spin" aria-hidden="true"></i></span>
@@ -173,7 +172,6 @@
   <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
 {% endblock %}
 
-{#    Debugging script to check country field options #}
 <script>
   (function () {
     var el = document.getElementById('id_country');
