@@ -43,3 +43,4 @@ credentials.json
 /nourish/settings.py.fixedbak
 # Test / coverage
 fixtures/
+templates_backup/
