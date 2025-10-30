@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/privacy_policy.css' %}">
+
+<div class="container my-5 privacy-policy">
+     <h1>Terms and Conditions</h1>
+ 
+  <p>Welcome to <strong>Nourish Cakes &amp; Snacks</strong>. These Terms and Conditions outline the rules and regulations for the use of our website and the purchase of our products.</p>
+
+  <h3>1. General Information</h3>
+  <p>
+    This website is operated by <strong>Nourish Cakes &amp; Snacks</strong>, located at Seestraße 20, 13353 Berlin, Germany.  
+    By accessing our website or placing an order, you agree to comply with and be bound by these Terms and Conditions.
+  </p>
+
+  <h3>2. Use of the Website</h3>
+  <p>
+    You agree to use this website only for lawful purposes. You must not misuse our site by knowingly introducing viruses, attempting unauthorized access, or engaging in any activity that may harm the website or other users.
+  </p>
+
+  <h3>3. Products and Orders</h3>
+  <p>
+    We make every effort to display our products accurately, including descriptions, images, and prices. However, minor variations may occur.  
+    All orders are subject to availability and confirmation of the order price.
+  </p>
+
+  <h3>4. Pricing and Payment</h3>
+  <p>
+    Prices are listed in EUR (€) and include applicable VAT unless stated otherwise.  
+    Payments are securely processed through <strong>Stripe</strong>. We do not store or have access to your full payment details.
+  </p>
+
+  <h3>5. Delivery</h3>
+  <p>
+    We deliver within Germany and selected international locations.  
+    Delivery times and fees may vary depending on your address and order size.  
+    Nourish is not liable for delays caused by external factors (e.g. courier delays or customs checks).
+  </p>
+
+  <h3>6. Returns &amp; Refunds</h3>
+  <p>
+    Due to the perishable nature of our food products, returns are generally not accepted unless the item arrives damaged or incorrect.  
+    If you experience an issue, please contact us at <a href="mailto:contact@nourish.com">contact@nourish.com</a> within 24 hours of delivery.
+  </p>
+
+  <h3>7. Intellectual Property</h3>
+  <p>
+    All content on this website — including logos, text, images, and designs — is the property of Nourish Cakes &amp; Snacks and is protected by copyright laws.  
+    You may not reproduce or redistribute any materials without prior written consent.
+  </p>
+
+  <h3>8. Limitation of Liability</h3>
+  <p>
+    Nourish Cakes &amp; Snacks shall not be held liable for any indirect, incidental, or consequential damages resulting from the use or inability to use our website or products, except as required by law.
+  </p>
+
+  <h3>9. Privacy</h3>
+  <p>
+    Your privacy is important to us. Please review our <a href="{% url 'privacy_policy' %}">Privacy Policy</a> for details on how we collect, use, and protect your personal data.
+  </p>
+
+  <h3>10. Changes to These Terms</h3>
+  <p>
+    We may update these Terms and Conditions from time to time. Any changes will be posted on this page with an updated “last modified” date.
+  </p>
+
+  <h3>11. Governing Law</h3>
+  <p>
+    These Terms and Conditions are governed by the laws of Germany. Any disputes arising in connection with this website or our products shall be subject to the jurisdiction of the courts in Berlin.
+  </p>
+
+  <p class="mt-4"><em>Last updated: {{ now|date:"F j, Y" }}</em></p>
+</div>
+{% endblock %}
