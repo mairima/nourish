@@ -224,7 +224,7 @@ STANDARD_DELIVERY_PERCENTAGE = 10
 # Stripe
 
 # ----------------------------------------------------------------------------- #
-STRIPE_CURRENCY = "usd"
+STRIPE_CURRENCY = "eur"
 # Set these in your .env; leave empty in prod until configured.
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
