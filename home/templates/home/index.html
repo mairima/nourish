@@ -1,23 +1,26 @@
 {% extends "base.html" %}
 {% load static %}
 
-{# No special header needed for the hero, keep this block minimal #}
 {% block page_header %}
-  <div class="container header-container"></div>
+<div class="container header-container"></div>
 {% endblock %}
 
 {% block content %}
-<section class="hero">
-  <div class="hero-content container">
-    <div class="row">
-      <div class="col-12 col-md-8 col-lg-6">
-        <h1 class="display-3 fw-bold mb-4">WELCOME TO<br>NOURISH</h1>
-        <a href="{% url 'products:products' %}"
-           class="btn btn-success btn-lg rounded-0 text-uppercase py-3">
-          Shop Now
-        </a>
+<div class="container py-4">
+  <section class="hero">
+    <div class="hero-content">
+      <div class="row">
+        <div class="col-12 col-md-8 col-lg-6">
+          <h1 class="display-3 fw-bold mb-4">
+            WELCOME TO<br>NOURISH
+          </h1>
+          <a href="{% url 'products:products' %}"
+             class="btn btn-success btn-lg rounded-0 text-uppercase py-3">
+            Shop Now
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
 {% endblock %}
