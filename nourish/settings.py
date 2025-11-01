@@ -26,8 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ----------------------------------------------------------------------------- #
 # Core env-driven settings
 # ----------------------------------------------------------------------------- #
-DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
-
+#DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
+DEBUG = os.environ.get('DEVELOPMENT', '0') in ['1', 'True', 'true']
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", get_random_secret_key())
 SECURE_SSL_REDIRECT = False
@@ -35,8 +35,8 @@ SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
 # ALLOWED_HOSTS: config var is DJANGO_ALLOWED_HOSTS
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'http://localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'https://nourish1-cc6378c356ae.herokuapp.com/']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'http://localhost', 'https://nourish1-cc6378c356ae.herokuapp.com/']
 host = os.environ.get("DJANGO_ALLOWED_HOSTS")
 if host:
     ALLOWED_HOSTS.append(host)
@@ -149,7 +149,7 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 
