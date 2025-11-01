@@ -1,48 +1,57 @@
-/* ---- Base ---- */
-html, body {
+/* Base layout and typography */
+html,
+body {
     height: 100%;
 }
+
 body {
-    /* Removed background image & calc heights */
     background-size: cover;
-    height: calc(100vh - 164px)
+    height: calc(100vh - 164px);
     color: #000;
     font-family: 'Lato';
 }
-/* keep spacing for fixed header */
+
+/* Header container */
 .header-container {
     padding-top: 140px;
 }
-/* ---- HERO ---- */
+
+/* Hero section */
 .hero {
     position: relative;
-    background: url("../images/whitebgcake-flowers.png") center/cover no-repeat;
+    background: url("../images/whitebgcake-flowers.png")
+        center/cover no-repeat;
     min-height: 90vh;
     display: flex;
     align-items: center;
 }
+
 .hero::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.35); /* dark overlay */
+    background: rgba(0, 0, 0, 0.35);
 }
+
 .hero .hero-content {
     position: relative;
     z-index: 1;
     color: #fff;
 }
-/* -------- Plain/white pages (e.g., products, product detail) -------- */
+
+/* Plain pages */
 body.plain-page {
     background: #fff !important;
     color: #000;
     height: auto;
     background-image: none !important;
 }
+
 body.plain-page::before {
     display: none !important;
 }
-/* from Bulma */
+
+/* Icons, text, borders */
 .icon {
     align-items: center;
     display: inline-flex;
@@ -50,150 +59,181 @@ body.plain-page::before {
     height: 1.5rem;
     width: 1.5rem;
 }
+
 .logo-font {
     text-transform: uppercase;
 }
+
 .main-logo-link {
     width: fit-content;
 }
+
 .text-black {
     color: #000 !important;
 }
+
 .border-black {
     border: 1px solid black !important;
 }
-/* ---- Buttons ---- */
+
+/* Buttons */
 .shop-now-button {
-    background-color: #28a745;  /* Bootstrap green */
+    background-color: #28a745;
     color: #fff !important;
     border: none;
     min-width: 260px;
     transition: background-color 0.3s ease;
 }
+
 .shop-now-button:hover {
     background-color: #218838;
     color: #fff !important;
 }
+
 .btn-black {
     background: black;
     color: white;
 }
+
 .btn-black:hover,
 .btn-black:active,
 .btn-black:focus {
     background: #222;
     color: white;
 }
-/* -------------------------------- Media Queries */
-/* Slightly larger container on xl screens */
+
+/* Responsive containers */
 @media (min-width: 1200px) {
     .container {
         max-width: 80%;
     }
 }
-/* Allauth form formatting */
+
+/* Allauth forms */
 .allauth-form-inner-content p {
-    margin-top: 1.5rem; /* mt-4 */
-    color: #6c757d; /* text-secondary */
+    margin-top: 1.5rem;
+    color: #6c757d;
 }
+
 .allauth-form-inner-content input {
     border-color: #000;
     border-radius: 0;
 }
+
 .allauth-form-inner-content label:not([for='id_remember']) {
     display: none;
 }
+
 .allauth-form-inner-content input::placeholder {
     color: #aab7c4;
 }
+
 .allauth-form-inner-content button,
 .allauth-form-inner-content input[type='submit'] {
-    /* btn */
     display: inline-block;
     font-weight: 400;
     color: #fff;
     text-align: center;
-    vertical-align: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     background-color: #000;
     border: 1px solid #000;
     padding: .375rem .75rem;
     font-size: 1rem;
     line-height: 1.5;
     border-radius: 0;
-    /* standard bootstrap btn transitions */
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: all .15s ease-in-out;
 }
+
 .allauth-form-inner-content button:hover,
-.allauth-form-inner-content input[type='submit']:hover {    
+.allauth-form-inner-content input[type='submit']:hover {
     color: #fff;
     background-color: #222;
     border-color: #222;
 }
+
 .allauth-form-inner-content a {
-    color: #17a2b8; /* text-info */
+    color: #17a2b8;
 }
-/* fixed top navbar only on medium and up */
-@media (min-width: 992px) {
-    .fixed-top-desktop-only {
-        position: fixed;
-        top: 0;
-        right: 0;
-        left: 0;
-        z-index: 1030;
-    }
-    .header-container {
-        padding-top: 164px;
-    }
+
+/* Fixed navbar offset */
+body,
+main,
+.header-container {
+    padding-top: 110px !important;
 }
-/* pad the top a bit when navbar is collapsed on mobile */
+
 @media (max-width: 991px) {
+    body,
+    main,
     .header-container {
-        padding-top: 116px;
+        padding-top: 100px !important;
     }
 }
-/* Extra: adjust +3 model navitems px as needed */
+
+@media (max-width: 767px) {
+    body,
+    main,
+    .header-container {
+        padding-top: 95px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    body,
+    main,
+    .header-container {
+        padding-top: 90px !important;
+    }
+}
+
+/* Navbar */
 .navbar-nav .nav-item {
     margin-right: 30px;
 }
-/* ---- Product cards ---- */
+
+header.container-fluid.fixed-top {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+}
+
+/* Product cards */
 .product-card {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
+
 .product-card .card-img-top {
     width: 100%;
-    aspect-ratio: 4 / 3;   /* maintain identical crop */
+    aspect-ratio: 4 / 3;
     object-fit: cover;
 }
+
 .product-card .card-body {
     flex: 1 1 auto;
 }
+
 .product-card .card-footer {
     margin-top: auto;
 }
-/* Price badge overlay */
+
+/* Price badge */
 .thumb-wrap {
     position: relative;
 }
+
 .price-badge {
     position: absolute;
     top: .5rem;
     right: .5rem;
     padding: .25rem .5rem;
-    background: rgba(0,0,0,.72);
+    background: rgba(0, 0, 0, .72);
     color: #fff;
     font-weight: 700;
     font-size: .9rem;
-    line-height: 1;
     border-radius: .35rem;
-    backdrop-filter: blur(2px);
 }
-/* ---- Back to top button ---- */
+
+/* Back to top */
 .btt-button {
     height: 42px;
     width: 42px;
@@ -206,246 +246,106 @@ body.plain-page::before {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 1000;
 }
-.btt-link
+
+.btt-link,
 .update-link,
 .remove-item {
     cursor: pointer;
 }
-/* ---- Bag page helpers ---- */
-.bag-page .logo-font,
-.bag-page .empty-message {
-    text-align: center;
-    color: #212529;
-}
-/* ---- Free delivery banner ---- */
+
+/* Delivery banner */
 #delivery-banner {
     display: block;
     background: #000;
 }
+
 #delivery-banner .col {
     color: #fff;
     text-align: center;
     padding: 6px 0;
 }
+
 #delivery-banner h4 {
     margin: 0;
     font-size: 0.95rem;
     text-transform: uppercase;
     letter-spacing: .03em;
 }
-.bg-black {
-    background-color: #000 !important;
-}
-/* ---- Header/logo spacing ---- */
-h2.logo-font {
-    margin-top: 30px;
-}
-/* ------------------------------- bootstrap toasts */
-.message-container {
-    position: fixed;
-    top: 72px;
-    right: 15px;
-    z-index: 99999999999;
-}
-.custom-toast {
-    overflow: visible;
-}
-.toast-capper {
-    height: 2px;
-}
-/* from CSS-tricks.com: https://css-tricks.com/snippets/css/css-triangle/ */
-.arrow-up {
-    width: 0; 
-    height: 0; 
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent; 
-    border-bottom: 10px solid black;
-    position: absolute;
-    top: -10px;
-    right: 36px;
-}
-/* Convenience classes - colors copied from Bootstrap */
-.arrow-primary {
-    border-bottom-color: #007bff !important;
-}
-.arrow-secondary {
-    border-bottom-color: #6c757d !important;
-}
-.arrow-success {
-    border-bottom-color: #28a745 !important;
-}
-.arrow-danger {
-    border-bottom-color: #dc3545 !important;
-}
-.arrow-warning {
-    border-bottom-color: #ffc107 !important;
-}
-.arrow-info {
-    border-bottom-color: #17a2b8 !important;
-}
-.arrow-light {
-    border-bottom-color: #f8f9fa !important;
-}
-.arrow-dark {
-    border-bottom-color: #343a40 !important;
-}
-.bag-notification-wrapper {
-    height: 100px;
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-.contact-container {
-  margin-top: 70px;
-}
 
-/*footer*/
+/* Footer */
 .footer {
-  background-color: #000; /* Black background */
-  color: #fff; /* White text */
-  font-size: 0.95rem;
+    background-color: #000;
+    color: #fff;
+    font-size: 0.95rem;
 }
+
 .footer .social-icon {
-  width: 30px;
-  height: 30px;
-  transition: transform 0.2s ease;
-  filter: brightness(0) invert(1); /* make white */
+    width: 30px;
+    height: 30px;
+    transition: transform 0.2s ease;
+    filter: brightness(0) invert(1);
 }
+
 .footer .social-icon:hover {
-  transform: scale(1.1);
-  filter: brightness(1) invert(0.8);
+    transform: scale(1.1);
+    filter: brightness(1) invert(0.8);
 }
+
 .footer i {
-  margin-right: 6px;
-  color: #ffd700; /* Gold accent for icons */
+    margin-right: 6px;
+    color: #ffd700;
 }
+
 .footer a:hover i {
-  color: #ffd700; /* gold hover */
-  transition: color 0.2s ease;
-}
-/* Remove unwanted white space between main content and footer */
-main, .content, body {
-  margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
-}
-footer {
-  margin-top: 0 !important;
-}
-.footer a {
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-.footer a:hover i {
-  color: #ffd700; /* gold hover */
-}
-.footer i {
-  vertical-align: middle;
+    color: #ffd700;
+    transition: color 0.2s ease;
 }
 
-/* Highlight current page in navbar */
-.navbar-nav .nav-item.active .nav-link {
-  color: #28a745 !important;            /* Green highlight */
-  border-bottom: 2px solid #28a745;
-}
-.navbar-nav .nav-link {
-  transition: all 0.2s ease-in-out;
-}
-.navbar-nav .nav-link:hover {
-  color: #28a745 !important;
-}
-
-
-/* =========================
-   FAQ & Newsletter — push below fixed header
-   and keep clear of the footer on all screens
-========================= */
-.faq-page,
-.newsletter-page {
-  padding-top: calc(var(--header-height, 100px) + 20px);
-  scroll-margin-top: calc(var(--header-height, 100px) + 20px);
-  padding-bottom: 56px;
-}
-
-/* Headings spacing on these pages (optional, tidy look) */
-.faq-page > h1:first-child,
-.newsletter-page > h1:first-child {
-  margin-top: 8px;
-  margin-bottom: 16px;
-}
-
-/* Mobile tweaks */
-@media (max-width: 767.98px) {
-  .faq-page,
-  .newsletter-page {
-    padding-top: calc(var(--header-height, 80px) + 16px);
-    padding-bottom: 120px; /* gives extra breathing room above footer */
-  }
-}
-
-/* =========================
-   FAQ visuals (accordion cards)
-========================= */
-.faq-page .accordion .card {
-  border: 1px solid #e6e6e6;
-  border-radius: .25rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,.05);
-}
-.faq-page .card-header { background-color: #f8f9fa; }
-.faq-page .faq-toggle {
-  width: 100%;
-  text-align: left;
-  font-weight: 600;
-  font-size: 1rem;
-  color: #000;
-  text-decoration: none;
-  transition: background-color .2s ease;
-}
-.faq-page .faq-toggle:hover { background-color: #e9ecef; }
-.faq-page .card-body {
-  background-color: #fff;
-  line-height: 1.6;
-  color: #333;
-}
-
-/* =========================
-   Newsletter card styling (if using a card)
-========================= */
-.newsletter-page .card {
-  border: 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,.06);
-}
-.newsletter-page .card-body {
-  padding: 1.25rem 1.5rem;
-}
-@media (min-width: 768px) {
-  .newsletter-page .card-body {
-    padding: 1.75rem 2rem;
-  }
-}
-
-
-/* ==============================================
-   FIX v2: Prevent content hiding behind fixed navbar + banner
-   ----------------------------------------------
-   - Adds enough offset for navbar + free-delivery bar
-   - Adapts padding for desktop and mobile
-============================================== */
-
-/* Default (desktop) — both bars visible */
+/* Remove extra space */
+main,
+.content,
 body {
-  padding-top: 40px !important; /* 90px navbar + ~50px banner */
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
 }
 
-/* Make sure main content containers respect spacing */
-.header-container,
-main {
-  padding-top: 40px !important;
+footer {
+    margin-top: 0 !important;
 }
 
-/* For mobile view (collapsed nav shorter) */
-@media (max-width: 991px) {
-  body,
-  .header-container,
-  main {
-    padding-top: 120px !important; /* slightly smaller header stack */
-  }
+/* Navbar hover and active */
+.navbar-nav .nav-item.active .nav-link {
+    color: #28a745 !important;
+    border-bottom: 2px solid #28a745;
 }
+
+.navbar-nav .nav-link {
+    transition: all 0.2s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #28a745 !important;
+}
+
+/* Homepage hero fix */
+body.homepage,
+body.homepage main {
+    padding-top: 0 !important;
+}
+
+body.homepage .header-container {
+    padding-top: 0 !important;
+}
+
+.hero {
+    margin-top: 0 !important;
+}
+
+/* Fix top spacing for product page */
+body.products-page,
+body.products-page main,
+body.products-page .header-container {
+    padding-top: 70px !important;
+    margin-top: 0 !important;
+}
+
