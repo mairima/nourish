@@ -148,38 +148,49 @@
       {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="footer bg-dark text-white mt-auto py-4">
-      <div class="container text-center">
-        <!-- Social icons -->
-        <div class="mb-3">
-          <a href="https://www.facebook.com/profile.php?id=61582594335574" target="_blank" rel="noopener" aria-label="Facebook" class="text-white mx-3">
-            <i class="fab fa-facebook fa-lg"></i>
-          </a>
-          <a href="https://github.com/mairima" target="_blank" rel="noopener" aria-label="GitHub" class="text-white mx-3">
-            <i class="fab fa-github fa-lg"></i>
-          </a>
-        </div>
+   <!-- Footer -->
+<footer class="footer text-white mt-auto py-4">
+  <div class="container text-center">
+    <!-- Social icons -->
+    <div class="mb-3">
+      <a href="https://www.facebook.com/profile.php?id=61582594335574"
+         target="_blank" rel="noopener" aria-label="Facebook"
+         class="text-white mx-3">
+        <i class="fab fa-facebook fa-lg"></i>
+      </a>
+      <a href="https://github.com/mairima"
+         target="_blank" rel="noopener" aria-label="GitHub"
+         class="text-white mx-3">
+        <i class="fab fa-github fa-lg"></i>
+      </a>
+    </div>
 
-        <!-- Contact info -->
-        <div class="small mb-2">
-          <p class="text-warning mb-0"><i class="fas fa-map-marker-alt"></i> Nourish Bakery, Seestr 20, Berlin, Germany</p>
-          <p class="text-warning mb-0"><i class="fas fa-envelope"></i> contact@nourish.com</p>
-          <p class="text-warning"><i class="fas fa-phone"></i> +49 176 123 4567</p>
-        </div>
+    <!-- Contact info -->
+    <div class="footer-contact mb-2">
+      <p class="text-warning mb-1">
+        <i class="fas fa-map-marker-alt"></i> Nourish Bakery, Seestr 20, Berlin, Germany
+      </p>
+      <p class="text-warning mb-1">
+        <i class="fas fa-envelope"></i> contact@nourish.com
+      </p>
+      <p class="text-warning mb-1">
+        <i class="fas fa-phone"></i> +49 176 123 4567
+      </p>
+    </div>
 
-        <!-- Legal links -->
-        <div class="small text-secondary mt-3">
-          <a href="{% url 'privacy_policy' %}" class="text-white me-3">Privacy Policy</a> |
-          <a href="{% url 'terms_conditions' %}" class="text-white">Terms & Conditions</a>
-        </div>
+    <!-- Legal links -->
+    <div class="footer-links mt-3">
+      <a href="{% url 'privacy_policy' %}" class="text-white me-3">Privacy Policy</a> |
+      <a href="{% url 'terms_conditions' %}" class="text-white ms-3">Terms & Conditions</a>
+    </div>
 
-        <!-- Copyright -->
-        <div class="small text-secondary">
-          &copy; {% now "Y" %} Nourish. All rights reserved.
-        </div>
-      </div>
-    </footer>
+    <!-- Copyright -->
+    <div class="footer-copy mt-2">
+      &copy; {% now "Y" %} Nourish. All rights reserved.
+    </div>
+  </div>
+</footer>
+
 
     <!-- Scroll to Top Button -->
     <button id="scrollToTopBtn" title="Go to top">
