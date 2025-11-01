@@ -2,6 +2,8 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
+{% block body_class %}profile-page{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
 {% endblock %}
@@ -18,6 +20,7 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
 
+      <!-- Profile info card -->
       <div class="card shadow-sm mb-4">
         <div class="card-body">
           <h2 class="logo-font mb-3">My Profile</h2>
@@ -29,7 +32,6 @@
           <hr>
 
           <h5 class="mb-3">Default Delivery Information</h5>
-
           <form class="mt-2" action="{% url 'profile' %}" method="POST" id="profile-update-form">
             {% csrf_token %}
             {{ form|crispy }}
@@ -44,7 +46,7 @@
         </div>
       </div>
 
-      {# Order History (unchanged) #}
+      <!-- Order history card -->
       <div class="card shadow-sm">
         <div class="card-body">
           <p class="text-muted mb-3">Order History</p>
@@ -52,19 +54,29 @@
             <table class="table table-sm table-borderless mb-0">
               <thead>
                 <tr>
-                  <th>Order Number</th><th>Date</th><th>Items</th><th class="text-right">Order Total</th>
+                  <th>Order Number</th>
+                  <th>Date</th>
+                  <th>Items</th>
+                  <th class="text-right">Order Total</th>
                 </tr>
               </thead>
               <tbody>
                 {% for order in orders %}
                   <tr>
-                    <td><a href="{% url 'order_history' order.order_number %}" title="{{ order.order_number }}">{{ order.order_number|truncatechars:6 }}</a></td>
+                    <td>
+                      <a href="{% url 'order_history' order.order_number %}"
+                         title="{{ order.order_number }}">
+                         {{ order.order_number|truncatechars:6 }}
+                      </a>
+                    </td>
                     <td>{{ order.date }}</td>
                     <td>
                       <ul class="list-unstyled mb-0">
                         {% for item in order.lineitems.all %}
                           <li class="small">
-                            {% if item.product.has_sizes %}Size {{ item.product.size|upper }} {% endif %}
+                            {% if item.product.has_sizes %}
+                              Size {{ item.product.size|upper }}
+                            {% endif %}
                             {{ item.product.name }} ×{{ item.quantity }}
                           </li>
                         {% endfor %}
@@ -73,7 +85,9 @@
                     <td class="text-right">{{ order.grand_total }}</td>
                   </tr>
                 {% empty %}
-                  <tr><td colspan="4" class="text-muted">No orders yet.</td></tr>
+                  <tr>
+                    <td colspan="4" class="text-muted">No orders yet.</td>
+                  </tr>
                 {% endfor %}
               </tbody>
             </table>
