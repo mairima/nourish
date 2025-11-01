@@ -19,11 +19,4 @@
 
 {% block postloadjs %}
   {{ block.super }}
-  <style>
-    /* Push the page below the fixed header using the same trick as FAQ */
-    .contact-page {
-      padding-top: calc(var(--header-height, 100px) + 20px);
-      scroll-margin-top: calc(var(--header-height, 100px) + 20px);
-    }
-  </style>
 {% endblock %}
