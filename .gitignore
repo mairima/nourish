@@ -44,3 +44,7 @@ credentials.json
 # Test / coverage
 fixtures/
 templates_backup/
+
+# Django static + media builds
+staticfiles/
+staticfiles_backup/
