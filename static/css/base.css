@@ -19,8 +19,7 @@ body {
 /* Hero section */
 .hero {
     position: relative;
-    background: url("../images/whitebgcake-flowers.png")
-        center/cover no-repeat;
+    background: url("../images/whitebgcake-flowers.png") center/cover no-repeat;
     min-height: 90vh;
     display: flex;
     align-items: center;
@@ -102,7 +101,7 @@ body.plain-page::before {
     color: white;
 }
 
-/* Responsive containers */
+/* Responsive container */
 @media (min-width: 1200px) {
     .container {
         max-width: 80%;
@@ -256,61 +255,18 @@ header.container-fluid.fixed-top {
 /* Delivery banner */
 #delivery-banner {
     display: block;
-    background: #000;
-}
-
-#delivery-banner .col {
+    background: #28a745;
     color: #fff;
+    font-weight: 600;
     text-align: center;
+    letter-spacing: 0.03em;
     padding: 6px 0;
+    text-transform: uppercase;
 }
 
 #delivery-banner h4 {
     margin: 0;
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: .03em;
-}
-
-/* Footer */
-.footer {
-    background-color: #000;
-    color: #fff;
-    font-size: 0.95rem;
-}
-
-.footer .social-icon {
-    width: 30px;
-    height: 30px;
-    transition: transform 0.2s ease;
-    filter: brightness(0) invert(1);
-}
-
-.footer .social-icon:hover {
-    transform: scale(1.1);
-    filter: brightness(1) invert(0.8);
-}
-
-.footer i {
-    margin-right: 6px;
-    color: #ffd700;
-}
-
-.footer a:hover i {
-    color: #ffd700;
-    transition: color 0.2s ease;
-}
-
-/* Remove extra space */
-main,
-.content,
-body {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-}
-
-footer {
-    margin-top: 0 !important;
+    font-size: 1rem;
 }
 
 /* Navbar hover and active */
@@ -341,11 +297,172 @@ body.homepage .header-container {
     margin-top: 0 !important;
 }
 
-/* Fix top spacing for product page */
+/* Product page layout */
 body.products-page,
 body.products-page main,
 body.products-page .header-container {
+    margin-top: 0 !important;
     padding-top: 70px !important;
+}
+
+body.products-page h1,
+body.products-page .page-title {
+    margin-top: 0.5rem !important;
+    padding-top: 0 !important;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Profile page layout */
+body.profile-page,
+body.profile-page main,
+body.profile-page .header-container {
+    margin-top: 0 !important;
+    padding-top: 90px !important; /* same as product/category pages */
+}
+
+body.profile-page h1,
+body.profile-page .page-title {
+    margin-top: 0.5rem !important;
+    padding-top: 0 !important;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Tablet adjustment */
+@media (max-width: 992px) {
+    body.profile-page,
+    body.profile-page main,
+    body.profile-page .header-container {
+        padding-top: 70px !important;
+    }
+
+    body.profile-page h1,
+    body.profile-page .page-title {
+        font-size: 1.8rem !important;
+    }
+}
+
+/* Mobile adjustment */
+@media (max-width: 576px) {
+    body.profile-page,
+    body.profile-page main,
+    body.profile-page .header-container {
+        padding-top: 50px !important;
+    }
+
+    body.profile-page h1,
+    body.profile-page .page-title {
+        font-size: 1.6rem !important;
+    }
+}
+
+
+/* Footer (dark forest green) */
+.footer {
+    background-color: #0f4d1a; /* deeper, elegant green */
+    color: #ffffff;
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 18px 0;
+    text-align: center;
+}
+
+.footer .text-warning {
+    color: #ffea99; /* soft gold for contrast */
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.footer a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #ffea99;
+    text-decoration: underline;
+}
+
+.footer i {
+    margin-right: 6px;
+    color: #ffea99;
+}
+
+.footer .social-icon {
+    width: 28px;
+    height: 28px;
+    margin: 0 6px;
+    filter: brightness(0) invert(1);
+    transition: transform 0.2s ease;
+}
+
+.footer .social-icon:hover {
+    transform: scale(1.1);
+    filter: brightness(1.3);
+}
+
+.footer-copy {
+    font-size: 0.9rem;
+    color: #f8f8f8;
+    margin-top: 8px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .footer {
+        font-size: 0.95rem;
+        padding: 15px 10px;
+    }
+
+    .footer .social-icon {
+        width: 26px;
+        height: 26px;
+    }
+}
+
+/* Profile page alignment fix (final balanced) */
+body.profile-page main,
+body.profile-page .header-container {
+    padding-top: 40px !important; /* balanced for large screens */
     margin-top: 0 !important;
 }
 
+/* Title styling */
+body.profile-page h2.logo-font {
+    margin-top: 0.5rem !important;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Tablet adjustment */
+@media (max-width: 992px) {
+    body.profile-page main,
+    body.profile-page .header-container {
+        padding-top: 30px !important;
+    }
+
+    body.profile-page h2.logo-font {
+        font-size: 1.8rem !important;
+    }
+}
+
+/* Mobile adjustment */
+@media (max-width: 576px) {
+    body.profile-page main,
+    body.profile-page .header-container {
+        padding-top: 25px !important;
+    }
+
+    body.profile-page h2.logo-font {
+        font-size: 1.6rem !important;
+    }
+}
