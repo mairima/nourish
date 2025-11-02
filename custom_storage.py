@@ -15,6 +15,6 @@ class IgnoreAdminManifestStorage(CompressedManifestStaticFilesStorage):
         except (MissingFileError, FileNotFoundError) as exc:
             msg = str(exc)
             if "admin/css/fonts.css" in msg:
-                print("⚠️  Ignoring missing admin/fonts.css reference on Heroku.")
+                print("\n⚠️  WhiteNoise Notice: Missing admin/fonts.css ignored (safe to continue).")
                 return all_processed
             raise
