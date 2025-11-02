@@ -207,11 +207,26 @@ USE_TZ = True
 # Static & Media
 # ----------------------------------------------------------------------------- #
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 WHITENOISE_MANIFEST_STRICT = False
-WHITENOISE_SKIP_COMPRESS_EXTENSIONS = ["png", "jpg", "jpeg", "gif", "svg", "woff", "woff2", "ttf", "eot", "css"]
+WHITENOISE_SKIP_COMPRESS_EXTENSIONS = [
+    "png", "jpg", "jpeg", "gif", "svg",
+    "woff", "woff2", "ttf", "eot", "css"
+]
+
+# Standard finders
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
+
+# Prevent Django admin static files from breaking collectstatic
+WHITENOISE_IGNORE_PATTERN = r"^admin/.*"
+
 
 # Allow iframe embedding temporarily for mockup
 X_FRAME_OPTIONS = 'ALLOWALL'
