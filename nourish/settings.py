@@ -211,6 +211,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 WHITENOISE_MANIFEST_STRICT = False
+WHITENOISE_SKIP_COMPRESS_EXTENSIONS = ["png", "jpg", "jpeg", "gif", "svg", "woff", "woff2", "ttf", "eot", "css"]
 
 # Allow iframe embedding temporarily for mockup
 X_FRAME_OPTIONS = 'ALLOWALL'
