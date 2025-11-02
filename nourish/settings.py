@@ -209,14 +209,14 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-STATICFILES_STORAGE = "custom_storage.IgnoreAdminManifestStorage"
+# In settings.py
+if DEBUG:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'nourish.custom_storage.IgnoreAdminManifestStorage'
 
 WHITENOISE_MANIFEST_STRICT = False
-WHITENOISE_SKIP_COMPRESS_EXTENSIONS = [
-    "png", "jpg", "jpeg", "gif", "svg",
-    "woff", "woff2", "ttf", "eot", "css"
-]
+WHITENOISE_SKIP_COMPRESS_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.svg']
 
 # Standard finders
 STATICFILES_FINDERS = [
