@@ -157,7 +157,7 @@ body.plain-page::before {
 body,
 main,
 .header-container {
-    padding-top: 70px !important;
+    padding-top: 100px !important;
 }
 
 @media (max-width: 991px) {
