@@ -157,7 +157,7 @@ body.plain-page::before {
 body,
 main,
 .header-container {
-    padding-top: 100px !important;
+    padding-top: 110px !important;
 }
 
 @media (max-width: 991px) {
@@ -412,6 +412,12 @@ body.profile-page .page-title {
     font-size: 0.9rem;
     color: #f8f8f8;
     margin-top: 8px;
+}
+
+/* Fix bag popup alignment */
+.bag-dropdown {
+    right: 0 !important;
+    left: auto !important;
 }
 
 /* Mobile */
