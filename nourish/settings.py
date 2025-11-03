@@ -206,27 +206,11 @@ USE_TZ = True
 # ----------------------------------------------------------------------------- #
 # Static & Media
 # ----------------------------------------------------------------------------- #
+# Static (keep as-is; not using Cloudinary for static unless you choose to)
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-# In settings.py
-if DEBUG:
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-else:
-    STATICFILES_STORAGE = 'nourish.custom_storage.IgnoreAdminManifestStorage'
-
-WHITENOISE_MANIFEST_STRICT = False
-WHITENOISE_SKIP_COMPRESS_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.svg']
-
-# Standard finders
-STATICFILES_FINDERS = [
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-]
-
-# Prevent Django admin static files from breaking collectstatic
-WHITENOISE_IGNORE_PATTERN = r"^admin/.*"
-
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+# Where collectstatic will gather files for deployment (safe to keep in dev too)
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Allow iframe embedding temporarily for mockup
 X_FRAME_OPTIONS = 'ALLOWALL'
