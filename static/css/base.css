@@ -490,3 +490,38 @@ body.profile-page h2.logo-font {
     pointer-events: auto;        /* re-enable click events for toast itself */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
+
+/* Buttons: unify Home, Sign In, and other auth page buttons 
+   for consistent black-outline styling and hover behavior */
+.btn-outline-dark {
+  color: #000;
+  border-color: #000;
+}
+
+.btn-outline-dark:hover {
+  background-color: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* Links: ensure Forgot Password and other auth links match theme */
+.btn-link.text-dark {
+  text-decoration: none;
+}
+
+.btn-link.text-dark:hover {
+  text-decoration: underline;
+}
+/* Auth page headings:
+   (e.g., "Sign In", "Sign Up") closer to the navbar for better balance */
+.auth-title {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Auth pages: remove excess top spacing from header container */
+body.login-page .header-container,
+body.signup-page .header-container {
+  padding-top: 40px !important; /* or 30px for tighter spacing */
+  margin-top: 0 !important;
+}
