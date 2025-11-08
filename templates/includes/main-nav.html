@@ -48,7 +48,8 @@
     <!-- Newsletter -->
     <li class="nav-item {% if request.resolver_match.namespace == 'newsletter' %}active{% endif %}">
       <a class="logo-font font-weight-bold nav-link mr-5 {% if request.resolver_match.namespace == 'newsletter' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
-         href="{% url 'newsletter' %}">Newsletter</a>
+         href="{% url 'newsletter:newsletter' %}">Newsletter</a>
+
     </li>
 
     <!-- FAQ -->
