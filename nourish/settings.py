@@ -201,10 +201,7 @@ STATIC_URL = "/static/"
 # Where collectstatic will gather files for deployment (safe to keep in dev too)
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / 'static']
-#STATICFILES_STORAGE = 'custom_storages.StaticStorage'
-#WHITENOISE_MANIFEST_STRICT = False
-#STATICFILES_LOCATION = 'static'
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Cloudinary media storage
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
