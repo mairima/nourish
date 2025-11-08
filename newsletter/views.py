@@ -4,7 +4,7 @@ from .forms import NewsletterForm
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
-
+from .models import NewsletterSubscription
 
 def send_welcome_email(email):
     subject = "Welcome to Nourish Bakery 🍰"
@@ -15,41 +15,82 @@ def send_welcome_email(email):
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
-def newsletter(request):
-    """Handle newsletter subscription form and send welcome email."""
-    form = NewsletterForm(request.POST or None)
-    if request.method == "POST":
-        if form.is_valid():
-            # Save subscriber
-            subscription = form.save()
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.urls import reverse
+from .models import NewsletterSubscription
+from .forms import NewsletterForm
+from django.core.mail import send_mail
+from django.conf import settings
 
-            # Send the welcome email right after saving
-            send_welcome_email(subscription.email)
+
+def newsletter(request):
+    """Handle newsletter signup form."""
+    if request.method == "POST":
+        form = NewsletterForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            subscription, created = NewsletterSubscription.objects.get_or_create(
+                email=email
+            )
+
+            # Reactivate if previously unsubscribed
+            if not subscription.is_active:
+                subscription.is_active = True
+                subscription.save()
+
+            # ✅ Build unsubscribe link
+            unsubscribe_link = request.build_absolute_uri(
+                reverse("newsletter:unsubscribe",
+                        args=[subscription.unsubscribe_token])
+            )
+
+            # ✉️ Build the welcome message (unsubscribe link moved to end)
+            subject = "Welcome to Nourish Newsletter!"
+            message = (
+                "Hello!\n\n"
+                "Thank you for subscribing to Nourish Bakery 💕\n"
+                "You’ll now receive updates, new desserts, and special offers.\n\n"
+                "With love,\n"
+                "Nourish Bakery 🍰\n\n"
+                "—\n"
+                f"If you ever wish to unsubscribe, click here:\n{unsubscribe_link}"
+            )
+
+            # Send the email
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [email],
+                fail_silently=True,
+            )
 
             messages.success(
-                request,
-                "You're subscribed! A welcome email with your discount code "
-                "has been sent."
+                request, "Thank you for subscribing! A confirmation email was sent."
             )
-            return redirect("home")
-        else:
-            messages.error(request, "Error: please check your email and try again.")
+            return redirect("newsletter:newsletter")
+    else:
+        form = NewsletterForm()
 
-    template = "newsletter/newsletter.html"
-    context = {"form": form}
-    return render(request, template, context)
+    return render(request, "newsletter/newsletter.html", {"form": form})
+
 
 def unsubscribe(request, token):
-    """Deactivate newsletter subscription via token link."""
-    subscription = get_object_or_404(
-        NewsletterSubscription, unsubscribe_token=token
-    )
-    if subscription.is_active:
-        subscription.is_active = False
-        subscription.save()
-        messages.success(
-            request, "You have successfully unsubscribed from our newsletter."
+    """Handle newsletter unsubscription securely."""
+    try:
+        subscription = NewsletterSubscription.objects.get(
+            unsubscribe_token=token
         )
-    else:
-        messages.info(request, "You were already unsubscribed.")
-    return render(request, "newsletter/unsubscribed.html")
+        if subscription.is_active:
+            subscription.is_active = False
+            subscription.save()
+            messages.success(
+                request,
+                "You have been unsubscribed from the Nourish newsletter."
+            )
+        else:
+            messages.info(request, "You are already unsubscribed.")
+    except NewsletterSubscription.DoesNotExist:
+        messages.error(request, "Invalid unsubscribe link.")
+    return redirect("home")
