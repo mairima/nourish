@@ -1,8 +1,9 @@
 """
 Nourish URL Configuration
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.2/topics/http/urls/
+The `urlpatterns` list routes URLs to views.
+For more information see:
+https://docs.djangoproject.com/en/3.2/topics/http/urls/
 """
 
 from django.contrib import admin
@@ -10,15 +11,18 @@ from django.urls import path, include
 from django.contrib.sitemaps.views import sitemap
 from products.sitemaps import ProductSitemap, StaticViewSitemap
 
+# Sitemaps configuration
 sitemaps_dict = {
     "products": ProductSitemap,
     "static": StaticViewSitemap,
 }
 
 urlpatterns = [
+    # Admin and user accounts
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
-    path("newsletter/", include("newsletter.urls")),
+
+    # Core app routes
     path("", include("home.urls")),
     path("products/", include(("products.urls", "products"), namespace="products")),
     path("bag/", include("bag.urls")),
@@ -26,6 +30,11 @@ urlpatterns = [
     path("profiles/", include("profiles.urls")),
     path("contact/", include("contact.urls")),
     path("faqs/", include(("faqs.urls", "faqs"), namespace="faqs")),
+
+    # Newsletter app (✅ includes unsubscribe route)
+    path("newsletter/", include("newsletter.urls")),
+
+    # Sitemap
     path(
         "sitemap.xml",
         sitemap,
@@ -34,5 +43,5 @@ urlpatterns = [
     ),
 ]
 
-# Correct custom error handler
-handler404 = 'nourish.views.handler404'
+# Custom 404 handler
+handler404 = "nourish.views.handler404"
