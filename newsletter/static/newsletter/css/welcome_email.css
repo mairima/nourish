@@ -1,0 +1,82 @@
+body {
+  font-family: 'Lato', Arial, sans-serif;
+  background: #fffaf8; /* Soft cream background */
+  color: #4a3b36; /* Cocoa brown text */
+  margin: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: #ffffff; /* Pure white card */
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.header, .footer {
+  text-align: center;
+  background: #ffe4ec; /* Blush pink header/footer */
+  padding: 25px 20px;
+}
+
+.header img {
+  width: 80px;
+  border-radius: 50%;
+}
+
+h1, h2 {
+  color: #c05a7b; /* Rose pink titles */
+  margin: 10px 0;
+}
+
+.content {
+  padding: 25px;
+  line-height: 1.6;
+}
+
+.discount {
+  background: #fff1f5; /* Light rose highlight */
+  border: 1px dashed #c05a7b; /* Rose pink border */
+  border-radius: 10px;
+  text-align: center;
+  padding: 15px;
+  margin: 20px 0;
+  font-size: 18px;
+}
+
+.cta {
+  text-align: center;
+  margin: 25px 0;
+}
+
+.cta a {
+  background: #c05a7b; /* Rose pink button */
+  color: #ffffff; /* White button text */
+  text-decoration: none;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.cta a:hover {
+  background: #a14462; /* Deep rose hover */
+}
+
+.footer {
+  font-size: 13px;
+  color: #7a6a66; /* Warm taupe text */
+  background: #fff1f5; /* Light rose footer */
+  border-top: 1px solid #f0d7dc; /* Soft pink border */
+}
+
+a.unsubscribe {
+  color: #c05a7b; /* Rose pink link */
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  .content { padding: 20px; }
+  .discount { font-size: 16px; }
+}
