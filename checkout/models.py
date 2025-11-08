@@ -23,6 +23,7 @@ class Order(models.Model):
     delivery_cost = models.DecimalField(max_digits=6, decimal_places=2, null=False, default=0)
     order_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
+    confirmation_sent = models.BooleanField(default=False)
 
     # Link orders to profiles (so profile.orders.all() works)
     user_profile = models.ForeignKey(
