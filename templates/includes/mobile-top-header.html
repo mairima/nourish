@@ -43,7 +43,8 @@
       {% if request.user.is_superuser %}
         <a href="{% url 'products:add_product' %}" class="dropdown-item">Product Management</a>
       {% endif %}
-      <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
+      <a href="{% url 'profiles:profile' %}" class="dropdown-item">My Profile</a>
+
 
       <!-- CSRF-protected logout (POST) -->
       <form method="post" action="{% url 'account_logout' %}">
