@@ -2,6 +2,7 @@
 from django.urls import path
 from . import views
 
+app_name = "products"  # <-- REQUIRED for {% url 'products:...' %}
 
 urlpatterns = [
     path("", views.all_products, name="products"),                 # list page
