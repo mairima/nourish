@@ -1,4 +1,3 @@
-# checkout/views.py
 from decimal import Decimal
 import json
 import stripe
@@ -22,6 +21,7 @@ from profiles.forms import ProfileForm
 from profiles.models import UserProfile
 from bag.contexts import bag_contents
 from newsletter.models import NewsletterSubscription
+
 
 # ---------- Helpers ----------
 
@@ -244,6 +244,10 @@ def checkout(request):
             "Stripe public key is missing. "
             "Did you forget to set it in your environment?",
         )
+
+    # Ensure intent exists to avoid UnboundLocalError on POST failures
+    if "intent" not in locals():
+        intent = _get_or_create_payment_intent(request, Decimal(0))
 
     template = "checkout/checkout.html"
     context = {
