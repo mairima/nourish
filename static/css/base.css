@@ -472,3 +472,21 @@ body.profile-page h2.logo-font {
         font-size: 1.6rem !important;
     }
 }
+
+/* Force toast container to stay at the top-right corner */
+.message-container {
+    position: fixed !important;  /* override Bootstrap or parent styles */
+    top: 120px !important;       /* adjust if too close to navbar */
+    right: 20px !important;      /* fix alignment to the right */
+    left: auto !important;       /* cancel any inherited left positioning */
+    bottom: auto !important;     /* ensure it doesn’t anchor to bottom */
+    z-index: 1080 !important;    /* ensure it stays above all content */
+    width: 320px;                /* consistent width for all screens */
+    pointer-events: none;        /* prevent blocking clicks underneath */
+}
+
+.custom-toast {
+    width: 100%;
+    pointer-events: auto;        /* re-enable click events for toast itself */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
