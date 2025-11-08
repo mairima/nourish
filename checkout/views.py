@@ -17,6 +17,9 @@ from products.models import Product
 from profiles.forms import ProfileForm
 from profiles.models import UserProfile
 from bag.contexts import bag_contents
+# Import the newsletter subscription model and timezone utilities
+from newsletter.models import NewsletterSubscription
+from django.utils import timezone
 
 
 # ---------- Helpers ----------
@@ -301,3 +304,15 @@ def checkout_success(request, order_number):
         # ^ Ensures no duplicate email if page is refreshed
 
     return render(request, 'checkout/checkout_success.html', {'order': order})
+
+# Import the newsletter subscription model and timezone utilities
+def apply_discount(request, order_total, email, discount_code):
+    try:
+        sub = NewsletterSubscription.objects.get(email=email)
+        if sub.discount_code == discount_code and sub.discount_valid():
+            discounted_total = order_total * 0.9  # 10% off
+            sub.mark_discount_used()  # mark as used
+            return discounted_total
+    except NewsletterSubscription.DoesNotExist:
+        pass
+    return order_total
