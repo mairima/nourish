@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to Nourish Bakery 🍰</title>
+  <link rel="stylesheet" href="{% static 'newsletter/css/welcome_email.css' %}">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://res.cloudinary.com/du60xmn6x/image/upload/v1762577696/favicon_ooyuy7.jpg"
+           alt="Nourish Bakery Logo">
+      <h1>Welcome to Nourish 💕</h1>
+      <p>Handcrafted Desserts, Baked with Love</p>
+    </div>
+
+    <div class="content">
+      <h2>Thank you for joining our community!</h2>
+      <p>
+        We’re thrilled to share our freshly baked creations with you —
+        from our signature <strong>Pistachio Dream Cake</strong> to the
+        irresistible <strong>Chocolate Crunch Pie</strong>.
+      </p>
+
+      <div class="discount">
+        Here’s your exclusive <strong>10% OFF</strong> welcome gift!<br>
+        Use code <strong>{{ discount_code }}</strong> at checkout 🎁<br>
+        <small>Valid until <strong>{{ expiry_date }}</strong> — one-time use only</small>
+      </div>
+
+      <p>As a subscriber, you’ll be the first to discover:</p>
+      <ul>
+        <li>✨ New seasonal cakes & limited editions</li>
+        <li>🍪 Special discounts just for our community</li>
+        <li>💌 Stories & behind-the-scenes moments</li>
+      </ul>
+
+      <div class="cta">
+        <a href="https://nourish1-cc6378c356ae.herokuapp.com/products/">Shop Now</a>
+      </div>
+
+      <p>
+        From our kitchen to your table — we’re here to make every bite memorable.
+      </p>
+      <p>With love,<br><strong>The Nourish Bakery Team</strong></p>
+    </div>
+
+    <div class="footer">
+      You’re receiving this email because you subscribed at Nourish Bakery.<br>
+      © 2025 Nourish Bakery | Berlin & Douala |
+      <a href="{{ unsubscribe_link }}" class="unsubscribe">Unsubscribe</a>
+    </div>
+  </div>
+
+  <script src="{% static 'newsletter/js/welcome_email.js' %}"></script>
+</body>
+</html>
