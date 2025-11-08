@@ -21,9 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ----------------------------------------------------------------------------- #
 # Core env-driven settings
 # ----------------------------------------------------------------------------- #
-DEBUG = os.environ.get("DJANGO_DEBUG", False)
+DEBUG = os.getenv("DJANGO_DEBUG", "0").strip().lower() in {"1","true","yes","on"}
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", get_random_secret_key())
+SECURE_SSL_REDIRECT = False
 
 # ALLOWED_HOSTS: config var is DJANGO_ALLOWED_HOSTS
 ALLOWED_HOSTS = []
