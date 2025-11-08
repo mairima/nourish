@@ -12,7 +12,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
 from .forms import OrderForm
-from .models import Order, OrderLineItem
+from .models import Order, OrderLineItem, DiscountCode
 from products.models import Product
 from profiles.forms import ProfileForm
 from profiles.models import UserProfile
@@ -20,7 +20,6 @@ from bag.contexts import bag_contents
 # Import the newsletter subscription model and timezone utilities
 from newsletter.models import NewsletterSubscription
 from django.utils import timezone
-
 
 # ---------- Helpers ----------
 
@@ -137,7 +136,7 @@ from django.views.decorators.cache import never_cache
 @never_cache
 @login_required
 def checkout(request):
-    """Handle checkout page logic and Stripe payment intent."""
+    """Handle checkout page logic, including discount codes and Stripe payment."""
     bag = request.session.get('bag', {})
     if not bag:
         messages.info(request, "Your checkout session has expired.")
@@ -165,8 +164,32 @@ def checkout(request):
             pid = request.POST.get('client_secret').split('_secret')[0]
             order.stripe_pid = pid
             order.original_bag = json.dumps(bag)
-            order.save()
 
+            # --- Discount code logic ---
+            discount_code = request.POST.get("discount_code", "").strip()
+            discount_percent = 0
+            if discount_code:
+                try:
+                    code = DiscountCode.objects.get(code__iexact=discount_code)
+                    if code.is_valid():
+                        discount_percent = code.discount_percent
+                        messages.success(
+                            request,
+                            f"Discount code '{discount_code}' applied: "
+                            f"{discount_percent}% off your total."
+                        )
+                        # Mark as used if one-time
+                        if code.one_time_use:
+                            code.active = False
+                            code.save()
+                    else:
+                        messages.error(request, "That discount code has expired.")
+                except DiscountCode.DoesNotExist:
+                    messages.error(request, "Invalid discount code entered.")
+            # --- End discount code logic ---
+
+            # Create order and items
+            order.save()
             for item_id, item_data in bag.items():
                 try:
                     product = Product.objects.get(id=item_id)
@@ -193,22 +216,18 @@ def checkout(request):
                     order.delete()
                     return redirect('bag:view_bag')
 
-            # Save the info to the user's profile if all is well
+            # Apply discount to total
+            if discount_percent > 0:
+                order_total = order.get_total()
+                order.grand_total = order_total - (order_total * discount_percent / 100)
+                order.discount_percent = discount_percent
+                order.save(update_fields=["grand_total", "discount_percent"])
+
             request.session['save_info'] = 'save-info' in request.POST
-
-            # Empty bag after order success
             request.session['bag'] = {}
-
-            return redirect(
-                reverse('checkout:checkout_success',
-                        args=[order.order_number])
-            )
+            return redirect(reverse('checkout:checkout_success', args=[order.order_number]))
         else:
-            messages.error(
-                request,
-                'There was an error with your form. '
-                'Please double-check your information.'
-            )
+            messages.error(request, "Please check your details and try again.")
     else:
         current_bag = bag_contents(request)
         total = current_bag['grand_total']
@@ -219,7 +238,6 @@ def checkout(request):
             currency=settings.STRIPE_CURRENCY,
         )
 
-        # Attempt to prefill the form with any info from the profile
         if request.user.is_authenticated:
             try:
                 profile = UserProfile.objects.get(user=request.user)
@@ -254,6 +272,7 @@ def checkout(request):
     }
 
     return render(request, template, context)
+
 
 def checkout_success(request, order_number):
     """

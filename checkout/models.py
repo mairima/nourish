@@ -6,6 +6,8 @@ from django.conf import settings
 from django_countries.fields import CountryField
 from products.models import Product
 from profiles.models import UserProfile
+from django.utils import timezone
+from datetime import timedelta
 
 
 class Order(models.Model):
@@ -117,3 +119,23 @@ class OrderLineItem(models.Model):
         label = getattr(self.product, "name", None) or f"ID {self.product_id}"
         size = f" (size {self.product_size})" if self.product_size else ""
         return f"{label}{size} × {self.quantity} on order {self.order.order_number}"
+
+# Model for creating and validating limited-time discount codes
+class DiscountCode(models.Model):
+    """Discount codes usable during checkout."""
+    code = models.CharField(max_length=20, unique=True)
+    discount_percent = models.PositiveIntegerField(default=10)
+    valid_from = models.DateTimeField(default=timezone.now)
+    valid_until = models.DateTimeField(
+        default=lambda: timezone.now() + timedelta(days=60)
+    )
+    active = models.BooleanField(default=True)
+    one_time_use = models.BooleanField(default=True)
+
+    def is_valid(self):
+        """Check if the code is active and not expired."""
+        now = timezone.now()
+        return self.active and self.valid_from <= now <= self.valid_until
+
+    def __str__(self):
+        return f"{self.code} ({self.discount_percent}% off)"
