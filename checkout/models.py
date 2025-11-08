@@ -9,6 +9,9 @@ from profiles.models import UserProfile
 from django.utils import timezone
 from datetime import timedelta
 
+# Helper function for default expiry date (used instead of lambda)
+def default_expiry_date():
+    return timezone.now() + timedelta(days=60)
 
 class Order(models.Model):
     order_number = models.CharField(max_length=32, null=False, editable=False)
@@ -27,7 +30,6 @@ class Order(models.Model):
     grand_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     confirmation_sent = models.BooleanField(default=False)
 
-    # Link orders to profiles (so profile.orders.all() works)
     user_profile = models.ForeignKey(
         UserProfile,
         on_delete=models.SET_NULL,
@@ -37,17 +39,12 @@ class Order(models.Model):
     )
 
     class Meta:
-        ordering = ["-date"]  # convenient for history lists
+        ordering = ["-date"]
 
     def _generate_order_number(self):
-        """Generate a random, unique order number using UUID."""
         return uuid.uuid4().hex.upper()
 
     def update_total(self):
-        """
-        Update grand total each time a line item is added,
-        accounting for delivery costs.
-        """
         self.order_total = (
             self.lineitems.aggregate(Sum("lineitem_total"))["lineitem_total__sum"] or 0
         )
@@ -61,19 +58,10 @@ class Order(models.Model):
         self.save(update_fields=["order_total", "delivery_cost", "grand_total"])
 
     def save(self, *args, **kwargs):
-        """
-        Override save to ensure:
-        - order_number is set
-        - user_profile is auto-attached by matching the order email to a User's email
-          (only if user_profile is empty). This makes profile.orders appear even
-          for guest checkouts once a profile with the same email exists.
-        """
         if not self.order_number:
             self.order_number = self._generate_order_number()
 
-        # Auto-link to profile by email if not already linked
         if self.user_profile_id is None and self.email:
-            # Avoid circular imports & be lenient on case
             try:
                 matching_profile = UserProfile.objects.select_related("user").filter(
                     user__email__iexact=self.email.strip()
@@ -81,7 +69,6 @@ class Order(models.Model):
                 if matching_profile:
                     self.user_profile = matching_profile
             except Exception:
-                # don't block order saving if anything goes wrong
                 pass
 
         super().save(*args, **kwargs)
@@ -95,7 +82,6 @@ class OrderLineItem(models.Model):
         Order, null=False, blank=False, on_delete=models.CASCADE, related_name="lineitems"
     )
     product = models.ForeignKey(Product, null=False, blank=False, on_delete=models.CASCADE)
-    # Example sizes: XS, S, M, L, XL
     product_size = models.CharField(max_length=2, null=True, blank=True)
     quantity = models.IntegerField(null=False, blank=False, default=0)
     lineitem_total = models.DecimalField(
@@ -103,37 +89,27 @@ class OrderLineItem(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        """
-        Override the original save method to set the lineitem total
-        and update the order total.
-        """
         self.lineitem_total = self.product.price * self.quantity
         super().save(*args, **kwargs)
-        # ensure order totals reflect this line item
         self.order.update_total()
 
     def __str__(self):
-        """
-        Don’t assume Product has `sku`. Use name when available, else the product id.
-        """
         label = getattr(self.product, "name", None) or f"ID {self.product_id}"
         size = f" (size {self.product_size})" if self.product_size else ""
         return f"{label}{size} × {self.quantity} on order {self.order.order_number}"
 
-# Model for creating and validating limited-time discount codes
+
 class DiscountCode(models.Model):
     """Discount codes usable during checkout."""
     code = models.CharField(max_length=20, unique=True)
     discount_percent = models.PositiveIntegerField(default=10)
     valid_from = models.DateTimeField(default=timezone.now)
-    valid_until = models.DateTimeField(
-        default=lambda: timezone.now() + timedelta(days=60)
-    )
+    # Replaced lambda with named function
+    valid_until = models.DateTimeField(default=default_expiry_date)
     active = models.BooleanField(default=True)
     one_time_use = models.BooleanField(default=True)
 
     def is_valid(self):
-        """Check if the code is active and not expired."""
         now = timezone.now()
         return self.active and self.valid_from <= now <= self.valid_until
 
