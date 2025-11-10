@@ -1,14 +1,14 @@
 /* jshint esversion: 11, jquery: true */
-/* globals document, window, jQuery */
-'use strict';
+/* globals document, window, Stripe */
 
 /**
  * Stripe payment flow logic
  * Source: https://stripe.com/docs/payments/accept-a-payment
  * CSS reference: https://stripe.com/docs/stripe-js
  */
-
 (function () {
+  'use strict';
+  
   const stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
   const clientSecret = $('#id_client_secret').text().slice(1, -1);
   const stripe = Stripe(stripePublicKey);
