@@ -1,12 +1,12 @@
 /* jshint esversion: 11 */
 /* globals document, window, jQuery */
-'use strict';
 
 /**
  * Handles toast notifications positioning and display.
  * Ensures they appear below the fixed navbar.
  */
 (function () {
+  'use strict';
   function placeToast() {
     const header = document.querySelector('header.container-fluid.fixed-top');
     const mc = document.querySelector('.message-container');
