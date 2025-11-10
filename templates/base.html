@@ -19,9 +19,11 @@
     {% block extra_css %}{% endblock %}
 
 <!-- Favicon -->
-{% load static %}
-{% static 'images/favicon.png' as favicon_url %}
-<link rel="icon" href="{{ favicon_url|default:'https://res.cloudinary.com/du60xmn6x/image/upload/v1762577696/favicon_ooyuy7.jpg' }}">
+{% if request.get_host == '127.0.0.1:8000' or request.get_host == 'localhost:8000' %}
+  <link rel="icon" href="{% static 'images/favicon.png' %}">
+{% else %}
+  <link rel="icon" href="https://res.cloudinary.com/du60xmn6x/image/upload/v1762577696/favicon_ooyuy7.jpg">
+{% endif %}
 
   </head>
 
