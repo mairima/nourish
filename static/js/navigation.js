@@ -1,16 +1,20 @@
-// static/js/navigation.js
-// Handles navigation actions like going back to the previous page
+/* jshint esversion: 11 */
+/* globals document, window */
+'use strict';
 
-document.addEventListener("DOMContentLoaded", () => {
-  const backButtons = document.querySelectorAll(".btn-back");
+/**
+ * Handles navigation actions like going back to the previous page.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  const backButtons = document.querySelectorAll('.btn-back');
 
   backButtons.forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener('click', () => {
       if (window.history.length > 1) {
         window.history.back();
       } else {
-        // fallback if no history
-        window.location.href = "/";
+        // Fallback if no history available
+        window.location.href = '/';
       }
     });
   });
