@@ -48,13 +48,16 @@ def newsletter(request):
             # ✉️ Build the welcome message (unsubscribe link moved to end)
             subject = "Welcome to Nourish Newsletter!"
             message = (
-                "Hello!\n\n"
-                "Thank you for subscribing to Nourish Bakery 💕\n"
-                "You’ll now receive updates, new desserts, and special offers.\n\n"
-                "With love,\n"
-                "Nourish Bakery 🍰\n\n"
-                "—\n"
-                f"If you ever wish to unsubscribe, click here:\n{unsubscribe_link}"
+                f"Hello!\n\n"
+                f"Thank you for subscribing to Nourish Bakery 💕\n"
+                f"You’ll now receive updates, new desserts, and exclusive offers.\n\n"
+                f"As a warm welcome, here’s your 10% discount code:\n"
+                f"👉 {subscription.discount_code}\n\n"
+                f"Use it on your next order before "
+                f"{subscription.discount_expires.strftime('%B %d, %Y')}.\n\n"
+                f"If you ever wish to unsubscribe, click here:\n{unsubscribe_link}\n\n"
+                f"With love,\n"
+                f"The Nourish Cakes & Snacks Team"
             )
 
             # Send the email
