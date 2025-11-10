@@ -10,21 +10,29 @@
   function placeToast() {
     const header = document.querySelector('header.container-fluid.fixed-top');
     const mc = document.querySelector('.message-container');
-    if (!header || !mc) return;
-    mc.style.top = `${header.offsetHeight + 10}px`;
+    if (!header || !mc) {
+      return;
+    }
+    mc.style.top = header.offsetHeight + 10 + 'px';
   }
 
   function showToasts() {
     const toasts = document.querySelectorAll('.toast');
-    if (!toasts.length) return;
+    if (!toasts.length) {
+      return;
+    }
     try {
       if (window.jQuery && typeof jQuery.fn.toast === 'function') {
         jQuery(toasts).toast({ autohide: false }).toast('show');
       } else {
-        toasts.forEach((t) => t.classList.add('show'));
+        toasts.forEach(function (t) {
+          t.classList.add('show');
+        });
       }
     } catch (err) {
-      toasts.forEach((t) => t.classList.add('show'));
+      toasts.forEach(function (t) {
+        t.classList.add('show');
+      });
     }
   }
 
@@ -52,7 +60,7 @@
     if (header) {
       document.documentElement.style.setProperty(
         '--header-height',
-        `${header.offsetHeight}px`
+        header.offsetHeight + 'px'
       );
     }
   }
@@ -67,13 +75,17 @@
  */
 (function () {
   const btn = document.getElementById('scrollToTopBtn');
-  if (!btn) return;
+  if (!btn) {
+    return;
+  }
 
   let ticking = false;
   function onScroll() {
-    if (ticking) return;
+    if (ticking) {
+      return;
+    }
     ticking = true;
-    window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(function () {
       const show = window.scrollY > 200;
       btn.classList.toggle('show', show);
       btn.setAttribute('aria-hidden', show ? 'false' : 'true');
@@ -84,11 +96,11 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click', function () {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  btn.addEventListener('keydown', (e) => {
+  btn.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       btn.click();
