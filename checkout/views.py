@@ -358,3 +358,20 @@ def checkout_success(request, order_number):
     return render(
         request, "checkout/checkout_success.html", {"order": order}
     )
+
+@login_required
+def order_history(request, order_number):
+    """Display a user's past order details on the profile page."""
+    order = get_object_or_404(Order, order_number=order_number)
+
+    messages.info(
+        request,
+        f"This is a past confirmation for order number {order_number}. "
+        "A confirmation email was sent at the time of purchase.",
+    )
+
+    context = {
+        "order": order,
+        "from_profile": True,
+    }
+    return render(request, "checkout/checkout_success.html", context)
