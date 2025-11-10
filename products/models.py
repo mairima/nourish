@@ -1,5 +1,6 @@
 from django.db import models
 from django.templatetags.static import static
+from cloudinary.models import CloudinaryField
 
 class Category(models.Model):
     class Meta:
@@ -23,6 +24,7 @@ class Product(models.Model):
     rating = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     image_filename = models.CharField(max_length=255, null=True, blank=True)
     image_url = models.URLField(max_length=500, null=True, blank=True)
+    image = CloudinaryField('image', default='placeholder', null=True, blank=True)
 
     def __str__(self):
         return self.name
