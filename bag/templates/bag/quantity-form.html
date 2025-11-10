@@ -185,7 +185,7 @@
 {% block postloadjs %}
 {{ block.super }}
 {% include 'products/includes/quantity_input_script.html' %}
-<script type="text/javascript">
+<script>
   // Update quantity on click
   $('.update-link').click(function() {
     $(this).prev('.update-form').submit();
