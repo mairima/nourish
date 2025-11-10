@@ -7,6 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- Added required <title> tag for valid <head> -->
+    <title>
+      {% block title %}Nourish Bakery — Fresh Cakes & Snacks{% endblock %}
+    </title>
+
     <!-- Bootstrap + Fonts -->
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -18,19 +23,21 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
 
-<!-- Favicon -->
-{% if request.get_host == '127.0.0.1:8000' or request.get_host == 'localhost:8000' %}
-  <link rel="icon" href="{% static 'images/favicon.png' %}">
-{% else %}
-  <link rel="icon" href="https://res.cloudinary.com/du60xmn6x/image/upload/v1762577696/favicon_ooyuy7.jpg">
-{% endif %}
-
+    <!-- Favicon with environment check -->
+    {% if request.get_host == '127.0.0.1:8000' or request.get_host == 'localhost:8000' %}
+      <link rel="icon" href="{% static 'images/favicon.png' %}">
+    {% else %}
+      <link rel="icon"
+            href="https://res.cloudinary.com/du60xmn6x/image/upload/v1762577696/favicon_ooyuy7.jpg">
+    {% endif %}
   </head>
 
   <body class="d-flex flex-column min-vh-100 {% block body_class %}{% endblock %}">
 
     <!-- Header / Navigation -->
     <header class="container-fluid fixed-top bg-white">
+
+      <!-- Top navigation bar -->
       <div id="topnav" class="row pt-lg-2 d-none d-lg-flex">
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0 text-center text-lg-left">
           <a href="{% url 'home' %}" class="nav-link main-logo-link">
@@ -42,9 +49,11 @@
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
           <form method="GET" action="{{ products_index_url }}">
             <div class="input-group w-100">
-              <input class="form-control border border-black rounded-0" type="text" name="q" placeholder="Search our site">
+              <input class="form-control border border-black rounded-0"
+                     type="text" name="q" placeholder="Search our site">
               <div class="input-group-append">
-                <button class="form-control btn btn-black border border-black rounded-0" type="submit">
+                <button class="form-control btn btn-black border border-black rounded-0"
+                        type="submit">
                   <span class="icon"><i class="fas fa-search"></i></span>
                 </button>
               </div>
@@ -52,84 +61,103 @@
           </form>
         </div>
 
-        <!-- Account & Bag -->
+        <!-- Account & Bag wrapped inside <ul> for valid HTML -->
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
-          <ul class="list-inline list-unstyled text-center text-lg-right my-0">
+          <nav aria-label="User account and bag">
+            <ul class="list-inline list-unstyled text-center text-lg-right my-0">
 
-            <!-- My Account -->
-            <li class="list-inline-item dropdown">
-              <a class="text-black nav-link" href="#" id="user-options" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <div class="text-center">
-                  <div><i class="fas fa-user fa-lg"></i></div>
-                  <p class="my-0">My Account</p>
+              <!-- My Account -->
+              <li class="list-inline-item dropdown">
+                <a class="text-black nav-link" href="#" id="user-options"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <div class="text-center">
+                    <div><i class="fas fa-user fa-lg"></i></div>
+                    <p class="my-0">My Account</p>
+                  </div>
+                </a>
+
+                <div class="dropdown-menu border-0" aria-labelledby="user-options">
+                  {% if request.user.is_authenticated and request.user.is_superuser %}
+                    <a href="{% url 'products:add_product' %}"
+                       class="dropdown-item font-weight-bold">
+                      <i class="fas fa-cogs mr-1"></i> Product Management
+                    </a>
+                  {% endif %}
+
+                  <div class="dropdown-divider"></div>
+
+                  {% if request.user.is_authenticated %}
+                    <a href="{% url 'profiles:profile' %}" class="dropdown-item">
+                      My Profile
+                    </a>
+                    <form method="post" action="{% url 'account_logout' %}"
+                          class="px-3 py-1">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-link p-0">Logout</button>
+                    </form>
+                  {% else %}
+                    <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
+                    <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
+                  {% endif %}
                 </div>
-              </a>
+              </li>
 
-              <div class="dropdown-menu border-0" aria-labelledby="user-options">
-                {% if request.user.is_authenticated and request.user.is_superuser %}
-                  <a href="{% url 'products:add_product' %}" class="dropdown-item font-weight-bold">
-                    <i class="fas fa-cogs mr-1"></i> Product Management
-                  </a>
-                {% endif %}
-
-                <div class="dropdown-divider"></div>
-
-                {% if request.user.is_authenticated %}
-                  <a href="{% url 'profiles:profile' %}" class="dropdown-item">My Profile</a>
-
-
-                  <!-- CSRF-protected logout (POST) -->
-                  <form method="post" action="{% url 'account_logout' %}" class="px-3 py-1">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-link p-0">Logout</button>
-                  </form>
-                {% else %}
-                  <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
-                  <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
-                {% endif %}
-              </div>
-            </li>
-
-            <!-- Shopping Bag -->
-            <li class="list-inline-item">
-              <a class="{% if grand_total %}text-primary font-weight-bold{% else %}text-black{% endif %} nav-link d-none d-lg-block"
-                 href="{% url 'view_bag' %}">
-                <div class="text-center">
-                  <div><i class="fas fa-shopping-bag fa-lg"></i></div>
-                  <p class="my-0">
-                    {% if grand_total %}€{{ grand_total|floatformat:2 }}{% else %}€0.00{% endif %}
-                  </p>
-                </div>
-              </a>
-            </li>
-
-          </ul>
+              <!-- Shopping Bag -->
+              <li class="list-inline-item">
+                <a class="{% if grand_total %}text-primary font-weight-bold{% else %}
+                           text-black{% endif %} nav-link d-none d-lg-block"
+                   href="{% url 'view_bag' %}">
+                  <div class="text-center">
+                    <div><i class="fas fa-shopping-bag fa-lg"></i></div>
+                    <p class="my-0">
+                      {% if grand_total %}
+                        €{{ grand_total|floatformat:2 }}
+                      {% else %}
+                        €0.00
+                      {% endif %}
+                    </p>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
 
-      <!-- Navbar (includes main + mobile) -->
+      <!-- Navbar (includes main + mobile) wrapped in <ul> for valid <li> use -->
       <div class="row bg-white">
-        <nav class="navbar navbar-expand-lg navbar-light w-100">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-nav"
-                  aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-light w-100" aria-label="Main navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse"
+                  data-target="#main-nav" aria-controls="main-nav"
+                  aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          {% include 'includes/mobile-top-header.html' with products_index_url=products_index_url %}
-          {% include 'includes/main-nav.html' with products_index_url=products_index_url %}
+
+          <div class="collapse navbar-collapse justify-content-center" id="main-nav">
+            <ul class="navbar-nav list-inline text-center mb-0">
+              {% include 'includes/mobile-top-header.html'
+                         with products_index_url=products_index_url %}
+              {% include 'includes/main-nav.html'
+                         with products_index_url=products_index_url %}
+            </ul>
+          </div>
         </nav>
       </div>
 
       <!-- Free delivery banner -->
       <div id="delivery-banner" class="row text-center">
         <div class="col bg-black text-white">
-          <h4 class="logo-font my-1">Free delivery on orders over €{{ free_delivery_threshold }}!</h4>
+          <h4 class="logo-font my-1">
+            Free delivery on orders over €{{ free_delivery_threshold }}!
+          </h4>
         </div>
       </div>
     </header>
 
-    <!-- Toast container -->
+    <!-- Toast messages -->
     {% if messages %}
-      <div class="message-container position-fixed" aria-live="polite" aria-atomic="true">
+      <div class="message-container position-fixed"
+           aria-live="polite" aria-atomic="true">
         {% for message in messages %}
           {% with message.level as level %}
             {% if level == 40 %}
@@ -152,49 +180,50 @@
       {% block content %}{% endblock %}
     </main>
 
-   <!-- Footer -->
-<footer class="footer text-white mt-auto py-4">
-  <div class="container text-center">
-    <!-- Social icons -->
-    <div class="mb-3">
-      <a href="https://www.facebook.com/profile.php?id=61582594335574"
-         target="_blank" rel="noopener" aria-label="Facebook"
-         class="text-white mx-3">
-        <i class="fab fa-facebook fa-lg"></i>
-      </a>
-      <a href="https://github.com/mairima"
-         target="_blank" rel="noopener" aria-label="GitHub"
-         class="text-white mx-3">
-        <i class="fab fa-github fa-lg"></i>
-      </a>
-    </div>
+    <!-- Footer -->
+    <footer class="footer text-white mt-auto py-4">
+      <div class="container text-center">
 
-    <!-- Contact info -->
-    <div class="footer-contact mb-2">
-      <p class="text-warning mb-1">
-        <i class="fas fa-map-marker-alt"></i> Nourish Bakery, Seestr 20, Berlin, Germany
-      </p>
-      <p class="text-warning mb-1">
-        <i class="fas fa-envelope"></i> contact@nourish.com
-      </p>
-      <p class="text-warning mb-1">
-        <i class="fas fa-phone"></i> +49 176 123 4567
-      </p>
-    </div>
+        <!-- Social icons -->
+        <div class="mb-3">
+          <a href="https://www.facebook.com/profile.php?id=61582594335574"
+             target="_blank" rel="noopener" aria-label="Facebook"
+             class="text-white mx-3">
+            <i class="fab fa-facebook fa-lg"></i>
+          </a>
+          <a href="https://github.com/mairima"
+             target="_blank" rel="noopener" aria-label="GitHub"
+             class="text-white mx-3">
+            <i class="fab fa-github fa-lg"></i>
+          </a>
+        </div>
 
-    <!-- Legal links -->
-    <div class="footer-links mt-3">
-      <a href="{% url 'privacy_policy' %}" class="text-white me-3">Privacy Policy</a> |
-      <a href="{% url 'terms_conditions' %}" class="text-white ms-3">Terms & Conditions</a>
-    </div>
+        <!-- Contact info -->
+        <div class="footer-contact mb-2">
+          <p class="text-warning mb-1">
+            <i class="fas fa-map-marker-alt"></i>
+            Nourish Bakery, Seestr 20, Berlin, Germany
+          </p>
+          <p class="text-warning mb-1">
+            <i class="fas fa-envelope"></i> contact@nourish.com
+          </p>
+          <p class="text-warning mb-1">
+            <i class="fas fa-phone"></i> +49 176 123 4567
+          </p>
+        </div>
 
-    <!-- Copyright -->
-    <div class="footer-copy mt-2">
-      &copy; {% now "Y" %} Nourish. All rights reserved.
-    </div>
-  </div>
-</footer>
+        <!-- Legal links -->
+        <div class="footer-links mt-3">
+          <a href="{% url 'privacy_policy' %}" class="text-white me-3">Privacy Policy</a> |
+          <a href="{% url 'terms_conditions' %}" class="text-white ms-3">Terms & Conditions</a>
+        </div>
 
+        <!-- Copyright -->
+        <div class="footer-copy mt-2">
+          &copy; {% now "Y" %} Nourish. All rights reserved.
+        </div>
+      </div>
+    </footer>
 
     <!-- Scroll to Top Button -->
     <button id="scrollToTopBtn" title="Go to top">
@@ -202,16 +231,19 @@
     </button>
 
     <!-- Core JS -->
-    <script src="https://kit.fontawesome.com/fa7e3e6dea.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/fa7e3e6dea.js"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            crossorigin="anonymous"></script>
     <script src="https://js.stripe.com/v3/"></script>
 
     <!-- Project JS -->
     <script src="{% static 'js/base.js' %}"></script>
     <script src="{% static 'js/navigation.js' %}"></script>
-
 
     {% block postloadjs %}{% endblock %}
   </body>
