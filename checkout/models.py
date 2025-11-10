@@ -28,6 +28,7 @@ class Order(models.Model):
     delivery_cost = models.DecimalField(max_digits=6, decimal_places=2, null=False, default=0)
     order_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
+    discount_percent = models.PositiveIntegerField(default=0) 
     confirmation_sent = models.BooleanField(default=False)
 
     user_profile = models.ForeignKey(
@@ -75,6 +76,12 @@ class Order(models.Model):
 
     def __str__(self):
         return self.order_number
+    
+    def get_total(self):
+        """Return the total value of all line items for this order."""
+        total = sum(item.lineitem_total for item in self.lineitems.all())
+        return total
+
 
 
 class OrderLineItem(models.Model):
@@ -97,8 +104,7 @@ class OrderLineItem(models.Model):
         label = getattr(self.product, "name", None) or f"ID {self.product_id}"
         size = f" (size {self.product_size})" if self.product_size else ""
         return f"{label}{size} × {self.quantity} on order {self.order.order_number}"
-
-
+    
 class DiscountCode(models.Model):
     """Discount codes usable during checkout."""
     code = models.CharField(max_length=20, unique=True)
