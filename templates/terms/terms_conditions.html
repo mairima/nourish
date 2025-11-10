@@ -3,7 +3,7 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/privacy_policy.css' %}">
 
-<div class="container my-5 privacy-policy">
+<div class="container my-1 privacy-policy">
      <h1>Terms and Conditions</h1>
  
   <p>Welcome to <strong>Nourish Cakes &amp; Snacks</strong>. These Terms and Conditions outline the rules and regulations for the use of our website and the purchase of our products.</p>
@@ -70,6 +70,6 @@
     These Terms and Conditions are governed by the laws of Germany. Any disputes arising in connection with this website or our products shall be subject to the jurisdiction of the courts in Berlin.
   </p>
 
-  <p class="mt-4"><em>Last updated: {{ now|date:"F j, Y" }}</em></p>
+ <p class="mt-4"><em>Last updated: {% now "F j, Y" %}</em></p>
 </div>
 {% endblock %}
