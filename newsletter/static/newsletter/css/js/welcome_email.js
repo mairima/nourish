@@ -1,5 +1,5 @@
-/* jshint esversion: 11 */
-/* globals document, window */
+/* jshint esversion: 11, jquery: true */
+/* globals document, window, Stripe */
 'use strict';
 
 /**
