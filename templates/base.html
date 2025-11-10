@@ -18,10 +18,11 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
 
-    <!-- Favicon -->
-    <link rel="icon" href="{% static 'favicon.ico' %}">
+<!-- Favicon -->
+{% load static %}
+{% static 'images/favicon.png' as favicon_url %}
+<link rel="icon" href="{{ favicon_url|default:'https://res.cloudinary.com/du60xmn6x/image/upload/v1762577696/favicon_ooyuy7.jpg' }}">
 
-    <title>Nourish {% block extra_title %}{% endblock %}</title>
   </head>
 
   <body class="d-flex flex-column min-vh-100 {% block body_class %}{% endblock %}">
