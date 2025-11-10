@@ -188,16 +188,40 @@ def checkout(request):
                     order.delete()
                     return redirect("bag:view_bag")
 
-            # Apply discount to total if available
+            # --- Apply discount only for orders of €30 or more ---
+            order_total = order.get_total()
+            discount_applied = False
+
             if discount_percent:
-                order_total = order.get_total()
-                order.grand_total = order_total - (
-                    order_total * discount_percent / 100
-                )
-                order.discount_percent = discount_percent
-                order.save(
-                    update_fields=["grand_total", "discount_percent"]
-                )
+                if order_total >= Decimal("30.00"):
+                    order.grand_total = order_total - (
+                        order_total * Decimal(discount_percent) / 100
+                    )
+                    order.discount_percent = discount_percent
+                    discount_applied = True
+                    order.save(update_fields=["grand_total", "discount_percent"])
+                    messages.success(
+                        request,
+                        f"A {discount_percent}% discount was applied to your order 🎉"
+                    )
+                else:
+                    order.grand_total = order_total
+                    order.discount_percent = Decimal("0.00")
+                    order.save(update_fields=["grand_total", "discount_percent"])
+                    messages.warning(
+                        request,
+                        "Discount cannot be applied to orders below €30. "
+                        "You can still use this discount next time!"
+                    )
+            else:
+                order.grand_total = order_total
+                order.save(update_fields=["grand_total"])
+
+            if not discount_applied:
+                request.session["discount_percent"] = discount_percent
+            else:
+                request.session.pop("discount_percent", None)
+            # --- End discount logic ---
 
             request.session["save_info"] = "save-info" in request.POST
             request.session["bag"] = {}
@@ -245,7 +269,6 @@ def checkout(request):
             "Did you forget to set it in your environment?",
         )
 
-    # Ensure intent exists to avoid UnboundLocalError on POST failures
     if "intent" not in locals():
         intent = _get_or_create_payment_intent(request, Decimal(0))
 
@@ -253,7 +276,7 @@ def checkout(request):
     context = {
         "order_form": order_form,
         "stripe_public_key": stripe_public_key,
-        "client_secret": intent.client_secret,
+        "client_secret": intent if isinstance(intent, str) else intent.client_secret,
     }
     return render(request, template, context)
 
@@ -287,7 +310,6 @@ def checkout_success(request, order_number):
     save_info = request.session.get("save_info")
     order = get_object_or_404(Order, order_number=order_number)
 
-    # Attach order to user profile
     if request.user.is_authenticated:
         try:
             profile, _ = UserProfile.objects.get_or_create(user=request.user)
@@ -317,14 +339,21 @@ def checkout_success(request, order_number):
         f"A confirmation email will be sent to {order.email}.",
     )
 
-    # Clear the bag
     request.session.pop("bag", None)
 
-    # Send confirmation email once
     if not order.confirmation_sent:
         _send_order_confirmation(order)
         order.confirmation_sent = True
         order.save(update_fields=["confirmation_sent"])
+
+    # ✅ Mark newsletter discount as used if discount was applied
+    if order.discount_percent > 0:
+        try:
+            subscription = NewsletterSubscription.objects.get(email=order.email)
+            subscription.discount_used = True
+            subscription.save()
+        except NewsletterSubscription.DoesNotExist:
+            pass
 
     return render(
         request, "checkout/checkout_success.html", {"order": order}
