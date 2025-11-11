@@ -9,6 +9,26 @@ The following testing documentation outlines all validation, manual, and functio
 
 All validation was completed successfully using the official W3C, Jigsaw, JSHint, and PEP8 CI tools. Minor warnings were identified only in third-party template files (Allauth and Stripe integration), which are considered acceptable.
 
+### CSS Validation
+
+**Result:** No errors found — document validates as **CSS Level 3 + SVG**.
+
+The main stylesheet (`base.css`) was tested with the [W3C CSS Validator](https://jigsaw.w3.org/css-validator/).  
+The validator confirmed that the file meets all modern web standards and best practices.
+
+**Validation Link:**  
+[https://jigsaw.w3.org/css-validator/validator?uri=https://nourish1-cc6378c356ae.herokuapp.com/static/css/base.css](https://jigsaw.w3.org/css-validator/validator?uri=https://nourish1-cc6378c356ae.herokuapp.com/static/css/base.css)
+
+**Badge:**
+```html
+<p>
+  <a href="https://jigsaw.w3.org/css-validator/check/referer">
+    <img style="border:0;width:88px;height:31px"
+         src="https://jigsaw.w3.org/css-validator/images/vcss"
+         alt="Valid CSS!">
+  </a>
+</p>
+
 ### HTML
 
 All deployed templates were validated via W3C HTML Validator
