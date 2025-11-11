@@ -1,39 +1,60 @@
 from django import forms
 from django_countries import countries
-from .widgets import SafeCountrySelectWidget   # <-- use your safe widget
+from .widgets import SafeCountrySelectWidget
 from .models import Order
 
+
 class OrderForm(forms.ModelForm):
+    """Form for creating or updating an order."""
+
     class Meta:
         model = Order
         fields = (
-            "full_name", "email", "phone_number",
-            "street_address1", "street_address2",
-            "town_or_city", "postcode", "country", "county",
+            "full_name",
+            "email",
+            "phone_number",
+            "street_address1",
+            "street_address2",
+            "town_or_city",
+            "postcode",
+            "country",
+            "county",
         )
         widgets = {
             "country": SafeCountrySelectWidget(
-                attrs={"class": "form-control stripe-style-input", "id": "id_country"}
+                attrs={
+                    "class": "form-control stripe-style-input",
+                    "id": "id_country",
+                }
             )
         }
 
     def __init__(self, *args, **kwargs):
+        """Initialize form with safe country widget and valid choices."""
         super().__init__(*args, **kwargs)
 
-        # Make sure the safe widget is actually in use
-        f = self.fields["country"]
-        if not isinstance(f.widget, SafeCountrySelectWidget):
-            f.widget = SafeCountrySelectWidget(
-                attrs={"class": "form-control stripe-style-input", "id": "id_country"}
+        field = self.fields["country"]
+
+        # Ensure safe widget is used
+        if not isinstance(field.widget, SafeCountrySelectWidget):
+            field.widget = SafeCountrySelectWidget(
+                attrs={
+                    "class": "form-control stripe-style-input",
+                    "id": "id_country",
+                }
             )
 
-        # Avoid BlankChoiceIterator: no empty_label; set concrete choices
-        if hasattr(f, "empty_label"):
-            f.empty_label = None
-        concrete = [("", "Select a country *")] + list(countries)
-        f.choices = concrete
-        f.widget.choices = concrete
-        if hasattr(f.widget, "_choices"):
-            f.widget._choices = concrete
+        # Remove empty label and apply concrete country list
+        if hasattr(field, "empty_label"):
+            field.empty_label = None
 
-        # (rest of your placeholder/class logic)
+        concrete = [("", "Select a country *")] + list(countries)
+        field.choices = concrete
+        field.widget.choices = concrete
+
+        if hasattr(field.widget, "_choices"):
+            field.widget._choices = concrete
+
+        # Add placeholders and styling if needed
+        # for name, f in self.fields.items():
+        #     f.widget.attrs["class"] = "form-control stripe-style-input"
