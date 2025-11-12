@@ -26,9 +26,11 @@ from newsletter.models import NewsletterSubscription
 # ---------- Helpers ----------
 
 def _bag_json(request):
-    """Serialize the current session bag to a compact JSON string for metadata."""
+    """Serialize current session bag to compact JSON string for metadata."""
     try:
-        return json.dumps(request.session.get("bag", {}), separators=(",", ":"))
+        return json.dumps(
+            request.session.get("bag", {}), separators=(",", ":")
+        )
     except Exception:
         return "{}"
 
@@ -36,7 +38,7 @@ def _bag_json(request):
 def _get_or_create_payment_intent(request, grand_total: Decimal):
     """
     Retrieve or create a Stripe PaymentIntent for this session.
-    Returns a client_secret or an empty string if Stripe is not configured.
+    Returns client_secret or empty string if Stripe not configured.
     """
     stripe_public_key = getattr(settings, "STRIPE_PUBLIC_KEY", "")
     stripe_secret_key = getattr(settings, "STRIPE_SECRET_KEY", "")
@@ -49,8 +51,10 @@ def _get_or_create_payment_intent(request, grand_total: Decimal):
     pi_id = request.session.get("pi_id")
     amount = int(Decimal(grand_total) * 100)
     metadata = {
-        "username": getattr(getattr(request, "user", None), "username", "")
-        or "anonymous",
+        "username": (
+            getattr(getattr(request, "user", None), "username", "")
+            or "anonymous"
+        ),
         "bag": _bag_json(request),
     }
 
@@ -58,8 +62,10 @@ def _get_or_create_payment_intent(request, grand_total: Decimal):
         if pi_id:
             intent = stripe.PaymentIntent.retrieve(pi_id)
             if intent.status in {
-                "requires_payment_method", "requires_confirmation",
-                "requires_action", "processing"
+                "requires_payment_method",
+                "requires_confirmation",
+                "requires_action",
+                "processing",
             }:
                 if intent.amount != amount:
                     intent = stripe.PaymentIntent.modify(
@@ -69,7 +75,6 @@ def _get_or_create_payment_intent(request, grand_total: Decimal):
                     stripe.PaymentIntent.modify(intent.id, metadata=metadata)
                 return intent.client_secret
 
-        # Create new intent
         intent = stripe.PaymentIntent.create(
             amount=amount,
             currency=stripe_currency,
@@ -78,8 +83,8 @@ def _get_or_create_payment_intent(request, grand_total: Decimal):
         )
         request.session["pi_id"] = intent.id
         return intent.client_secret
-    except Exception as e:
-        print(f"[Stripe] PaymentIntent error: {e}")
+    except Exception as err:
+        print(f"[Stripe] PaymentIntent error: {err}")
         request.session.pop("pi_id", None)
         return ""
 
@@ -98,10 +103,7 @@ def _send_order_confirmation(order):
 
 @require_POST
 def cache_checkout_data(request):
-    """
-    Caches bag/save_info/username into the PaymentIntent metadata.
-    Matches Code Institute's stripe_elements.js logic.
-    """
+    """Cache bag/save_info/username into the PaymentIntent metadata."""
     try:
         client_secret = request.POST.get("client_secret", "")
         if not client_secret or "_secret" not in client_secret:
@@ -110,19 +112,24 @@ def cache_checkout_data(request):
         pid = client_secret.split("_secret")[0]
         stripe.api_key = getattr(settings, "STRIPE_SECRET_KEY", "")
 
-        stripe.PaymentIntent.modify(pid, metadata={
-            "bag": _bag_json(request),
-            "save_info": request.POST.get("save_info") or "",
-            "username": getattr(request.user, "username", "") or "anonymous",
-        })
+        stripe.PaymentIntent.modify(
+            pid,
+            metadata={
+                "bag": _bag_json(request),
+                "save_info": request.POST.get("save_info") or "",
+                "username": (
+                    getattr(request.user, "username", "") or "anonymous"
+                ),
+            },
+        )
         return HttpResponse(status=200)
-    except Exception as e:
+    except Exception as err:
         messages.error(
             request,
             "Sorry, your payment cannot be processed right now. "
             "Please try again later.",
         )
-        return HttpResponse(content=str(e), status=400)
+        return HttpResponse(content=str(err), status=400)
 
 
 # ---------- Main Checkout View ----------
@@ -130,7 +137,7 @@ def cache_checkout_data(request):
 @never_cache
 @login_required
 def checkout(request):
-    """Handle checkout page logic, including discount codes and Stripe payment."""
+    """Handle checkout page logic, discount codes, and Stripe payment."""
     bag = request.session.get("bag", {})
     if not bag:
         messages.info(request, "Your checkout session has expired.")
@@ -141,15 +148,18 @@ def checkout(request):
 
     if request.method == "POST":
         form_data = {
-            "full_name": request.POST["full_name"],
-            "email": request.POST["email"],
-            "phone_number": request.POST["phone_number"],
-            "country": request.POST["country"],
-            "postcode": request.POST["postcode"],
-            "town_or_city": request.POST["town_or_city"],
-            "street_address1": request.POST["street_address1"],
-            "street_address2": request.POST["street_address2"],
-            "county": request.POST["county"],
+            key: request.POST[key]
+            for key in [
+                "full_name",
+                "email",
+                "phone_number",
+                "country",
+                "postcode",
+                "town_or_city",
+                "street_address1",
+                "street_address2",
+                "county",
+            ]
         }
         order_form = OrderForm(form_data)
 
@@ -158,12 +168,9 @@ def checkout(request):
             pid = request.POST.get("client_secret").split("_secret")[0]
             order.stripe_pid = pid
             order.original_bag = json.dumps(bag)
-
-            # --- Discount logic ---
             discount_percent = request.session.get("discount_percent", 0)
-            # ----------------------
-
             order.save()
+
             for item_id, item_data in bag.items():
                 try:
                     product = Product.objects.get(id=item_id)
@@ -172,7 +179,9 @@ def checkout(request):
                             order=order, product=product, quantity=item_data
                         )
                     else:
-                        for size, quantity in item_data["items_by_size"].items():
+                        for size, quantity in (
+                            item_data["items_by_size"].items()
+                        ):
                             OrderLineItem.objects.create(
                                 order=order,
                                 product=product,
@@ -188,7 +197,7 @@ def checkout(request):
                     order.delete()
                     return redirect("bag:view_bag")
 
-            # --- Apply discount only for orders of €30 or more ---
+            # --- Apply discount if order >= €30 ---
             order_total = order.get_total()
             discount_applied = False
 
@@ -199,19 +208,23 @@ def checkout(request):
                     )
                     order.discount_percent = discount_percent
                     discount_applied = True
-                    order.save(update_fields=["grand_total", "discount_percent"])
+                    order.save(
+                        update_fields=["grand_total", "discount_percent"]
+                    )
                     messages.success(
                         request,
-                        f"A {discount_percent}% discount was applied to your order 🎉"
+                        f"A {discount_percent}% discount was applied 🎉",
                     )
                 else:
                     order.grand_total = order_total
                     order.discount_percent = Decimal("0.00")
-                    order.save(update_fields=["grand_total", "discount_percent"])
+                    order.save(
+                        update_fields=["grand_total", "discount_percent"]
+                    )
                     messages.warning(
                         request,
-                        "Discount cannot be applied to orders below €30. "
-                        "You can still use this discount next time!"
+                        "Discount cannot apply below €30. "
+                        "You can use it next time.",
                     )
             else:
                 order.grand_total = order_total
@@ -221,7 +234,6 @@ def checkout(request):
                 request.session["discount_percent"] = discount_percent
             else:
                 request.session.pop("discount_percent", None)
-            # --- End discount logic ---
 
             request.session["save_info"] = "save-info" in request.POST
             request.session["bag"] = {}
@@ -230,9 +242,8 @@ def checkout(request):
             return redirect(
                 reverse("checkout:checkout_success", args=[order.order_number])
             )
-        else:
-            messages.error(request, "Please check your details and try again.")
 
+        messages.error(request, "Please check your details and try again.")
     else:
         current_bag = bag_contents(request)
         total = current_bag["grand_total"]
@@ -246,17 +257,19 @@ def checkout(request):
         if request.user.is_authenticated:
             try:
                 profile = UserProfile.objects.get(user=request.user)
-                order_form = OrderForm(initial={
-                    "full_name": profile.user.get_full_name(),
-                    "email": profile.user.email,
-                    "phone_number": profile.default_phone_number,
-                    "country": profile.default_country,
-                    "postcode": profile.default_postcode,
-                    "town_or_city": profile.default_town_or_city,
-                    "street_address1": profile.default_street_address1,
-                    "street_address2": profile.default_street_address2,
-                    "county": profile.default_county,
-                })
+                order_form = OrderForm(
+                    initial={
+                        "full_name": profile.user.get_full_name(),
+                        "email": profile.user.email,
+                        "phone_number": profile.default_phone_number,
+                        "country": profile.default_country,
+                        "postcode": profile.default_postcode,
+                        "town_or_city": profile.default_town_or_city,
+                        "street_address1": profile.default_street_address1,
+                        "street_address2": profile.default_street_address2,
+                        "county": profile.default_county,
+                    }
+                )
             except UserProfile.DoesNotExist:
                 order_form = OrderForm()
         else:
@@ -272,13 +285,14 @@ def checkout(request):
     if "intent" not in locals():
         intent = _get_or_create_payment_intent(request, Decimal(0))
 
-    template = "checkout/checkout.html"
     context = {
         "order_form": order_form,
         "stripe_public_key": stripe_public_key,
-        "client_secret": intent if isinstance(intent, str) else intent.client_secret,
+        "client_secret": (
+            intent if isinstance(intent, str) else intent.client_secret
+        ),
     }
-    return render(request, template, context)
+    return render(request, "checkout/checkout.html", context)
 
 
 # ---------- Apply Discount View ----------
@@ -335,7 +349,7 @@ def checkout_success(request, order_number):
 
     messages.success(
         request,
-        f"Order successfully processed! Your order number is {order_number}. "
+        f"Order processed! Your order number is {order_number}. "
         f"A confirmation email will be sent to {order.email}.",
     )
 
@@ -346,18 +360,18 @@ def checkout_success(request, order_number):
         order.confirmation_sent = True
         order.save(update_fields=["confirmation_sent"])
 
-    # ✅ Mark newsletter discount as used if discount was applied
     if order.discount_percent > 0:
         try:
-            subscription = NewsletterSubscription.objects.get(email=order.email)
+            subscription = NewsletterSubscription.objects.get(
+                email=order.email
+            )
             subscription.discount_used = True
             subscription.save()
         except NewsletterSubscription.DoesNotExist:
             pass
 
-    return render(
-        request, "checkout/checkout_success.html", {"order": order}
-    )
+    return render(request, "checkout/checkout_success.html", {"order": order})
+
 
 @login_required
 def order_history(request, order_number):
@@ -366,8 +380,8 @@ def order_history(request, order_number):
 
     messages.info(
         request,
-        f"This is a past confirmation for order number {order_number}. "
-        "A confirmation email was sent at the time of purchase.",
+        f"This is a past confirmation for order {order_number}. "
+        "A confirmation email was sent at purchase time.",
     )
 
     context = {
