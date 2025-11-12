@@ -18,5 +18,9 @@ urlpatterns = [
     ),
     path("apply-discount/", views.apply_discount, name="apply_discount"),
     path("wh/", stripe_webhook, name="webhook"),
-    path("order_history/<order_number>/", views.order_history, name="order_history"),
+    path(
+        "order_history/<order_number>/",
+        views.order_history,
+        name="order_history",
+    ),
 ]
