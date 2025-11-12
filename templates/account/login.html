@@ -7,7 +7,7 @@
 {% block body_class %}login-page{% endblock %}
 
 {% block inner_content %}
-<div class="container login-page">
+<div class="container login-page my-5 pb-5">
   <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-6">
       <h1 class="mb-4 text-center mt-0 pt-0">{% trans "Sign In" %}</h1>
@@ -53,18 +53,17 @@
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
         {% endif %}
 
-            <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
-      <a href="{% url 'home' %}" class="btn btn-outline-dark rounded-0">
-        {% trans "Home" %}
-      </a>
-      <button type="submit" class="btn btn-outline-dark rounded-0">
-        {% trans "Sign In" %}
-      </button>
-      <a href="{% url 'account_reset_password' %}" class="btn btn-link text-dark ms-auto p-0">
-        {% trans "Forgot Password?" %}
-      </a>
-      </div>
-
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+          <a href="{% url 'home' %}" class="btn btn-outline-dark rounded-0">
+            {% trans "Home" %}
+          </a>
+          <button type="submit" class="btn btn-outline-dark rounded-0">
+            {% trans "Sign In" %}
+          </button>
+          <a href="{% url 'account_reset_password' %}" class="btn btn-link text-dark ms-auto p-0">
+            {% trans "Forgot Password?" %}
+          </a>
+        </div>
       </form>
     </div>
   </div>
