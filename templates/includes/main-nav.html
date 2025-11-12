@@ -1,62 +1,70 @@
-<div class="collapse navbar-collapse" id="mobile-nav">
-  <ul class="navbar-nav w-auto mx-auto">
-    
+<ul class="navbar-nav w-auto mx-auto">
+
   <!-- Home (Mobile Only) -->
-    <li class="nav-item d-block d-md-none">
-      <a class="logo-font font-weight-bold nav-link text-black mr-5" href="{% url 'home' %}" id="home-link">
-        Home
-      </a>
-    </li>
+  <li class="nav-item d-block d-md-none">
+    <a class="logo-font font-weight-bold nav-link text-black mr-5"
+       href="{% url 'home' %}" id="home-link">
+      Home
+    </a>
+  </li>
 
-    <!-- All Products -->
-    <li class="nav-item dropdown {% if request.resolver_match.namespace == 'products' %}active{% endif %}">
-      <a class="logo-font font-weight-bold nav-link mr-5 {% if request.resolver_match.namespace == 'products' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
-         href="#"
-         id="all-products-link"
-         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        All Products
-      </a>
-      <div class="dropdown-menu border-0" aria-labelledby="all-products-link">
-        <a href="{{ products_index_url }}" class="dropdown-item">All Products</a>
-        <a href="{{ products_index_url }}?sort=price&direction=asc" class="dropdown-item">By Price</a>
-        <a href="{{ products_index_url }}?sort=rating&direction=desc" class="dropdown-item">By Rating</a>
-        <a href="{{ products_index_url }}?sort=category&direction=asc" class="dropdown-item">By Category</a>
-      </div>
-    </li>
+  <!-- All Products -->
+  <li class="nav-item dropdown {% if request.resolver_match.namespace == 'products' %}active{% endif %}">
+    <a class="logo-font font-weight-bold nav-link mr-5 {% if request.resolver_match.namespace == 'products' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
+       href="#"
+       id="all-products-link"
+       data-toggle="dropdown"
+       aria-haspopup="true"
+       aria-expanded="false">
+      All Products
+    </a>
+    <div class="dropdown-menu border-0" aria-labelledby="all-products-link">
+      <a href="{{ products_index_url }}" class="dropdown-item">All Products</a>
+      <a href="{{ products_index_url }}?sort=price&direction=asc" class="dropdown-item">By Price</a>
+      <a href="{{ products_index_url }}?sort=rating&direction=desc" class="dropdown-item">By Rating</a>
+      <a href="{{ products_index_url }}?sort=category&direction=asc" class="dropdown-item">By Category</a>
+    </div>
+  </li>
 
-    <!-- Categories -->
-    <li class="nav-item dropdown {% if 'category' in request.get_full_path %}active{% endif %}">
-      <a class="logo-font font-weight-bold nav-link mr-5 {% if 'category' in request.get_full_path %}text-success border-bottom border-success{% else %}text-black{% endif %}"
-         href="#"
-         id="categories-link"
-         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Categories
-      </a>
-      <div class="dropdown-menu border-0" aria-labelledby="categories-link">
-        <a href="{{ products_index_url }}?category=Cakes" class="dropdown-item">Cakes</a>
-        <a href="{{ products_index_url }}?category=Snacks" class="dropdown-item">Snacks</a>
-        <a href="{{ products_index_url }}?category=Drinks" class="dropdown-item">Drinks</a>
-      </div>
-    </li>
+  <!-- Categories -->
+  <li class="nav-item dropdown {% if 'category' in request.get_full_path %}active{% endif %}">
+    <a class="logo-font font-weight-bold nav-link mr-5 {% if 'category' in request.get_full_path %}text-success border-bottom border-success{% else %}text-black{% endif %}"
+       href="#"
+       id="categories-link"
+       data-toggle="dropdown"
+       aria-haspopup="true"
+       aria-expanded="false">
+      Categories
+    </a>
+    <div class="dropdown-menu border-0" aria-labelledby="categories-link">
+      <a href="{{ products_index_url }}?category=Cakes" class="dropdown-item">Cakes</a>
+      <a href="{{ products_index_url }}?category=Snacks" class="dropdown-item">Snacks</a>
+      <a href="{{ products_index_url }}?category=Drinks" class="dropdown-item">Drinks</a>
+    </div>
+  </li>
 
-    <!-- Contact -->
-    <li class="nav-item {% if request.resolver_match.namespace == 'contact' %}active{% endif %}">
-      <a class="logo-font font-weight-bold nav-link mr-5 {% if request.resolver_match.namespace == 'contact' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
-         href="{% url 'contact:index' %}">Contact</a>
-    </li>
+  <!-- Contact -->
+  <li class="nav-item {% if request.resolver_match.namespace == 'contact' %}active{% endif %}">
+    <a class="logo-font font-weight-bold nav-link mr-5 {% if request.resolver_match.namespace == 'contact' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
+       href="{% url 'contact:index' %}">
+      Contact
+    </a>
+  </li>
 
-    <!-- Newsletter -->
-    <li class="nav-item {% if request.resolver_match.namespace == 'newsletter' %}active{% endif %}">
-      <a class="logo-font font-weight-bold nav-link mr-5 {% if request.resolver_match.namespace == 'newsletter' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
-         href="{% url 'newsletter:newsletter' %}">Newsletter</a>
+  <!-- Newsletter -->
+  <li class="nav-item {% if request.resolver_match.namespace == 'newsletter' %}active{% endif %}">
+    <a class="logo-font font-weight-bold nav-link mr-5 {% if request.resolver_match.namespace == 'newsletter' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
+       href="{% url 'newsletter:newsletter' %}">
+      Newsletter
+    </a>
+  </li>
 
-    </li>
+  <!-- FAQ -->
+  <li class="nav-item {% if request.resolver_match.namespace == 'faqs' %}active{% endif %}">
+    <a class="logo-font font-weight-bold nav-link {% if request.resolver_match.namespace == 'faqs' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
+       href="{% url 'faqs:index' %}">
+      FAQ
+    </a>
+  </li>
 
-    <!-- FAQ -->
-    <li class="nav-item {% if request.resolver_match.namespace == 'faqs' %}active{% endif %}">
-      <a class="logo-font font-weight-bold nav-link {% if request.resolver_match.namespace == 'faqs' %}text-success border-bottom border-success{% else %}text-black{% endif %}"
-         href="{% url 'faqs:index' %}">FAQ</a>
-    </li>
-
-  </ul>
-</div>
+</ul>
