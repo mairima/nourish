@@ -1,19 +1,17 @@
-"""
-Nourish URL configuration.
-"""
+"""Nourish URL configuration."""
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.sitemaps.views import sitemap
 from products.sitemaps import ProductSitemap, StaticViewSitemap
 
-# Sitemaps
+# Sitemap dictionary
 sitemaps_dict = {
     "products": ProductSitemap,
     "static": StaticViewSitemap,
 }
 
 urlpatterns = [
-    # Admin and accounts
+    # Admin and authentication
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
 
@@ -30,10 +28,7 @@ urlpatterns = [
     ),
     path("profiles/", include("profiles.urls")),
     path("contact/", include("contact.urls")),
-    path(
-        "faqs/",
-        include(("faqs.urls", "faqs"), namespace="faqs"),
-    ),
+    path("faqs/", include(("faqs.urls", "faqs"), namespace="faqs")),
     path("newsletter/", include("newsletter.urls")),
 
     # Sitemap
@@ -45,5 +40,5 @@ urlpatterns = [
     ),
 ]
 
-# 404 handler
+# 404 error handler
 handler404 = "nourish.views.handler404"
