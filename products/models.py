@@ -10,12 +10,12 @@ class Category(models.Model):
     name = models.CharField(max_length=254)
     friendly_name = models.CharField(max_length=254, null=True, blank=True)
 
-    # Return category name
     def __str__(self):
+        # Return category name
         return self.name
 
-    # Get friendly name
     def get_friendly_name(self):
+        # Return friendly name or fallback to name
         return self.friendly_name or self.name
 
 
@@ -31,15 +31,17 @@ class Product(models.Model):
     )
     image_filename = models.CharField(max_length=255, null=True, blank=True)
     image_url = models.URLField(max_length=500, null=True, blank=True)
-    image = CloudinaryField("image", default="placeholder", null=True, blank=True)
+    image = CloudinaryField(
+        "image", default="placeholder", null=True, blank=True
+    )
 
-    # Return product name
     def __str__(self):
+        # Return product name
         return self.name
 
-    # Final global resolver for images
     @property
     def image_url_fixed(self):
+        # Resolve image URL (Cloudinary → static → fallback)
         if (
             self.image_url
             and self.image_url.startswith("https://res.cloudinary.com")
