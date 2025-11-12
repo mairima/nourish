@@ -6,7 +6,6 @@
   <div class="container pt-1 mt-0"></div>
 {% endblock %}
 
-
 {% block content %}
   <div class="overlay"></div>
   <div class="container mb-2 bag-page">
@@ -38,27 +37,10 @@
                     <!-- Product image -->
                     <td class="p-3 w-25">
                       <a href="{% url 'products:product_detail' item.product.id %}">
-                        {% if item.product.image %}
-                          <img class="img-fluid rounded"
-                               src="{{ item.product.image.url }}"
-                               alt="{{ item.product.name }}"
-                               style="width: 80px; height: 80px; object-fit: cover;">
-                        {% elif item.product.image_url %}
-                          <img class="img-fluid rounded"
-                               src="{{ item.product.image_url }}"
-                               alt="{{ item.product.name }}"
-                               style="width: 80px; height: 80px; object-fit: cover;">
-                        {% elif item.product.image_filename %}
-                          <img class="img-fluid rounded"
-                               src="{% static 'images/' %}{{ item.product.image_filename }}"
-                               alt="{{ item.product.name }}"
-                               style="width: 80px; height: 80px; object-fit: cover;">
-                        {% else %}
-                          <img class="img-fluid rounded"
-                               src="{% static 'images/noimage.png' %}"
-                               alt="{{ item.product.name }}"
-                               style="width: 80px; height: 80px; object-fit: cover;">
-                        {% endif %}
+                        <img class="img-fluid rounded"
+                             src="{{ item.product.image_url_fixed|safe }}"
+                             alt="{{ item.product.name }}"
+                             style="width: 80px; height: 80px; object-fit: cover;">
                       </a>
                     </td>
 
@@ -137,7 +119,9 @@
                   <td colspan="5" class="pt-5 text-right">
                     <h6><strong>Bag Total: €{{ total|floatformat:2 }}</strong></h6>
                     <h6>Delivery: €{{ delivery|floatformat:2 }}</h6>
-                    <h4 class="mt-4"><strong>Grand Total: €{{ grand_total|floatformat:2 }}</strong></h4>
+                    <h4 class="mt-4">
+                      <strong>Grand Total: €{{ grand_total|floatformat:2 }}</strong>
+                    </h4>
                     {% if free_delivery_delta > 0 %}
                       <p class="mb-1 text-danger">
                         You could get free delivery by spending just
@@ -150,11 +134,13 @@
                 <!-- Actions -->
                 <tr>
                   <td colspan="5" class="text-right">
-                    <a href="{% url 'products:products' %}" class="btn btn-outline-black rounded-0 btn-lg">
+                    <a href="{% url 'products:products' %}"
+                       class="btn btn-outline-black rounded-0 btn-lg">
                       <span class="icon"><i class="fas fa-chevron-left"></i></span>
                       <span class="text-uppercase">Keep Shopping</span>
                     </a>
-                    <a href="{% url 'checkout:checkout' %}" class="btn btn-black rounded-0 btn-lg">
+                    <a href="{% url 'checkout:checkout' %}"
+                       class="btn btn-black rounded-0 btn-lg">
                       <span class="text-uppercase">Secure Checkout</span>
                       <span class="icon"><i class="fas fa-lock"></i></span>
                     </a>
@@ -164,9 +150,12 @@
             </table>
           </div>
         {% else %}
-          <p class="mb-4 h5 text-center text-dark empty-message">Your bag is empty.</p>
+          <p class="mb-4 h5 text-center text-dark empty-message">
+            Your bag is empty.
+          </p>
           <div class="text-center">
-            <a href="{% url 'products:products' %}" class="btn btn-outline-black rounded-0 btn-lg">
+            <a href="{% url 'products:products' %}"
+               class="btn btn-outline-black rounded-0 btn-lg">
               <span class="icon"><i class="fas fa-chevron-left"></i></span>
               <span class="text-uppercase">Keep Shopping</span>
             </a>
@@ -178,23 +167,22 @@
 {% endblock %}
 
 {% block postloadjs %}
-{{ block.super }}
-{% include 'products/includes/quantity_input_script.html' %}
-<script>
+  {{ block.super }}
+  {% include 'products/includes/quantity_input_script.html' %}
+  <script>
+    // Update quantity on click
+    $('.update-link').click(function() {
+      $(this).prev('.update-form').submit();
+    });
 
-  // Update quantity on click
-  $('.update-link').click(function() {
-    $(this).prev('.update-form').submit();
-  });
-
-  // Remove item and reload
-  $('.remove-item').click(function(e) {
-    e.preventDefault();
-    var csrfToken = "{{ csrf_token }}";
-    var url = $(this).data('url');
-    $.post(url, { 'csrfmiddlewaretoken': csrfToken })
-      .done(function() { location.reload(); })
-      .fail(function() { alert('Could not remove item. Please try again.'); });
-  });
-</script>
+    // Remove item and reload
+    $('.remove-item').click(function(e) {
+      e.preventDefault();
+      var csrfToken = "{{ csrf_token }}";
+      var url = $(this).data('url');
+      $.post(url, { 'csrfmiddlewaretoken': csrfToken })
+        .done(function() { location.reload(); })
+        .fail(function() { alert('Could not remove item. Please try again.'); });
+    });
+  </script>
 {% endblock %}

@@ -35,32 +35,24 @@
         </div>
 
         {% for item in bag_items %}
-          <div class="row">
-            <div class="col-2 mb-1">
+          <div class="row align-items-center mb-2">
+            <div class="col-2">
               <a href="{% url 'products:product_detail' item.product.id %}">
-                {% if item.product.image %}
-                  <img class="w-100"
-                       src="{{ item.product.image.url }}"
-                       alt="{{ item.product.name }}"
-                       style="width:64px; height:64px; object-fit:cover;">
-                {% elif item.product.image_url %}
-                  <img class="w-100"
-                       src="{{ item.product.image_url }}"
-                       alt="{{ item.product.name }}"
-                       style="width:64px; height:64px; object-fit:cover;">
-                {% else %}
-                  <img class="w-100"
-                       src="{% static 'images/noimage.png' %}"
-                       alt="{{ item.product.name }}"
-                       style="width:64px; height:64px; object-fit:cover;">
-                {% endif %}
+                <img class="img-fluid rounded"
+                     src="{{ item.product.image_url_fixed|safe }}"
+                     alt="{{ item.product.name }}"
+                     style="width:64px; height:64px; object-fit:cover;">
               </a>
             </div>
-            <div class="col-7">
-              <p class="my-0"><strong>{{ item.product.name }}</strong></p>
+            <div class="col-7 pl-0">
+              <p class="my-0 font-weight-bold">{{ item.product.name }}</p>
               <p class="my-0 small">
                 Size:
-                {% if item.product.has_sizes %}{{ item.size|upper }}{% else %}N/A{% endif %}
+                {% if item.product.has_sizes %}
+                  {{ item.size|upper }}
+                {% else %}
+                  N/A
+                {% endif %}
               </p>
               <p class="my-0 small text-muted">Qty: {{ item.quantity }}</p>
             </div>
@@ -75,10 +67,10 @@
         <!-- Discount Code Input -->
         <div class="mt-3 mb-4">
           <form method="POST" action="{% url 'checkout:apply_discount' %}">
-
             {% csrf_token %}
             <div class="input-group">
-              <input type="text" name="discount_code" class="form-control"
+              <input type="text" name="discount_code"
+                     class="form-control"
                      placeholder="Enter promo code" required>
               <div class="input-group-append">
                 <button type="submit" class="btn btn-outline-success">
@@ -117,19 +109,26 @@
 
       <!-- Checkout form -->
       <div class="col-12 col-lg-6">
-        <p class="text-muted">Please fill out the form below to complete your order</p>
+        <p class="text-muted">
+          Please fill out the form below to complete your order
+        </p>
 
-        <form action="{% url 'checkout:checkout' %}" method="POST" id="payment-form">
+        <form action="{% url 'checkout:checkout' %}"
+              method="POST" id="payment-form">
           {% csrf_token %}
 
           <fieldset class="rounded px-3 mb-5">
-            <legend class="fieldset-label small text-black px-2 w-auto">Details</legend>
+            <legend class="fieldset-label small text-black px-2 w-auto">
+              Details
+            </legend>
             {{ order_form.full_name|as_crispy_field }}
             {{ order_form.email|as_crispy_field }}
           </fieldset>
 
           <fieldset class="rounded px-3 mb-5">
-            <legend class="fieldset-label small text-black px-2 w-auto">Delivery</legend>
+            <legend class="fieldset-label small text-black px-2 w-auto">
+              Delivery
+            </legend>
             {{ order_form.phone_number|as_crispy_field }}
             {{ order_form.country|as_crispy_field }}
             {{ order_form.postcode|as_crispy_field }}
@@ -143,12 +142,17 @@
                 <label class="form-check-label" for="id-save-info">
                   Save this delivery information to my profile
                 </label>
-                <input class="form-check-input ml-2 mr-0" type="checkbox" id="id-save-info" name="save-info" checked>
+                <input class="form-check-input ml-2 mr-0"
+                       type="checkbox" id="id-save-info"
+                       name="save-info" checked>
               {% else %}
                 <label class="form-check-label" for="id-save-info">
-                  <a class="text-info" href="{% url 'account_signup' %}">Create an account</a>
-                  or
-                  <a class="text-info" href="{% url 'account_login' %}">login</a>
+                  <a class="text-info" href="{% url 'account_signup' %}">
+                    Create an account
+                  </a> or
+                  <a class="text-info" href="{% url 'account_login' %}">
+                    login
+                  </a>
                   to save this information
                 </label>
               {% endif %}
@@ -156,14 +160,19 @@
           </fieldset>
 
           <fieldset class="px-3">
-            <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
+            <legend class="fieldset-label small text-black px-2 w-auto">
+              Payment
+            </legend>
             <div class="mb-3" id="card-element"></div>
-            <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
-            <input type="hidden" value="{{ client_secret }}" name="client_secret">
+            <div class="mb-3 text-danger" id="card-errors"
+                 role="alert"></div>
+            <input type="hidden" value="{{ client_secret }}"
+                   name="client_secret">
           </fieldset>
 
           <div class="submit-button text-right mt-5 mb-2">
-            <a href="{% url 'view_bag' %}" class="btn btn-outline-black rounded-0">
+            <a href="{% url 'view_bag' %}"
+               class="btn btn-outline-black rounded-0">
               <span class="icon"><i class="fas fa-chevron-left"></i></span>
               <span class="font-weight-bold">Adjust Bag</span>
             </a>
@@ -174,8 +183,13 @@
             </button>
 
             <p class="small text-danger my-0">
-              <span class="icon"><i class="fas fa-exclamation-circle"></i></span>
-              <span>Your card will be charged <strong>€{{ grand_total|floatformat:2 }}</strong></span>
+              <span class="icon">
+                <i class="fas fa-exclamation-circle"></i>
+              </span>
+              <span>
+                Your card will be charged
+                <strong>€{{ grand_total|floatformat:2 }}</strong>
+              </span>
             </p>
           </div>
         </form>
@@ -185,7 +199,9 @@
 
   <div id="loading-overlay" aria-hidden="true">
     <h1 class="text-light logo-font loading-spinner">
-      <span class="icon"><i class="fas fa-3x fa-sync-alt fa-spin" aria-hidden="true"></i></span>
+      <span class="icon">
+        <i class="fas fa-3x fa-sync-alt fa-spin" aria-hidden="true"></i>
+      </span>
       <span class="sr-only">Processing payment…</span>
     </h1>
   </div>
@@ -202,7 +218,10 @@
 <script>
   (function () {
     var el = document.getElementById('id_country');
-    if (el) console.log('Country select detected with', el.options.length, 'options');
-    else console.warn('Country field not found');
+    if (el)
+      console.log('Country select detected with',
+        el.options.length, 'options');
+    else
+      console.warn('Country field not found');
   })();
 </script>
