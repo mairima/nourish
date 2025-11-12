@@ -11,14 +11,13 @@ from products.models import Product
 from profiles.models import UserProfile
 
 
+# Default expiry date helper
 def default_expiry_date():
-    """Return default expiry date (60 days from now)."""
     return timezone.now() + timedelta(days=60)
 
 
 class Order(models.Model):
-    """Model representing a customer order."""
-
+    # Customer order
     order_number = models.CharField(max_length=32, null=False, editable=False)
     full_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
@@ -41,7 +40,6 @@ class Order(models.Model):
     )
     discount_percent = models.PositiveIntegerField(default=0)
     confirmation_sent = models.BooleanField(default=False)
-
     user_profile = models.ForeignKey(
         UserProfile,
         on_delete=models.SET_NULL,
@@ -53,16 +51,16 @@ class Order(models.Model):
     class Meta:
         ordering = ["-date"]
 
+    # Generate unique order number
     def _generate_order_number(self):
-        """Generate a random, unique order number."""
         return uuid.uuid4().hex.upper()
 
+    # Update totals
     def update_total(self):
-        """Update order total and delivery cost."""
         self.order_total = (
-            self.lineitems.aggregate(
-                Sum("lineitem_total")
-            )["lineitem_total__sum"]
+            self.lineitems.aggregate(Sum("lineitem_total"))[
+                "lineitem_total__sum"
+            ]
             or 0
         )
         if self.order_total < settings.FREE_DELIVERY_THRESHOLD:
@@ -73,21 +71,15 @@ class Order(models.Model):
             )
         else:
             self.delivery_cost = 0
-
         self.grand_total = self.order_total + self.delivery_cost
         self.save(
-            update_fields=[
-                "order_total",
-                "delivery_cost",
-                "grand_total",
-            ]
+            update_fields=["order_total", "delivery_cost", "grand_total"]
         )
 
+    # Save order with generated number
     def save(self, *args, **kwargs):
-        """Save the order with generated order number and user profile."""
         if not self.order_number:
             self.order_number = self._generate_order_number()
-
         if self.user_profile_id is None and self.email:
             try:
                 profile = (
@@ -99,21 +91,19 @@ class Order(models.Model):
                     self.user_profile = profile
             except Exception:
                 pass
-
         super().save(*args, **kwargs)
 
+    # String representation
     def __str__(self):
         return self.order_number
 
+    # Return total line item value
     def get_total(self):
-        """Return the total value of all line items for this order."""
-        total = sum(item.lineitem_total for item in self.lineitems.all())
-        return total
+        return sum(item.lineitem_total for item in self.lineitems.all())
 
 
 class OrderLineItem(models.Model):
-    """Line items within an order."""
-
+    # Line item model
     order = models.ForeignKey(
         Order,
         null=False,
@@ -133,21 +123,24 @@ class OrderLineItem(models.Model):
         max_digits=6, decimal_places=2, null=False, blank=False, editable=False
     )
 
+    # Calculate totals on save
     def save(self, *args, **kwargs):
-        """Calculate line item total and update the order total."""
         self.lineitem_total = self.product.price * self.quantity
         super().save(*args, **kwargs)
         self.order.update_total()
 
+    # String representation
     def __str__(self):
         label = getattr(self.product, "name", None) or f"ID {self.product_id}"
         size = f" (size {self.product_size})" if self.product_size else ""
-        return f"{label}{size} × {self.quantity} on order {self.order.order_number}"
+        return (
+            f"{label}{size} × {self.quantity} "
+            f"on order {self.order.order_number}"
+        )
 
 
 class DiscountCode(models.Model):
-    """Discount codes usable during checkout."""
-
+    # Discount codes for checkout
     code = models.CharField(max_length=20, unique=True)
     discount_percent = models.PositiveIntegerField(default=10)
     valid_from = models.DateTimeField(default=timezone.now)
@@ -155,10 +148,11 @@ class DiscountCode(models.Model):
     active = models.BooleanField(default=True)
     one_time_use = models.BooleanField(default=True)
 
+    # Check if discount is valid
     def is_valid(self):
-        """Return True if discount code is active and within date range."""
         now = timezone.now()
         return self.active and self.valid_from <= now <= self.valid_until
 
+    # String representation
     def __str__(self):
         return f"{self.code} ({self.discount_percent}% off)"
