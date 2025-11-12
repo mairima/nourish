@@ -1,37 +1,39 @@
 """
-Nourish URL Configuration
-
-The `urlpatterns` list routes URLs to views.
-For more information see:
-https://docs.djangoproject.com/en/3.2/topics/http/urls/
+Nourish URL configuration.
 """
-
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.sitemaps.views import sitemap
 from products.sitemaps import ProductSitemap, StaticViewSitemap
 
-# Sitemaps configuration
+# Sitemaps
 sitemaps_dict = {
     "products": ProductSitemap,
     "static": StaticViewSitemap,
 }
 
 urlpatterns = [
-    # Admin and user accounts
+    # Admin and accounts
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
 
-    # Core app routes
+    # Core apps
     path("", include("home.urls")),
-    path("products/", include(("products.urls", "products"), namespace="products")),
+    path(
+        "products/",
+        include(("products.urls", "products"), namespace="products"),
+    ),
     path("bag/", include("bag.urls")),
-    path("checkout/", include(("checkout.urls", "checkout"), namespace="checkout")),
+    path(
+        "checkout/",
+        include(("checkout.urls", "checkout"), namespace="checkout"),
+    ),
     path("profiles/", include("profiles.urls")),
     path("contact/", include("contact.urls")),
-    path("faqs/", include(("faqs.urls", "faqs"), namespace="faqs")),
-
-    # Newsletter app (✅ includes unsubscribe route)
+    path(
+        "faqs/",
+        include(("faqs.urls", "faqs"), namespace="faqs"),
+    ),
     path("newsletter/", include("newsletter.urls")),
 
     # Sitemap
@@ -43,5 +45,5 @@ urlpatterns = [
     ),
 ]
 
-# Custom 404 handler
+# 404 handler
 handler404 = "nourish.views.handler404"
