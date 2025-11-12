@@ -1,19 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% trans "Already Logged In" %}</title>
-</head>
-<body>
-    {% load i18n %}
-    {% load account %}
+{% load i18n %}
+{% load account %}
 
-    {% user_display user as user_display %}
-    <p>
-        <strong>{% trans "Note" %}:</strong>
-        {% blocktrans %}
-            You are already logged in as {{ user_display }}.
-        {% endblocktrans %}
-    </p>
-</body>
-</html>
+{% user_display user as user_display %}
+<p><strong>{% trans "Note" %}:</strong> {% blocktrans %}you are already logged in as {{ user_display }}.{% endblocktrans %}</p>
