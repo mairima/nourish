@@ -11,43 +11,55 @@ OUTPUT = "documentation/erd.mmd"
 os.makedirs("documentation", exist_ok=True)
 
 # Which apps to include (edit as needed)
-APP_LABELS = ["products", "checkout", "profiles", "contact", "newsletter", "faqs", "home"]
+APP_LABELS = [
+    "products",
+    "checkout",
+    "profiles",
+    "contact",
+    "newsletter",
+    "faqs",
+    "home",
+]
 
-def field_decl(f: models.Field) -> str:
-    # Basic Mermaid-friendly dtype names
-    name = f.name
-    pk = " PK" if getattr(f, "primary_key", False) or name == "id" else ""
-    if isinstance(f, models.AutoField) or name == "id":
+
+def field_decl(field: models.Field) -> str:
+    """Return a Mermaid-friendly field declaration."""
+    name = field.name
+    pk = " PK" if getattr(field, "primary_key", False) or name == "id" else ""
+
+    if isinstance(field, models.AutoField) or name == "id":
         dtype = "int"
-    elif isinstance(f, models.CharField):
+    elif isinstance(field, models.CharField):
         dtype = "varchar"
-    elif isinstance(f, models.TextField):
+    elif isinstance(field, models.TextField):
         dtype = "text"
-    elif isinstance(f, models.EmailField):
+    elif isinstance(field, models.EmailField):
         dtype = "varchar"
-    elif isinstance(f, models.DecimalField):
+    elif isinstance(field, models.DecimalField):
         dtype = "decimal"
-    elif isinstance(f, models.BooleanField):
+    elif isinstance(field, models.BooleanField):
         dtype = "bool"
-    elif isinstance(f, models.DateTimeField):
+    elif isinstance(field, models.DateTimeField):
         dtype = "datetime"
-    elif isinstance(f, models.IntegerField):
+    elif isinstance(field, models.IntegerField):
         dtype = "int"
-    elif isinstance(f, models.ForeignKey):
-        # Show FK column inline; relation will be drawn separately
-        dtype = "int"
+    elif isinstance(field, models.ForeignKey):
+        dtype = "int"  # show FK inline
     else:
-        dtype = f.__class__.__name__.lower()
+        dtype = field.__class__.__name__.lower()
+
     return f"        {dtype} {name}{pk}"
+
 
 def rel_line(from_model, to_model, rel_type, label):
     """
+    Return a Mermaid relationship line.
+
     Mermaid cardinalities:
       one-to-many  : '||--o{'
       many-to-one  : '}o--||'
       one-to-one   : '||--||'
       many-to-many : '}o--o{'
-    We render from child -> parent for FK (many-to-one).
     """
     if rel_type == "fk":
         return f"    {from_model} }}o--|| {to_model} : {label}"
@@ -57,8 +69,8 @@ def rel_line(from_model, to_model, rel_type, label):
         return f"    {from_model} }}o--o{{ {to_model} : {label}"
     return ""
 
+
 lines = ["erDiagram"]
-models_seen = []
 relations = []
 
 for model in apps.get_models():
@@ -67,37 +79,48 @@ for model in apps.get_models():
         continue
 
     model_name = model.__name__
-    models_seen.append(model_name)
-
-    # Table block
     lines.append(f"    {model_name} {{")
-    # fields
-    for f in model._meta.get_fields():
-        # Skip reverse relations in the field list
-        if f.auto_created and not f.concrete:
+
+    for field in model._meta.get_fields():
+        if field.auto_created and not field.concrete:
             continue
-        if isinstance(f, (models.ManyToOneRel, models.ManyToManyRel, models.OneToOneRel)):
+        if isinstance(
+            field,
+            (
+                models.ManyToOneRel,
+                models.ManyToManyRel,
+                models.OneToOneRel,
+            ),
+        ):
             continue
-        lines.append(field_decl(f))
+        lines.append(field_decl(field))
+
     lines.append("    }")
     lines.append("")
 
-    # Relations
-    for f in model._meta.get_fields():
-        if isinstance(f, models.ForeignKey):
-            parent = f.remote_field.model.__name__
-            relations.append(rel_line(model_name, parent, "fk", f.name))
-        elif isinstance(f, models.OneToOneField):
-            parent = f.remote_field.model.__name__
-            relations.append(rel_line(model_name, parent, "o2o", f.name))
-        elif isinstance(f, models.ManyToManyField):
-            parent = f.remote_field.model.__name__
-            relations.append(rel_line(model_name, parent, "m2m", f.name))
+    for field in model._meta.get_fields():
+        parent = getattr(field.remote_field, "model", None)
+        if not parent:
+            continue
+        parent_name = parent.__name__
 
-# Append unique relations to avoid duplicates
-for r in sorted(set(relations)):
-    if r.strip():
-        lines.append(r)
+        if isinstance(field, models.ForeignKey):
+            relations.append(
+                rel_line(model_name, parent_name, "fk", field.name)
+            )
+        elif isinstance(field, models.OneToOneField):
+            relations.append(
+                rel_line(model_name, parent_name, "o2o", field.name)
+            )
+        elif isinstance(field, models.ManyToManyField):
+            relations.append(
+                rel_line(model_name, parent_name, "m2m", field.name)
+            )
+
+# Append unique relations
+for rel in sorted(set(relations)):
+    if rel.strip():
+        lines.append(rel)
 
 with open(OUTPUT, "w", encoding="utf-8") as fh:
     fh.write("\n".join(lines))
