@@ -6,5 +6,9 @@ app_name = "profiles"
 urlpatterns = [
     path("", views.profile, name="profile"),
     path("edit/", views.profile, name="profile_edit"),
-    path('order_history/<order_number>', views.order_history, name='order_history'),
+    path(
+        "order_history/<order_number>",
+        views.order_history,
+        name="order_history",
+    ),
 ]
