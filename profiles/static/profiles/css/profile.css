@@ -28,3 +28,9 @@
 #id_default_country option:first-child {
     color: #aab7c4;
 }
+
+/* Add extra space below forms so they don’t touch the footer */
+form {
+  margin-bottom: 100px !important;
+}
+
