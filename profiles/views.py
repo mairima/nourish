@@ -1,4 +1,3 @@
-# profiles/views.py
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
@@ -8,6 +7,7 @@ from .forms import ProfileForm
 from checkout.models import Order
 
 
+# Display and update user profile
 @login_required
 def profile(request):
     profile, _ = UserProfile.objects.get_or_create(user=request.user)
@@ -22,23 +22,29 @@ def profile(request):
     else:
         form = ProfileForm(instance=profile)
 
-    # Email (fallback via allauth if User.email is empty)
+    # Get user email (fallback if not set on User model)
     user_email = request.user.email
     if not user_email:
         try:
             from allauth.account.models import EmailAddress
-            user_email = EmailAddress.objects.filter(
-                user=request.user, primary=True
-            ).values_list("email", flat=True).first()
+            user_email = (
+                EmailAddress.objects.filter(
+                    user=request.user, primary=True
+                )
+                .values_list("email", flat=True)
+                .first()
+            )
         except Exception:
             user_email = None
 
-    # Orders linked via FK first
+    # Orders linked via FK
     orders = profile.orders.all().order_by("-date")
 
-    # Fallback: also show guest orders that match the same email
+    # Fallback for guest orders
     if not orders.exists() and user_email:
-        orders = Order.objects.filter(email__iexact=user_email).order_by("-date")
+        orders = Order.objects.filter(
+            email__iexact=user_email
+        ).order_by("-date")
 
     context = {
         "profile": profile,
@@ -50,21 +56,28 @@ def profile(request):
     return render(request, "profiles/profile.html", context)
 
 
+# Display past order details
 def order_history(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
-    messages.info(request, (
-        f'This is a past confirmation for order number {order_number}. '
-        'A confirmation email was sent on the order date.'
-    ))
-    return render(request, "checkout/checkout:checkout_success.html", {
-        "order": order,
-        "from_profile": True,
-    })
+    messages.info(
+        request,
+        (
+            f"This is a past confirmation for order number {order_number}. "
+            "A confirmation email was sent on the order date."
+        ),
+    )
+    return render(
+        request,
+        "checkout/checkout_success.html",
+        {"order": order, "from_profile": True},
+    )
 
 
+# Edit profile alias view
 @login_required
 def profile_edit(request):
     return render(request, "profiles/profile_edit.html", {})
+
 
 # Optional alias
 profile_edit_alias = profile
