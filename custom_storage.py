@@ -1,10 +1,14 @@
-from whitenoise.storage import CompressedManifestStaticFilesStorage, MissingFileError
+from whitenoise.storage import (
+    CompressedManifestStaticFilesStorage,
+    MissingFileError,
+)
 
 
 class IgnoreAdminManifestStorage(CompressedManifestStaticFilesStorage):
     """Ignore missing admin/fonts.css during collectstatic on Heroku."""
 
     def post_process(self, paths, dry_run=False, **options):
+        """Run post-processing and ignore missing admin/fonts.css."""
         all_processed = []
         try:
             for name, hashed_name, processed in super().post_process(
@@ -15,6 +19,9 @@ class IgnoreAdminManifestStorage(CompressedManifestStaticFilesStorage):
         except (MissingFileError, FileNotFoundError) as exc:
             msg = str(exc)
             if "admin/css/fonts.css" in msg:
-                print("\n⚠️  WhiteNoise Notice: Missing admin/fonts.css ignored (safe to continue).")
+                print(
+                    "\n⚠️  WhiteNoise Notice: Missing admin/fonts.css ignored "
+                    "(safe to continue)."
+                )
                 return all_processed
             raise
