@@ -1,12 +1,12 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.template.loader import render_to_string
+from django.http import HttpResponseNotFound
 
 
-# Home view
-def index(request):
-    return HttpResponse("Products home")
-
-
-# 404 handler
 def handler404(request, exception):
-    return render(request, "errors/404.html", status=404)
+    """Render custom 404 page using Django template engine."""
+    try:
+        html = render_to_string("errors/404.html", {}, request)
+        return HttpResponseNotFound(html)
+    except Exception as e:
+        # fallback plain text output for debugging
+        return HttpResponseNotFound(f"<h1>404 - Fallback</h1><p>{e}</p>")

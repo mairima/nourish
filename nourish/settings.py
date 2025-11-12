@@ -94,7 +94,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR / "templates"),
             os.path.join(BASE_DIR / "templates" / "allauth"),
         ],
-        "APP_DIRS": True,
+        #"APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -107,6 +107,11 @@ TEMPLATES = [
             "builtins": [
                 "crispy_forms.templatetags.crispy_forms_tags",
                 "crispy_forms.templatetags.crispy_forms_field",
+            ],
+             #loaders to ensure {% include %} and {% extends %} work
+            "loaders": [
+                "django.template.loaders.filesystem.Loader",
+                "django.template.loaders.app_directories.Loader",
             ],
         },
     },
@@ -239,3 +244,6 @@ LOGGING = {
 
 # Primary key
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Custom error handlers
+handler404 = "home.views.error_404_view"

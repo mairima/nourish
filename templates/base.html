@@ -1,5 +1,6 @@
 {% load static %}
 {% url 'products:products' as products_index_url %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -7,23 +8,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Added required <title> tag for valid <head> -->
     <title>
       {% block title %}Nourish Bakery — Fresh Cakes & Snacks{% endblock %}
     </title>
 
-    <!-- Bootstrap + Fonts -->
+    <!-- Bootstrap & Fonts -->
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato&display=swap">
 
-    <!-- Project CSS -->
+    <!-- Main CSS -->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block extra_css %}{% endblock %}
 
-    <!-- Favicon with environment check -->
+    <!-- Favicon -->
     {% if request.get_host == '127.0.0.1:8000' or request.get_host == 'localhost:8000' %}
       <link rel="icon" href="{% static 'images/favicon.png' %}">
     {% else %}
@@ -34,10 +34,9 @@
 
   <body class="d-flex flex-column min-vh-100 {% block body_class %}{% endblock %}">
 
-    <!-- Header / Navigation -->
+    <!-- Header -->
     <header class="container-fluid fixed-top bg-white">
-
-      <!-- Top navigation bar -->
+      <!-- Top Navigation -->
       <div id="topnav" class="row pt-lg-2 d-none d-lg-flex">
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0 text-center text-lg-left">
           <a href="{% url 'home' %}" class="nav-link main-logo-link">
@@ -45,7 +44,7 @@
           </a>
         </div>
 
-        <!-- Search bar -->
+        <!-- Search Bar -->
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
           <form method="GET" action="{{ products_index_url }}">
             <div class="input-group w-100">
@@ -54,24 +53,24 @@
               <div class="input-group-append">
                 <button class="form-control btn btn-black border border-black rounded-0"
                         type="submit">
-                  <span class="icon"><i class="fas fa-search"></i></span>
+                  <i class="fas fa-search"></i>
                 </button>
               </div>
             </div>
           </form>
         </div>
 
-        <!-- Account & Bag wrapped inside <ul> for valid HTML -->
+        <!-- Account & Bag -->
         <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
           <nav aria-label="User account and bag">
             <ul class="list-inline list-unstyled text-center text-lg-right my-0">
 
-              <!-- My Account -->
+              <!-- Account Dropdown -->
               <li class="list-inline-item dropdown">
                 <a class="text-black nav-link" href="#" id="user-options"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <div class="text-center">
-                    <div><i class="fas fa-user fa-lg"></i></div>
+                    <i class="fas fa-user fa-lg"></i>
                     <p class="my-0">My Account</p>
                   </div>
                 </a>
@@ -82,16 +81,14 @@
                        class="dropdown-item font-weight-bold">
                       <i class="fas fa-cogs mr-1"></i> Product Management
                     </a>
+                    <div class="dropdown-divider"></div>
                   {% endif %}
-
-                  <div class="dropdown-divider"></div>
 
                   {% if request.user.is_authenticated %}
                     <a href="{% url 'profiles:profile' %}" class="dropdown-item">
                       My Profile
                     </a>
-                    <form method="post" action="{% url 'account_logout' %}"
-                          class="px-3 py-1">
+                    <form method="post" action="{% url 'account_logout' %}" class="px-3 py-1">
                       {% csrf_token %}
                       <button type="submit" class="btn btn-link p-0">Logout</button>
                     </form>
@@ -104,11 +101,10 @@
 
               <!-- Shopping Bag -->
               <li class="list-inline-item">
-                <a class="{% if grand_total %}text-primary font-weight-bold{% else %}
-                           text-black{% endif %} nav-link d-none d-lg-block"
+                <a class="{% if grand_total %}text-primary font-weight-bold{% else %}text-black{% endif %} nav-link d-none d-lg-block"
                    href="{% url 'view_bag' %}">
                   <div class="text-center">
-                    <div><i class="fas fa-shopping-bag fa-lg"></i></div>
+                    <i class="fas fa-shopping-bag fa-lg"></i>
                     <p class="my-0">
                       {% if grand_total %}
                         €{{ grand_total|floatformat:2 }}
@@ -124,33 +120,26 @@
         </div>
       </div>
 
-      <!-- Navbar (includes main + mobile) wrapped in <ul> for valid <li> use -->
+      <!-- Navbar -->
       <div class="row bg-white">
         <nav class="navbar navbar-expand-lg navbar-light w-100">
-          <!-- Toggler -->
           <button class="navbar-toggler" type="button" data-toggle="collapse"
                   data-target="#main-nav" aria-controls="main-nav"
                   aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <!-- Collapsible wrapper -->
           <div class="collapse navbar-collapse justify-content-center" id="main-nav">
-            <!-- Outer list wraps both mobile and desktop includes -->
-            <ul class="navbar-nav list-inline text-center mb-0">
-              <li class="nav-item w-100">
-                {% include "includes/mobile-top-header.html" with products_index_url=products_index_url %}
-              </li>
-              <li class="nav-item w-100">
-                {% include "includes/main-nav.html" with products_index_url=products_index_url %}
-              </li>
+            <ul class="navbar-nav text-center mb-0">
+              {% include "includes/mobile-top-header.html" %}
+              {% include "includes/main-nav.html" %}
+
             </ul>
           </div>
         </nav>
       </div>
 
-
-      <!-- Free delivery banner -->
+      <!-- Free Delivery Banner -->
       <div id="delivery-banner" class="row text-center">
         <div class="col bg-black text-white">
           <h4 class="logo-font my-1">
@@ -160,10 +149,9 @@
       </div>
     </header>
 
-    <!-- Toast messages -->
+    <!-- Toast Messages -->
     {% if messages %}
-      <div class="message-container position-fixed"
-           aria-live="polite" aria-atomic="true">
+      <div class="message-container position-fixed" aria-live="polite" aria-atomic="true">
         {% for message in messages %}
           {% with message.level as level %}
             {% if level == 40 %}
@@ -189,8 +177,7 @@
     <!-- Footer -->
     <footer class="footer text-white mt-auto py-4">
       <div class="container text-center">
-
-        <!-- Social icons -->
+        <!-- Social Icons -->
         <div class="mb-3">
           <a href="https://www.facebook.com/profile.php?id=61582594335574"
              target="_blank" rel="noopener" aria-label="Facebook"
@@ -204,7 +191,7 @@
           </a>
         </div>
 
-        <!-- Contact info -->
+        <!-- Contact Info -->
         <div class="footer-contact mb-2">
           <p class="text-warning mb-1">
             <i class="fas fa-map-marker-alt"></i>
@@ -218,7 +205,7 @@
           </p>
         </div>
 
-        <!-- Legal links -->
+        <!-- Legal Links -->
         <div class="footer-links mt-3">
           <a href="{% url 'privacy_policy' %}" class="text-white me-3">Privacy Policy</a> |
           <a href="{% url 'terms_conditions' %}" class="text-white ms-3">Terms & Conditions</a>
@@ -231,20 +218,16 @@
       </div>
     </footer>
 
-    <!-- Scroll to Top Button -->
+    <!-- Scroll to Top -->
     <button id="scrollToTopBtn" title="Go to top">
       <i class="fas fa-chevron-up"></i>
     </button>
 
     <!-- Core JS -->
-    <script src="https://kit.fontawesome.com/fa7e3e6dea.js"
-            crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/fa7e3e6dea.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script src="https://js.stripe.com/v3/"></script>
 
     <!-- Project JS -->
