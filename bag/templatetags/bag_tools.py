@@ -3,12 +3,10 @@ from django import template
 
 register = template.Library()
 
+
 @register.filter
 def calc_subtotal(price, quantity):
-    """
-    Return price * quantity rounded to 2 decimal places.
-    Works with Decimal/str/float price and int-like quantity.
-    """
+    # Return price × quantity rounded to 2 decimals
     try:
         p = Decimal(str(price))
         q = int(quantity)
