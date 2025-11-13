@@ -525,3 +525,22 @@ body.signup-page .header-container {
   padding-top: 40px !important; /* or 30px for tighter spacing */
   margin-top: 0 !important;
 }
+
+/* Bag product image */
+.bag-product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+/* Padding cell that holds image */
+.image-cell {
+    width: 25%;
+}
+
+/* Image used in checkout order summary */
+.checkout-product-image {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+}
