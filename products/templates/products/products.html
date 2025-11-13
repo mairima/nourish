@@ -25,12 +25,14 @@
           </a>
         {% endfor %}
       {% endif %}
+
       <hr class="w-50 mb-1">
     </div>
   </div>
 
   <div class="row">
     <div class="col-10 offset-1">
+
       <div class="d-flex justify-content-between align-items-center mb-2">
         <p class="text-muted small mb-0">
           Showing {{ products|length }} products
@@ -38,56 +40,66 @@
       </div>
 
       <div class="row g-4 mt-1 mb-2">
+
         {% for product in products %}
-          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-            <div class="card product-card border-0">
-              <a href="{% url 'products:product_detail' product.id %}">
+        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+          <div class="card product-card border-0">
 
-                <!-- ✅ Unified image source (Cloudinary or static fallback) -->
+            <a href="{% url 'products:product_detail' product.id %}">
+              {% if product.image %}
                 <img class="card-img-top img-fluid"
-                     src="{{ product.image_url_fixed }}"
+                     src="{{ product.image.url }}"
                      alt="{{ product.name }}">
+              {% else %}
+                <img class="card-img-top img-fluid"
+                     src="{% static 'images/noimage.png' %}"
+                     alt="Image not available">
+              {% endif %}
+            </a>
 
-              </a>
+            <div class="card-body pb-0">
+              <p class="mb-0">
+                <a class="text-dark" href="{% url 'products:product_detail' product.id %}">
+                  {{ product.name }}
+                </a>
+              </p>
+            </div>
 
-              <div class="card-body pb-0">
-                <p class="mb-0">
-                  <a class="text-dark" href="{% url 'products:product_detail' product.id %}">
-                    {{ product.name }}
-                  </a>
-                </p>
-              </div>
+            <div class="card-footer bg-white pt-0 border-0 text-left">
+              <div class="row">
+                <div class="col">
+                  <p class="lead mb-0 text-left font-weight-bold">
+                    €{{ product.price|floatformat:2 }}
+                  </p>
 
-              <div class="card-footer bg-white pt-0 border-0 text-left">
-                <div class="row">
-                  <div class="col">
-                    <p class="lead mb-0 text-left font-weight-bold">
-                      €{{ product.price|floatformat:2 }}
+                  {% if product.category %}
+                    <p class="small mt-1 mb-0 text-muted">
+                      <i class="fas fa-tag mr-1"></i>
+                      {{ product.category.friendly_name|default:product.category.name }}
                     </p>
-                    {% if product.category %}
-                      <p class="small mt-1 mb-0 text-muted">
-                        <i class="fas fa-tag mr-1"></i>
-                        {{ product.category.friendly_name|default:product.category.name }}
-                      </p>
-                    {% endif %}
-                    {% if product.rating %}
-                      <small class="text-muted">
-                        <i class="fas fa-star mr-1"></i>{{ product.rating }} / 5
-                      </small>
-                    {% else %}
-                      <small class="text-muted">No Rating</small>
-                    {% endif %}
-                  </div>
+                  {% endif %}
+
+                  {% if product.rating %}
+                    <small class="text-muted">
+                      <i class="fas fa-star mr-1"></i>{{ product.rating }} / 5
+                    </small>
+                  {% else %}
+                    <small class="text-muted">No Rating</small>
+                  {% endif %}
                 </div>
               </div>
             </div>
+
           </div>
+        </div>
         {% empty %}
           <div class="col-12 text-center py-5">
             <p class="text-muted mb-0">No products found.</p>
           </div>
         {% endfor %}
+
       </div>
+
     </div>
   </div>
 </div>

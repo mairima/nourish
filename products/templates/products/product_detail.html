@@ -13,20 +13,21 @@
 
     <div class="col-12 col-md-6 col-lg-4 offset-lg-2">
       <div class="image-container my-5">
-        {% if product.image_url_fixed %}
-          <a href="{{ product.image_url_fixed }}" aria-label="{{ product.name }}">
-            <img class="card-img-top img-fluid rounded shadow-sm"
-                 src="{{ product.image_url_fixed }}"
-                 alt="{{ product.name }} — Nourish Bakery"
-                 title="{{ product.name }} by Nourish"
-                 loading="lazy">
-          </a>
-        {% else %}
+        {% if product.image %}
+        <a href="{{ product.image.url }}" aria-label="{{ product.name }}">
           <img class="card-img-top img-fluid rounded shadow-sm"
-               src="{% static 'images/noimage.png' %}"
-               alt="Image not available for {{ product.name }}"
-               loading="lazy">
-        {% endif %}
+              src="{{ product.image.url }}"
+              alt="{{ product.name }} — Nourish Bakery"
+              title="{{ product.name }} by Nourish"
+              loading="lazy">
+        </a>
+      {% else %}
+        <img class="card-img-top img-fluid rounded shadow-sm"
+            src="{% static 'images/noimage.png' %}"
+            alt="Image not available for {{ product.name }}"
+            loading="lazy">
+      {% endif %}
+
       </div>
     </div>
 
