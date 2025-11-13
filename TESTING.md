@@ -9,26 +9,6 @@ The following testing documentation outlines all validation, manual, and functio
 
 All validation was completed successfully using the official W3C, Jigsaw, JSHint, and PEP8 CI tools. Minor warnings were identified only in third-party template files (Allauth and Stripe integration), which are considered acceptable.
 
-### CSS Validation
-
-**Result:** No errors found — document validates as **CSS Level 3 + SVG**.
-
-The main stylesheet (`base.css`) was tested with the [W3C CSS Validator](https://jigsaw.w3.org/css-validator/).  
-The validator confirmed that the file meets all modern web standards and best practices.
-
-**Validation Link:**  
-[https://jigsaw.w3.org/css-validator/validator?uri=https://nourish1-cc6378c356ae.herokuapp.com/static/css/base.css](https://jigsaw.w3.org/css-validator/validator?uri=https://nourish1-cc6378c356ae.herokuapp.com/static/css/base.css)
-
-**Badge:**
-```html
-<p>
-  <a href="https://jigsaw.w3.org/css-validator/check/referer">
-    <img style="border:0;width:88px;height:31px"
-         src="https://jigsaw.w3.org/css-validator/images/vcss"
-         alt="Valid CSS!">
-  </a>
-</p>
-
 ### HTML
 
 All deployed templates were validated via W3C HTML Validator
@@ -39,37 +19,46 @@ Result summary: All templates passed validation with no critical errors. Minor w
 
 I have used the recommended [HTML W3C Validator](https://validator.w3.org) to validate all of my HTML files.
 
-| Directory | File | URL | Screenshot | Notes |
-| --- | --- | --- | --- | --- |
-| bag | [bag.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/bag.html) | Link (if applicable) | ![screenshot](documentation/validation/html-bag-bag.png) |  |
-| bag | [bag_total.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/bag_total.html) | Link (if applicable) | ![screenshot](documentation/validation/html-bag-bag_total.png) |  |
-| bag | [checkout-buttons.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/checkout-buttons.html) | Link (if applicable) | ![screenshot](documentation/validation/html-bag-checkout-buttons.png) |  |
-| bag | [product-image.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/product-image.html) | Link (if applicable) | ![screenshot](documentation/validation/html-bag-product-image.png) |  |
-| bag | [product-info.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/product-info.html) | Link (if applicable) | ![screenshot](documentation/validation/html-bag-product-info.png) |  |
-| bag | [quantity-form.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/quantity-form.html) | Link (if applicable) | ![screenshot](documentation/validation/html-bag-quantity-form.png) |  |
-| checkout | [checkout.html](https://github.com/mairima/nourish/blob/main/checkout/templates/checkout/checkout.html) | Link (if applicable) | ![screenshot](documentation/validation/html-checkout-checkout.png) |  |
-| checkout | [checkout_success.html](https://github.com/mairima/nourish/blob/main/checkout/templates/checkout/checkout_success.html) | Link (if applicable) | ![screenshot](documentation/validation/html-checkout-checkout_success.png) |  |
-| contact | [contact.html](https://github.com/mairima/nourish/blob/main/contact/templates/contact/contact.html) | Link (if applicable) | ![screenshot](documentation/validation/html-contact-contact.png) |  |
-| faqs | [add_faq.html](https://github.com/mairima/nourish/blob/main/faqs/templates/faqs/add_faq.html) | Link (if applicable) | Refer to **faqs** validation image |  |
-| faqs | [faqs.html](https://github.com/mairima/nourish/blob/main/faqs/templates/faqs/faqs.html) | Link (if applicable) | Refer to **faqs** validation image |  |
-| faqs | [update_faq.html](https://github.com/mairima/nourish/blob/main/faqs/templates/faqs/update_faq.html) | Link (if applicable) | Refer to **faqs** validation image |  |
-| home | [index.html](https://github.com/mairima/nourish/blob/main/home/templates/home/index.html) | Link (if applicable) | ![screenshot](documentation/validation/html-home-index.png) |  |
-| newsletter | [newsletter.html](https://github.com/mairima/nourish/blob/main/newsletter/templates/newsletter/newsletter.html) | Link (if applicable) | ![screenshot](documentation/validation/html-newsletter-newsletter.png) |  |
-| products | [add_product.html](https://github.com/mairima/nourish/blob/main/products/templates/products/add_product.html) | Link (if applicable) | ![screenshot](documentation/validation/html-products-add_product.png) |  |
-| products | [custom_clearable_file_input.html](https://github.com/mairima/nourish/blob/main/products/templates/products/custom_widget_templates%20copy/custom_clearable_file_input.html) | Link (if applicable) | Refer to **products** validation image |  |
-| products | [product_detail.html](https://github.com/mairima/nourish/blob/main/products/templates/products/product_detail.html) | Link (if applicable) | ![screenshot](documentation/validation/html-products-product_detail.png) |  |
-| products | [products.html](https://github.com/mairima/nourish/blob/main/products/templates/products/products.html) | Link (if applicable) | ![screenshot](documentation/validation/html-products-products.png) |  |
-| profiles | [profile.html](https://github.com/mairima/nourish/blob/main/profiles/templates/profiles/profile.html) | Link (if applicable) | ![screenshot](documentation/validation/html-profiles-profile.png) |  |
-| profiles | [profile_edit.html](https://github.com/mairima/nourish/blob/main/profiles/templates/profiles/profile_edit.html) | Link (if applicable) | ![screenshot](documentation/validation/html-profiles-profile_edit.png) |  |
-| templates | [email_confirm.html](https://github.com/mairima/nourish/blob/main/templates/account/email_confirm.html) | Link (if applicable) | Refer to **templates** validation image |  |
-| templates | [login.html](https://github.com/mairima/nourish/blob/main/templates/account/login.html) | Link (if applicable) | Refer to **templates** validation image |  |
-| templates | [logout.html](https://github.com/mairima/nourish/blob/main/templates/account/logout.html) | Link (if applicable) | Refer to **templates** validation image |  |
-| templates | [password_reset.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset.html) | Link (if applicable) | Refer to **templates** validation image |  |
-| templates | [password_reset_done.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset_done.html) | Link (if applicable) | Refer to **templates** validation image |  |
-| templates | [password_reset_from_key.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset_from_key.html) | Link (if applicable) | Refer to **templates** validation image |  |
-| templates | [password_reset_from_key_done.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset_from_key_done.html) | Link (if applicable) | Refer to **templates** validation image |  |
-| templates | [signup.html](https://github.com/mairima/nourish/blob/main/templates/account/signup.html) | Link (if applicable) | Refer to **templates** validation image |  |
-| templates | [verification_sent.html](https://github.com/mairima/nourish/blob/main/templates/account/verification_sent.html) | Link (if applicable) | Refer to **templates** validation image |  |
+All html files positively validated like this picture bellow:
+
+![screenshot](documentation/validation/html-passed.png)
+
+Find bellow the directories and file names:
+
+
+| Directory | File Urls | Notes |
+| --- | --- | --- |
+| bag | [bag.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/bag.html) |  |
+| bag | [bag_total.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/bag_total.html) |  |
+| bag | [checkout-buttons.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/checkout-buttons.html) |  |
+| bag | [product-image.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/product-image.html) |  |
+| bag | [product-info.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/product-info.html) |  |
+| bag | [quantity-form.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/quantity-form.html) |  |
+| checkout | [checkout.html](https://github.com/mairima/nourish/blob/main/checkout/templates/checkout/checkout.html) |  |
+| checkout | [checkout_success.html](https://github.com/mairima/nourish/blob/main/checkout/templates/checkout/checkout_success.html) |  |
+| contact | [contact.html](https://github.com/mairima/nourish/blob/main/contact/templates/contact/contact.html) |  |
+| faqs | [add_faq.html](https://github.com/mairima/nourish/blob/main/faqs/templates/faqs/add_faq.html) |  |
+| faqs | [faqs.html](https://github.com/mairima/nourish/blob/main/faqs/templates/faqs/faqs.html) |  |
+| faqs | [update_faq.html](https://github.com/mairima/nourish/blob/main/faqs/templates/faqs/update_faq.html) |  |
+| home | [index.html](https://github.com/mairima/nourish/blob/main/home/templates/home/index.html) |  |
+| newsletter | [newsletter.html](https://github.com/mairima/nourish/blob/main/newsletter/templates/newsletter/newsletter.html) |  |
+| products | [add_product.html](https://github.com/mairima/nourish/blob/main/products/templates/products/add_product.html) |  |
+| products | [custom_clearable_file_input.html](https://github.com/mairima/nourish/blob/main/products/templates/products/custom_widget_templates%20copy/custom_clearable_file_input.html) |  |
+| products | [product_detail.html](https://github.com/mairima/nourish/blob/main/products/templates/products/product_detail.html) |  |
+| products | [products.html](https://github.com/mairima/nourish/blob/main/products/templates/products/products.html) |  |
+| profiles | [profile.html](https://github.com/mairima/nourish/blob/main/profiles/templates/profiles/profile.html) |  |
+| profiles | [profile_edit.html](https://github.com/mairima/nourish/blob/main/profiles/templates/profiles/profile_edit.html) |  |
+| templates | [email_confirm.html](https://github.com/mairima/nourish/blob/main/templates/account/email_confirm.html) |  |
+| templates | [login.html](https://github.com/mairima/nourish/blob/main/templates/account/login.html) |  |
+| templates | [logout.html](https://github.com/mairima/nourish/blob/main/templates/account/logout.html) |  |
+| templates | [password_reset.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset.html) |  |
+| templates | [password_reset_done.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset_done.html) |  |
+| templates | [password_reset_from_key.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset_from_key.html) |  |
+| templates | [password_reset_from_key_done.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset_from_key_done.html) |  |
+| templates | [signup.html](https://github.com/mairima/nourish/blob/main/templates/account/signup.html) |  |
+| templates | [verification_sent.html](https://github.com/mairima/nourish/blob/main/templates/account/verification_sent.html) |  |
+| templates | [terms_and_conditions.html](https://github.com/mairima/nourish/blob/main/templates/terms/terms_conditions.html) |  |
+| templates | [privacy_policy.html](https://github.com/mairima/nourish/blob/main/templates/terms/privacy_policy.html) |  |
 
 
 ### CSS
@@ -81,11 +70,27 @@ Result summary: All CSS files passed validation after fixing extra semicolons an
 
 I have used the recommended [CSS Jigsaw Validator](https://jigsaw.w3.org/css-validator) to validate all of my CSS files.
 
-| Directory | File | URL | Screenshot | Notes |
-| --- | --- | --- | --- | --- |
-| checkout | [checkout.css](https://github.com/mairima/nourish/blob/main/checkout/static/checkout/css/checkout.css) | Link (if applicable) | ![screenshot](documentation/validation/css-checkout-checkout.png) |  |
-| profiles | [profile.css](https://github.com/mairima/nourish/blob/main/profiles/static/profiles/css/profile.css) | Link (if applicable) | ![screenshot](documentation/validation/css-profiles-profile.png) |  |
-| static | [base.css](https://github.com/mairima/nourish/blob/main/static/css/base.css) | Link (if applicable) | ![screenshot](documentation/validation/css-static-base.png) |  |
+**Validation Link:**  
+[https://jigsaw.w3.org/css-validator/validator?uri=https://nourish1-cc6378c356ae.herokuapp.com/static/css/base.css](https://jigsaw.w3.org/css-validator/validator?uri=https://nourish1-cc6378c356ae.herokuapp.com/static/css/base.css)
+
+
+All css files positively validated like this picture bellow:
+
+![screenshot](documentation/validation/cssvalidated.png)
+
+Find bellow the directories and file Urls:
+
+| Directory | File Urls | Notes |
+| --- | --- | --- |
+| checkout | [checkout.css](https://github.com/mairima/nourish/blob/main/checkout/static/checkout/css/checkout.css) |  |
+| profiles | [profile.css](https://github.com/mairima/nourish/blob/main/profiles/static/profiles/css/profile.css) |  |
+| static | [base.css](https://github.com/mairima/nourish/blob/main/static/css/base.css) |  |
+
+
+**Result:** No errors found — document validates as **CSS Level 3 + SVG**.
+
+The main stylesheet (`base.css`) was tested with the [W3C CSS Validator](https://jigsaw.w3.org/css-validator/).  
+The validator confirmed that the file meets all modern web standards and best practices.
 
 
 ### JavaScript
@@ -100,9 +105,9 @@ I have used the recommended [JShint Validator](https://jshint.com) to validate a
 
 | Directory | File | URL | Screenshot | Notes |
 | --- | --- | --- | --- | --- |
-| checkout | [stripe_elements.js](https://github.com/mairima/nourish/blob/main/checkout/static/checkout/js/stripe_elements.js) |  | ![screenshot](documentation/validation/js-checkout-stripe_elements.png) |  |
-| profiles | [countryfield.js](https://github.com/mairima/nourish/blob/main/profiles/static/profiles/js/countryfield.js) |  | ![screenshot](documentation/validation/js-profiles-countryfield.png) |  |
-| static | [base.js](https://github.com/mairima/nourish/blob/main/static/js/base.js) |  | ![screenshot](documentation/validation/js-static-base.png) |  |
+| checkout | [stripe_elements.js](https://github.com/mairima/nourish/blob/main/checkout/static/checkout/js/stripe_elements.js) |  | ![screenshot](documentation/validation/stripeelement-val-pass.png) |  |
+| profiles | [countryfield.js](https://github.com/mairima/nourish/blob/main/profiles/static/profiles/js/countryfield.js) |  | ![screenshot](documentation/validation/countryfieldjs-val-pass.png) |  |
+| static | [base.js](https://github.com/mairima/nourish/blob/main/static/js/base.js) |  | ![screenshot](documentation/validation/basejs-val-pass.png) |  |
 
 
 ### Python
@@ -113,38 +118,43 @@ All files passed with no PEP8 violations after applying line breaks, spacing fix
 
 I have used the recommended [PEP8 CI Python Linter](https://pep8ci.herokuapp.com) to validate all of my Python files.
 
-| Directory | File | URL | Screenshot | Notes |
-| --- | --- | --- | --- | --- |
-| bag | [admin.py](https://github.com/mairima/nourish/blob/main/bag/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/admin.py) | ![screenshot](documentation/validation/py-bag-admin.png) |  |
-| bag | [contexts.py](https://github.com/mairima/nourish/blob/main/bag/contexts.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/contexts.py) | ![screenshot](documentation/validation/py-bag-contexts.png) |  |
-| bag | [models.py](https://github.com/mairima/nourish/blob/main/bag/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/models.py) | ![screenshot](documentation/validation/py-bag-models.png) |  |
-| bag | [bag_tools.py](https://github.com/mairima/nourish/blob/main/bag/templatetags/bag_tools.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/templatetags/bag_tools.py) | ![screenshot](documentation/validation/py-bag-bag_tools.png) |  |
-| bag | [tests.py](https://github.com/mairima/nourish/blob/main/bag/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/tests.py) | ![screenshot](documentation/validation/py-bag-tests.png) |  |
-| bag | [urls.py](https://github.com/mairima/nourish/blob/main/bag/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/urls.py) | ![screenshot](documentation/validation/py-bag-urls.png) |  |
-| bag | [views.py](https://github.com/mairima/nourish/blob/main/bag/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/views.py) | ![screenshot](documentation/validation/py-bag-views.png) |  |
-| checkout | [admin.py](https://github.com/mairima/nourish/blob/main/checkout/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/admin.py) | ![screenshot](documentation/validation/py-checkout-admin.png) |  |
-| checkout | [forms.py](https://github.com/mairima/nourish/blob/main/checkout/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/forms.py) | ![screenshot](documentation/validation/py-checkout-forms.png) |  |
-| checkout | [models.py](https://github.com/mairima/nourish/blob/main/checkout/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/models.py) | ![screenshot](documentation/validation/py-checkout-models.png) |  |
-| checkout | [signals.py](https://github.com/mairima/nourish/blob/main/checkout/signals.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/signals.py) | ![screenshot](documentation/validation/py-checkout-signals.png) |  |
-| checkout | [tests.py](https://github.com/mairima/nourish/blob/main/checkout/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/tests.py) | ![screenshot](documentation/validation/py-checkout-tests.png) |  |
-| checkout | [urls.py](https://github.com/mairima/nourish/blob/main/checkout/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/urls.py) | ![screenshot](documentation/validation/py-checkout-urls.png) |  |
-| checkout | [views.py](https://github.com/mairima/nourish/blob/main/checkout/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/views.py) | ![screenshot](documentation/validation/py-checkout-views.png) |  |
-| checkout | [webhook_handler.py](https://github.com/mairima/nourish/blob/main/checkout/webhook_handler.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/webhook_handler.py) | ![screenshot](documentation/validation/py-checkout-webhook_handler.png) |  |
-| checkout | [webhooks.py](https://github.com/mairima/nourish/blob/main/checkout/webhooks.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/webhooks.py) | ![screenshot](documentation/validation/py-checkout-webhooks.png) |  |
-| checkout | [widgets.py](https://github.com/mairima/nourish/blob/main/checkout/widgets.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/widgets.py) | ![screenshot](documentation/validation/py-checkout-widgets.png) |  |
-| contact | [admin.py](https://github.com/mairima/nourish/blob/main/contact/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/admin.py) | ![screenshot](documentation/validation/py-contact-admin.png) |  |
-| contact | [forms.py](https://github.com/mairima/nourish/blob/main/contact/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/forms.py) | ![screenshot](documentation/validation/py-contact-forms.png) |  |
-| contact | [models.py](https://github.com/mairima/nourish/blob/main/contact/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/models.py) | ![screenshot](documentation/validation/py-contact-models.png) |  |
-| contact | [tests.py](https://github.com/mairima/nourish/blob/main/contact/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/tests.py) | ![screenshot](documentation/validation/py-contact-tests.png) |  |
-| contact | [urls.py](https://github.com/mairima/nourish/blob/main/contact/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/urls.py) | ![screenshot](documentation/validation/py-contact-urls.png) |  |
-| contact | [views.py](https://github.com/mairima/nourish/blob/main/contact/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/views.py) | ![screenshot](documentation/validation/py-contact-views.png) |  |
+All python files positively validated like this picture bellow:
+
+![screenshot](documentation/validation/pylinter-val-pass.png)
+
+
+| Directory | File | Linter URL | Notes |
+| --- | --- | --- | --- |
+| bag | [admin.py](https://github.com/mairima/nourish/blob/main/bag/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/admin.py) |  |
+| bag | [contexts.py](https://github.com/mairima/nourish/blob/main/bag/contexts.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/contexts.py) |  |
+| bag | [models.py](https://github.com/mairima/nourish/blob/main/bag/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/models.py) |  |
+| bag | [bag_tools.py](https://github.com/mairima/nourish/blob/main/bag/templatetags/bag_tools.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/templatetags/bag_tools.py) |  |
+| bag | [tests.py](https://github.com/mairima/nourish/blob/main/bag/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/tests.py) |  |
+| bag | [urls.py](https://github.com/mairima/nourish/blob/main/bag/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/urls.py) |  |
+| bag | [views.py](https://github.com/mairima/nourish/blob/main/bag/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/views.py) |  |
+| checkout | [admin.py](https://github.com/mairima/nourish/blob/main/checkout/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/admin.py) |  |
+| checkout | [forms.py](https://github.com/mairima/nourish/blob/main/checkout/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/forms.py) |  |
+| checkout | [models.py](https://github.com/mairima/nourish/blob/main/checkout/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/models.py) |  |
+| checkout | [signals.py](https://github.com/mairima/nourish/blob/main/checkout/signals.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/signals.py) |  |
+| checkout | [tests.py](https://github.com/mairima/nourish/blob/main/checkout/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/tests.py) |  |
+| checkout | [urls.py](https://github.com/mairima/nourish/blob/main/checkout/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/urls.py) |  |
+| checkout | [views.py](https://github.com/mairima/nourish/blob/main/checkout/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/views.py) |  |
+| checkout | [webhook_handler.py](https://github.com/mairima/nourish/blob/main/checkout/webhook_handler.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/webhook_handler.py) |  |
+| checkout | [webhooks.py](https://github.com/mairima/nourish/blob/main/checkout/webhooks.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/webhooks.py) |  |
+| checkout | [widgets.py](https://github.com/mairima/nourish/blob/main/checkout/widgets.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/widgets.py) |  |
+| contact | [admin.py](https://github.com/mairima/nourish/blob/main/contact/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/admin.py) |  |
+| contact | [forms.py](https://github.com/mairima/nourish/blob/main/contact/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/forms.py) |  |
+| contact | [models.py](https://github.com/mairima/nourish/blob/main/contact/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/models.py) |  |
+| contact | [tests.py](https://github.com/mairima/nourish/blob/main/contact/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/tests.py) |  |
+| contact | [urls.py](https://github.com/mairima/nourish/blob/main/contact/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/urls.py) |  |
+| contact | [views.py](https://github.com/mairima/nourish/blob/main/contact/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/views.py) |  |
 
 
 
 ## Responsiveness
 
 Tested using Chrome DevTools on Mobile (375px), Tablet (768px), and Desktop (1920px) breakpoints.
-Additionally verified on a physical Android phone and Windows laptop.
+Additionally verified on a physical ios phone.
 
 Result summary: All pages displayed consistently. Navbar collapses correctly, hero sections and grids remain responsive.
 
@@ -152,7 +162,7 @@ I've tested my deployed project to check for responsiveness issues.
 
 | Page | Mobile | Tablet | Desktop | Notes |
 | --- | --- | --- | --- | --- |
-| Register | ![screenshot](documentation/responsiveness/mobile-register.png) | ![screenshot](documentation/responsiveness/tablet-register.png) | ![screenshot](documentation/responsiveness/desktop-register.png) | Works as expected |
+| Register | ![screenshot](documentation/responsiveness/mobile-register.png) | ![screenshot](documentation/responsiveness//tablet-register.png) | ![screenshot](documentation/responsiveness/desktop-register.png) | Works as expected |
 | Login | ![screenshot](documentation/responsiveness/mobile-login.png) | ![screenshot](documentation/responsiveness/tablet-login.png) | ![screenshot](documentation/responsiveness/desktop-login.png) | Works as expected |
 | Profile | ![screenshot](documentation/responsiveness/mobile-profile.png) | ![screenshot](documentation/responsiveness/tablet-profile.png) | ![screenshot](documentation/responsiveness/desktop-profile.png) | Works as expected |
 | Home | ![screenshot](documentation/responsiveness/mobile-home.png) | ![screenshot](documentation/responsiveness/tablet-home.png) | ![screenshot](documentation/responsiveness/desktop-home.png) | Works as expected |
@@ -165,17 +175,21 @@ I've tested my deployed project to check for responsiveness issues.
 | Edit Product | ![screenshot](documentation/responsiveness/mobile-edit-product.png) | ![screenshot](documentation/responsiveness/tablet-edit-product.png) | ![screenshot](documentation/responsiveness/desktop-edit-product.png) | Works as expected |
 | Newsletter | ![screenshot](documentation/responsiveness/mobile-newsletter.png) | ![screenshot](documentation/responsiveness/tablet-newsletter.png) | ![screenshot](documentation/responsiveness/desktop-newsletter.png) | Works as expected |
 | Contact | ![screenshot](documentation/responsiveness/mobile-contact.png) | ![screenshot](documentation/responsiveness/tablet-contact.png) | ![screenshot](documentation/responsiveness/desktop-contact.png) | Works as expected |
+| Admin Page | ![screenshot](documentation/responsiveness/mobile-admin.png) | ![screenshot](documentation/responsiveness/tablet-admin.png) | ![screenshot](documentation/responsiveness/desktop-admin.png) | Works as expected |
 | 404 | ![screenshot](documentation/responsiveness/mobile-404.png) | ![screenshot](documentation/responsiveness/tablet-404.png) | ![screenshot](documentation/responsiveness/desktop-404.png) | Works as expected |
+| Terms & Conditions | ![screenshot](documentation/responsiveness//mobile-termsandconditions.png) | ![screenshot](documentation/responsiveness/tablet-termsandconditions.png) | ![screenshot](documentation/responsiveness/desktop-termsandconditions.png) | Works as expected |
+| Privacy Policy | ![screenshot](documentation/responsiveness/mobile-privacy.png) | ![screenshot](documentation/responsiveness/tablet-privacy.png) | ![screenshot](documentation/responsiveness/desktop-privacy.png) | Works as expected |
+
 
 ## Browser Compatibility
 
 Tested on:
 
-Chrome 141 (Windows)
+Chrome (Windows)
 
-Firefox 132 (Windows)
+Edge (Windows)
 
-Safari (macOS test via BrowserStack)
+Safari (macOS test via iphone)
 
 Result summary: No rendering or functionality issues found. Stripe and Cloudinary integrations worked across all browsers.
 
@@ -186,48 +200,50 @@ Result summary: No rendering or functionality issues found. Stripe and Cloudinar
 
 I've tested my deployed project on multiple browsers to check for compatibility issues.
 
+### Browser Compatibility Table
+
 | Page | Chrome | Edge | Safari | Notes |
 | --- | --- | --- | --- | --- |
-| Register | ![screenshot](documentation/browsers/chrome-register.png) | ![screenshot](documentation/browsers/edge-register.png) | ![screenshot](documentation/browsers/safari-register.png) | Works as expected |
-| Login | ![screenshot](documentation/browsers/chrome-login.png) | ![screenshot](documentation/browsers/edge-login.png) | ![screenshot](documentation/browsers/safari-login.png) | Works as expected |
-| Profile | ![screenshot](documentation/browsers/chrome-profile.png) | ![screenshot](documentation/browsers/edge-profile.png) | ![screenshot](documentation/browsers/safari-profile.png) | Works as expected |
-| Home | ![screenshot](documentation/browsers/chrome-home.png) | ![screenshot](documentation/browsers/edge-home.png) | ![screenshot](documentation/browsers/safari-home.png) | Works as expected |
-| Products | ![screenshot](documentation/browsers/chrome-products.png) | ![screenshot](documentation/browsers/edge-products.png) | ![screenshot](documentation/browsers/safari-products.png) | Works as expected |
-| Product Details | ![screenshot](documentation/browsers/chrome-product-details.png) | ![screenshot](documentation/browsers/edge-product-details.png) | ![screenshot](documentation/browsers/safari-product-details.png) | Works as expected |
-| Bag | ![screenshot](documentation/browsers/chrome-bag.png) | ![screenshot](documentation/browsers/edge-bag.png) | ![screenshot](documentation/browsers/safari-bag.png) | Works as expected |
-| Checkout | ![screenshot](documentation/browsers/chrome-checkout.png) | ![screenshot](documentation/browsers/edge-checkout.png) | ![screenshot](documentation/browsers/safari-checkout.png) | Works as expected |
-| Checkout Success | ![screenshot](documentation/browsers/chrome-checkout-success.png) | ![screenshot](documentation/browsers/edge-checkout-success.png) | ![screenshot](documentation/browsers/safari-checkout-success.png) | Works as expected |
-| Add Product | ![screenshot](documentation/browsers/chrome-add-product.png) | ![screenshot](documentation/browsers/edge-add-product.png) | ![screenshot](documentation/browsers/safari-add-product.png) | Works as expected |
-| Edit Product | ![screenshot](documentation/browsers/chrome-edit-product.png) | ![screenshot](documentation/browsers/edge-edit-product.png) | ![screenshot](documentation/browsers/safari-edit-product.png) | Works as expected |
-| Newsletter | ![screenshot](documentation/browsers/chrome-newsletter.png) | ![screenshot](documentation/browsers/edge-newsletter.png) | ![screenshot](documentation/browsers/safari-newsletter.png) | Works as expected |
-| Contact | ![screenshot](documentation/browsers/chrome-contact.png) | ![screenshot](documentation/browsers/edge-contact.png) | ![screenshot](documentation/browsers/safari-contact.png) | Works as expected |
-| 404 | ![screenshot](documentation/browsers/chrome-404.png) | ![screenshot](documentation/browsers/edge-404.png) | ![screenshot](documentation/browsers/safari-404.png) | Works as expected |
+| Register | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-register.png) | ![screenshot](documentation/browsers/safari-register.jpeg) | Works as expected |
+| Login | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-login.png) | ![screenshot](documentation/browsers/safari-login.jpeg) | Works as expected |
+| Profile | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-profile.png) | ![screenshot](documentation/browsers/safari-profile.jpeg) | Works as expected |
+| Home | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-home.png) | ![screenshot](documentation/browsers/safari-home.jpeg) | Works as expected |
+| Products | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-products.png) | ![screenshot](documentation/browsers/safari-products.jpeg) | Works as expected |
+| Product Details | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-product-details.png) | ![screenshot](documentation/browsers/safari-product-details.jpeg) | Works as expected |
+| Bag | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-bag.png) | ![screenshot](documentation/browsers/safari-bag.jpeg) | Works as expected |
+| Checkout | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-checkout.png) | ![screenshot](documentation/browsers/safari-checkout.jpeg) | Works as expected |
+| Checkout Success | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-checkout-success.png) | ![screenshot](documentation/browsers/safari-checkout-success.jpeg) | Works as expected |
+| Add Product | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-add-product.png) | ![screenshot](documentation/browsers/safari-add-product.jpeg) | Works as expected |
+| Edit Product | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-edit-product.png) | ![screenshot](documentation/browsers/safari-edit-product.jpeg) | Works as expected |
+| Newsletter | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-newsletter.png) | ![screenshot](documentation/browsers/safari-newsletter.jpeg) | Works as expected |
+| Contact | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-contact.png) | ![screenshot](documentation/browsers/safari-contact.jpeg) | Works as expected |
+| 404 | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-404.png) | ![screenshot](documentation/browsers/safari-404.jpeg) | Works as expected |
+| Terms & Conditions | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-terms.png) | ![screenshot](documentation/browsers/safari-terms.jpeg) | Works as expected |
+| Privacy Policy | See **Responsiveness section** | ![screenshot](documentation/browsers/edge-privacy.png) | ![screenshot](documentation/browsers/safari-policy.jpeg) | Works as expected |
 
 
 ## Lighthouse Audit
 
-
-Use this space to discuss testing the live/deployed site's Lighthouse Audit reports. Avoid testing the local version (Gitpod/VSCode/etc.), as this can have knock-on effects for performance. 
-It can also be tested in the Developer Tools, it can be added as an [extension](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk).
-
 I've tested my deployed project using the Lighthouse Audit tool to check for any major issues. Some warnings are outside of my control, and mobile results tend to be lower than desktop.
 
-| Page | Mobile | Desktop |
-| --- | --- | --- |
-| Register | ![screenshot](documentation/lighthouse/mobile-register.png) | ![screenshot](documentation/lighthouse/desktop-register.png) |
-| Login | ![screenshot](documentation/lighthouse/mobile-login.png) | ![screenshot](documentation/lighthouse/desktop-login.png) |
-| Profile | ![screenshot](documentation/lighthouse/mobile-profile.png) | ![screenshot](documentation/lighthouse/desktop-profile.png) |
-| Home | ![screenshot](documentation/lighthouse/mobile-home.png) | ![screenshot](documentation/lighthouse/desktop-home.png) |
-| Products | ![screenshot](documentation/lighthouse/mobile-products.png) | ![screenshot](documentation/lighthouse/desktop-products.png) |
-| Product Details | ![screenshot](documentation/lighthouse/mobile-product-details.png) | ![screenshot](documentation/lighthouse/desktop-product-details.png) |
-| Bag | ![screenshot](documentation/lighthouse/mobile-bag.png) | ![screenshot](documentation/lighthouse/desktop-bag.png) |
-| Checkout | ![screenshot](documentation/lighthouse/mobile-checkout.png) | ![screenshot](documentation/lighthouse/desktop-checkout.png) |
-| Checkout Success | ![screenshot](documentation/lighthouse/mobile-checkout-success.png) | ![screenshot](documentation/lighthouse/desktop-checkout-success.png) |
-| Add Product | ![screenshot](documentation/lighthouse/mobile-add-product.png) | ![screenshot](documentation/lighthouse/desktop-add-product.png) |
-| Edit Product | ![screenshot](documentation/lighthouse/mobile-edit-product.png) | ![screenshot](documentation/lighthouse/desktop-edit-product.png) |
-| Newsletter | ![screenshot](documentation/lighthouse/mobile-newsletter.png) | ![screenshot](documentation/lighthouse/desktop-newsletter.png) |
-| Contact | ![screenshot](documentation/lighthouse/mobile-contact.png) | ![screenshot](documentation/lighthouse/desktop-contact.png) |
-| 404 | ![screenshot](documentation/lighthouse/mobile-404.png) | ![screenshot](documentation/lighthouse/desktop-404.png) |
+| Page | Desktop |
+| --- | --- |
+| Register | ![screenshot](documentation/lighthouse/desktop-register.png) |
+| Login | ![screenshot](documentation/lighthouse/desktop-login.png) |
+| Profile | ![screenshot](documentation/lighthouse/desktop-profile.png) |
+| Home | ![screenshot](documentation/lighthouse/desktop-home.png) |
+| Products | ![screenshot](documentation/lighthouse/desktop-products.png) |
+| Product Details | ![screenshot](documentation/lighthouse/desktop-product-details.png) |
+| Bag | ![screenshot](documentation/lighthouse/desktop-bag.png) |
+| Checkout | ![screenshot](documentation/lighthouse/desktop-checkout.png) |
+| Checkout Success | ![screenshot](documentation/lighthouse/desktop-checkout-success.png) |
+| Add Product | ![screenshot](documentation/lighthouse/desktop-add-product.png) |
+| Edit Product | ![screenshot](documentation/lighthouse/desktop-edit-product.png) |
+| Newsletter | ![screenshot](documentation/lighthouse/desktop-newsletter.png) |
+| Contact | ![screenshot](documentation/lighthouse/desktop-contact.png) |
+| 404 | ![screenshot](documentation/lighthouse/desktop-404.png) |
+| Terms & Conditions | ![screenshot](documentation/lighthouse/desktop-terms.png) |
+| Privacy Policy | ![screenshot](documentation/lighthouse/desktop-policy.png) |
 
 ## Defensive Programming
 
@@ -248,24 +264,24 @@ Defensive programming was manually tested with the below user acceptance testing
 
 | Page | Expectation | Test | Result | Screenshot |
 | --- | --- | --- | --- | --- |
-| Products | Users should be able to browse products (Cakes, Snacks, Drinks, etc.) without needing to log in. | Opened all product categories as a guest user on the deployed site. | Products displayed correctly with images and descriptions pulled from Cloudinary, no login required. | ![screenshot](documentation/defensive/products.png) |
-|  | Products should sort correctly by price and name. | Tested sorting “Price (low–high)”, “Price (high–low)”, and “Name (A–Z)” on the product list page. | Sorting options worked perfectly and displayed updated order instantly. | Refer to **products** validation image |
-|  | Category filters should show only relevant items. | Applied filters for Cakes, Snacks, and Drinks. | Filter results correctly showed only the selected category’s products. | Refer to **products** validation image |
+| Products | Users should be able to browse products (Cakes, Snacks, Drinks, etc.) without needing to log in. | Opened all product categories as a guest user on the deployed site. | Products displayed correctly with images and descriptions pulled from Cloudinary, no login required. |Refer to **products** validation image |
+|  |  Category: Products should sort correctly by price and name. | Tested sorting “Price (low–high)”, “Price (high–low)”, and “Name (A–Z)” on the product list page. | Sorting options worked perfectly and displayed updated order instantly. |![screenshot](documentation/defensive/product-sort.png)  |
+|  | Category filters should show only relevant items. | Applied filters for Cakes, Snacks, and Drinks. | Filter results correctly showed only the selected category’s products. | ![screenshot](documentation/defensive/productcategory-filter.png)|
 |  | Product details should show correct data. | Clicked on products like *Pistachio Cake with Chocolate Ganache* and *Orange Drink*. | Each product displayed accurate description, price, Cloudinary image, and “Add to Bag” button. | Refer to **products** validation image |
-| Shopping Cart | Customers should add and update product quantities easily. | Added items to bag and used “+ / –” buttons to adjust quantities. | Quantities updated dynamically; bag total recalculated correctly. | ![screenshot](documentation/defensive/add-to-cart.png) |
+| Shopping Cart | Customers should add and update product quantities easily. | Added items to bag and used “+ / –” buttons to adjust quantities. | Quantities updated dynamically; bag total recalculated correctly. | Refer to **bag** validation image|
 |  | Customers should manage their cart content. | Opened bag page and removed an item. | Bag updated instantly; totals and delivery charge recalculated. | Refer to **bag** validation image |
-| Checkout | Checkout should display all items, grand total, and secure form. | Proceeded to checkout with multiple items in the bag. | Checkout summary matched the bag contents; form fields loaded as expected. | ![screenshot](documentation/defensive/checkout.png) |
-|  | Payment must be securely processed via Stripe. | Entered valid test card details (`4242 4242 4242 4242`). | Stripe processed payment securely; redirected to checkout success page. | ![screenshot](documentation/defensive/stripe-payment.png) |
+| Checkout | Checkout should display all items, grand total, and secure form. | Proceeded to checkout with multiple items in the bag. | Checkout summary matched the bag contents; form fields loaded as expected. |Refer to **checkout** validation image |
+|  | Payment must be securely processed via Stripe. | Entered valid test card details (`4242 4242 4242 4242`). | Stripe processed payment securely; redirected to checkout success page. |Refer to **checkout** validation image|
 |  | Confirmation email should be sent automatically. | Completed an order and checked email inbox. | Order confirmation email received successfully with correct order summary. | Refer to **checkout** validation image |
 |  | Confirmation page should display a valid order number. | Completed checkout flow. | Checkout success page displayed order number and order summary correctly. | Refer to **checkout** validation image |
-| Account Management | Logged-in users should access their profiles and past orders. | Logged in using test user and navigated to “My Profile”. | Order history, address, and contact details displayed accurately. | ![screenshot](documentation/defensive/order-history.png) |
+| Account Management | Logged-in users should access their profiles and past orders. | Logged in using test user and navigated to “My Profile”. | Order history, address, and contact details displayed accurately. |Refer to **profiles** validation image|
 |  | Returning users’ shipping info should prefill automatically. | Completed second order with same account. | Address, phone, and email pre-populated correctly in the checkout form. | Refer to **profiles** validation image |
-| Admin Features | Admin users can create new products. | Logged in as superuser and added new Cake item via Admin panel. | New product appeared immediately in product list and category view. | ![screenshot](documentation/defensive/create-product.png) |
+| Admin Features | Admin users can create new products. | Logged in as superuser and added new Cake item via Admin panel. | New product appeared immediately in product list and category view. | Refer to **admin** validation image|
 |  | Admin users can update product information. | Edited price and description of an existing Snack item. | Product updated successfully and reflected on the live site. | Refer to **admin** validation image |
 |  | Admin users can delete outdated or duplicate products. | Deleted an old test product through Admin dashboard. | Product removed successfully after confirmation prompt. | Refer to **admin** validation image |
 | Orders | Admin users can review all placed orders. | Accessed “Orders” in Admin → Checkout Orders. | Orders listed with correct customer, total, and status. | Refer to **orders** validation image |
-| Newsletter | Users can subscribe with valid emails. | Entered valid emails into newsletter form. | Subscriptions stored in database; success message displayed. | ![screenshot](documentation/defensive/newsletter.png) |
-| 404 Error Page | Invalid URLs should show custom error page. | Navigated to `/xyz404test/` path. | Custom 404 page displayed with bakery theme and “Back to Home” link. | ![screenshot](documentation/defensive/404.png) |
+| Newsletter | Users can subscribe with valid emails. | Entered valid emails into newsletter form. | Subscriptions stored in database; success message displayed. | Refer to **newsletter** validation image|
+| 404 Error Page | Invalid URLs should show custom error page. | Navigated to `/xyz404test/` path. | Custom 404 page displayed with bakery theme and “Back to Home” link. |  Refer to **404** validation image |
 
 
 
