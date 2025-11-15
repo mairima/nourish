@@ -140,7 +140,7 @@ def edit_product(request, product_id):
     )
 
 
-# Delete a product (superuser only) — UPDATED
+# Delete a product (superuser only)
 @login_required
 def delete_product(request, product_id):
     if not request.user.is_superuser:
@@ -148,18 +148,6 @@ def delete_product(request, product_id):
         return redirect(reverse("home"))
 
     product = get_object_or_404(Product, pk=product_id)
-    product_id_str = str(product_id)
-
-    # Remove product from the bag if it exists
-    bag = request.session.get("bag", {})
-    if product_id_str in bag:
-        bag.pop(product_id_str)
-        request.session["bag"] = bag
-        messages.info(
-            request,
-            "This product was also removed from your bag."
-        )
-
     product.delete()
-    messages.success(request, "Product deleted successfully.")
+    messages.success(request, "Product deleted!")
     return redirect(reverse("products:products"))
