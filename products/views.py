@@ -26,6 +26,7 @@ def all_products(request):
             sortkey = "category__name"
         elif sort in {"price", "rating"}:
             sortkey = sort
+
         if sortkey:
             if direction == "desc":
                 sortkey = f"-{sortkey}"
@@ -64,13 +65,21 @@ def all_products(request):
     return render(request, "products/products.html", context)
 
 
-# Display product details
+# Display product details (UPDATED)
 def product_detail(request, product_id):
-    product = get_object_or_404(
-        Product.objects.select_related("category"), pk=product_id
-    )
+    try:
+        product = (
+            Product.objects.select_related("category")
+            .get(pk=product_id)
+        )
+    except Product.DoesNotExist:
+        messages.error(request, "This product no longer exists.")
+        return redirect(reverse("products:products"))
+
     return render(
-        request, "products/product_detail.html", {"product": product}
+        request,
+        "products/product_detail.html",
+        {"product": product},
     )
 
 
@@ -107,6 +116,7 @@ def edit_product(request, product_id):
         return redirect(reverse("home"))
 
     product = get_object_or_404(Product, pk=product_id)
+
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
@@ -130,7 +140,7 @@ def edit_product(request, product_id):
     )
 
 
-# Delete a product (superuser only)
+# Delete a product (superuser only) — UPDATED
 @login_required
 def delete_product(request, product_id):
     if not request.user.is_superuser:
@@ -138,6 +148,18 @@ def delete_product(request, product_id):
         return redirect(reverse("home"))
 
     product = get_object_or_404(Product, pk=product_id)
+    product_id_str = str(product_id)
+
+    # Remove product from the bag if it exists
+    bag = request.session.get("bag", {})
+    if product_id_str in bag:
+        bag.pop(product_id_str)
+        request.session["bag"] = bag
+        messages.info(
+            request,
+            "This product was also removed from your bag."
+        )
+
     product.delete()
-    messages.success(request, "Product deleted!")
+    messages.success(request, "Product deleted successfully.")
     return redirect(reverse("products:products"))
