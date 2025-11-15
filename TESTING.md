@@ -71,7 +71,7 @@ Result summary: All CSS files passed validation after fixing extra semicolons an
 I have used the recommended [CSS Jigsaw Validator](https://jigsaw.w3.org/css-validator) to validate all of my CSS files.
 
 **Validation Link:**  
-[https://jigsaw.w3.org/css-validator/validator?uri=https://nourish1-cc6378c356ae.herokuapp.com/static/css/base.css](https://jigsaw.w3.org/css-validator/validator?uri=https://nourish1-cc6378c356ae.herokuapp.com/static/css/base.css)
+[CSS Jigsaw Validator](https://jigsaw.w3.org/css-validator/validator?uri=https://nourish1-cc6378c356ae.herokuapp.com/static/css/base.css)
 
 
 All css files positively validated like this picture bellow:
@@ -282,10 +282,9 @@ Defensive programming was manually tested with the below user acceptance testing
 | Orders | Admin users can review all placed orders. | Accessed “Orders” in Admin → Checkout Orders. | Orders listed with correct customer, total, and status. | Refer to **Admin** validation image |
 | Newsletter | Users can subscribe with valid emails. | Entered valid emails into newsletter form. | Subscriptions stored in database; success message displayed. |![screenshot](documentation/defensive/subscribtiontoast.png)|
 | 404 Error Page | Invalid URLs should show custom error page. | Navigated to `/xyz404test/` path. | Custom 404 page displayed with bakery theme and “Back to Home” link. |  Refer to **404** validation image |
+| Discount Code Application | Invalid, manipulated discount codes must be safely rejected server-side. | Entered expired code, blank input, and edited discount value in HTML (DevTools). | Only valid codes accepted; other codes rejected| ![screenshot](documentation/defensive/discounttoast.png) |
+| Unsubscribe Functionality | Unsubscribe token must be validated securely | Used correct unsubscribe link, expired/tampered token, and repeated unsubscribe attempts. | Valid token successfully removed subscription; invalid/tampered links returned safe error. | ![screenshot](documentation/defensive/unsubscribetedtoast.png)|
 
-
-
-## User Story Testing
 
 ## User Story Testing
 
@@ -316,7 +315,8 @@ All user stories from the README were tested and satisfied.
 | As a site owner | I would like to view all customer orders from the admin dashboard | so that I can manage sales and fulfill orders efficiently. | Refer to **Admin Page** responsiveness image |
 | As a site owner | I would like to manage categories (Cakes, Snacks, Drinks) | so that I can ensure all products are well-organized for easy browsing. | Refer to **Products** responsiveness image |
 | As a user | I would like to see a friendly 404 error page when I visit an invalid link | so that I know I’ve reached a missing page and can return to the homepage easily. | Refer to **404** responsiveness image |
-
+| As a user | I want to apply a valid discount code during checkout | so that I can receive a promotional price reduction on my order. | Refer to Discount Code testing image in the defemsive section above|
+| As a user | I want to unsubscribe easily from the newsletter using a secure one-click link | so that I can stop receiving emails whenever I choose. | Refer to Unsubscribe testing image in the defemsive section above|
 
 ## Bugs
 

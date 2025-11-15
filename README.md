@@ -275,7 +275,7 @@ I've used [Balsamiq](https://balsamiq.com/wireframes) and chatgpt to design my s
 
 Refer for most images for this section in the testing document under responsiveness section
 
-| Feature | Notes | Screenshot |
+| Feature | Notes | Note |
 | --- | --- | --- |
 | Register | Users can create an account through a custom signup form integrated with Django Allauth. Email verification is required to activate the account for improved security. |  |
 | Login | Registered users can securely log in using their email and password. Toast messages confirm successful logins or errors. |  |
@@ -1239,5 +1239,5 @@ This section is dedicated to recognizing and appreciating that support:
 - I would like to thank my Code Institute mentor, [Tim Nelson](https://www.github.com/TravelTimN) for the support throughout the development of this project.
 - I would like to thank the [Code Institute](https://codeinstitute.net) Tutor Team for their assistance with troubleshooting and debugging some project issues.
 - I would like to thank the [Code Institute Slack community](https://code-institute-room.slack.com) and [Code Institute Discord community](https://discord-portal.codeinstitute.net) for the moral support.
-- I would like to thank my family, for believing in me.
+- I would like to thank my family.
 
