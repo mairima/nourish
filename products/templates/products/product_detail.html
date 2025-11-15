@@ -4,114 +4,108 @@
 {% block body_class %}plain-page{% endblock %}
 
 {% block page_header %}
-<div class="container pt-1"></div>
+<div class="container text-center mt-3">
+  <h2 class="logo-font">{{ product.name }}</h2>
+  <hr class="w-50 mb-3">
+</div>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-  <div class="row">
 
-    <!-- IMAGE COLUMN -->
-    <div class="col-12 col-md-6 col-lg-5 text-center">
-      <div class="product-frame-43 my-4">
+  <div class="row justify-content-center">
+
+    <!-- IMAGE -->
+    <div class="col-12 col-md-6 col-lg-5 text-center mb-4">
+      <div class="product-frame-43">
         <img src="{{ product.image_url_fixed }}" alt="{{ product.name }}">
       </div>
     </div>
 
+    <!-- PRODUCT INFO -->
+    <div class="col-12 col-md-6 col-lg-5">
 
-    <!-- PRODUCT DETAILS COLUMN -->
-    <div class="col-12 col-md-6 col-lg-5 mt-4">
-
-      <h1 class="h4 mb-2 text-uppercase">{{ product.name }}</h1>
-
-      <p class="lead mb-0 font-weight-bold">
+      <p class="lead font-weight-bold">
         €{{ product.price|floatformat:2 }}
       </p>
 
       {% if product.category %}
-        <p class="small mt-1 mb-0 text-muted">
-          <i class="fas fa-tag mr-1"></i>
-          {{ product.category.friendly_name|default:product.category.name }}
-        </p>
+      <p class="small text-muted mb-1">
+        <i class="fas fa-tag mr-1"></i>
+        {{ product.category.friendly_name|default:product.category.name }}
+      </p>
       {% endif %}
 
       {% if product.rating %}
-        <small class="text-muted">
-          <i class="fas fa-star mr-1"></i>{{ product.rating }} / 5
-        </small>
+      <small class="text-muted mb-2 d-block">
+        <i class="fas fa-star mr-1"></i>{{ product.rating }} / 5
+      </small>
       {% else %}
-        <small class="text-muted">No Rating</small>
+      <small class="text-muted mb-2 d-block">No Rating</small>
       {% endif %}
 
       {% if request.user.is_superuser %}
-        <div class="mt-2 small">
-          <a href="{% url 'products:edit_product' product.id %}" class="text-info">Edit</a> |
-          <a href="{% url 'products:delete_product' product.id %}" class="text-danger">Delete</a>
-        </div>
+      <div class="mt-2 small">
+        <a href="{% url 'products:edit_product' product.id %}" class="text-info">Edit</a> |
+        <a href="{% url 'products:delete_product' product.id %}" class="text-danger">Delete</a>
+      </div>
       {% endif %}
 
       <p class="mt-3 text-secondary">{{ product.description }}</p>
 
-      <form class="form" action="{% url 'add_to_bag' product.id %}" method="POST">
+      <form method="POST" action="{% url 'add_to_bag' product.id %}" class="mb-4">
         {% csrf_token %}
 
         <div class="form-row">
 
           {% with product.has_sizes as s %}
+          {% if s %}
+          <div class="col-12 mb-3">
+            <label><strong>Size:</strong></label>
+            <select class="form-control rounded-0 w-50" name="product_size">
+              <option value="xs">XS</option>
+              <option value="s">S</option>
+              <option value="m" selected>M</option>
+              <option value="l">L</option>
+              <option value="xl">XL</option>
+            </select>
+          </div>
+          {% endif %}
 
-            {% if s %}
-              <div class="col-12 mb-3">
-                <label><strong>Size:</strong></label>
-                <select class="form-control rounded-0 w-50"
-                        name="product_size">
-                  <option value="xs">XS</option>
-                  <option value="s">S</option>
-                  <option value="m" selected>M</option>
-                  <option value="l">L</option>
-                  <option value="xl">XL</option>
-                </select>
-              </div>
-            {% endif %}
+          <div class="col-12 mb-3">
+            <label><strong>Quantity:</strong></label>
 
-            <div class="col-12 mb-3">
-              <label><strong>Quantity:</strong></label>
+            <div class="input-group w-50">
+              <button type="button" class="btn btn-black decrement-qty"
+                      data-item_id="{{ product.id }}">
+                <i class="fas fa-minus"></i>
+              </button>
 
-              <div class="input-group w-50">
-                <button type="button"
-                        class="btn btn-black decrement-qty"
-                        data-item_id="{{ product.id }}">
-                  <i class="fas fa-minus"></i>
-                </button>
+              <input class="form-control qty_input"
+                     type="number" name="quantity" value="1"
+                     min="1" max="99" data-item_id="{{ product.id }}">
 
-                <input class="form-control qty_input"
-                       type="number"
-                       name="quantity"
-                       value="1"
-                       min="1" max="99"
-                       data-item_id="{{ product.id }}">
-
-                <button type="button"
-                        class="btn btn-black increment-qty"
-                        data-item_id="{{ product.id }}">
-                  <i class="fas fa-plus"></i>
-                </button>
-              </div>
-
-            </div>
-
-            <div class="col-12 mt-3">
-              <a href="{% url 'products:products' %}"
-                 class="btn btn-outline-black rounded-0">
-                <i class="fas fa-chevron-left"></i>
-                Keep Shopping
-              </a>
-
-              <button type="submit" class="btn btn-black rounded-0">
-                Add to Bag
+              <button type="button" class="btn btn-black increment-qty"
+                      data-item_id="{{ product.id }}">
+                <i class="fas fa-plus"></i>
               </button>
             </div>
 
-            <input type="hidden" name="redirect_url" value="{{ request.path }}">
+          </div>
+
+          <div class="col-12 mt-3">
+            <a href="{% url 'products:products' %}"
+               class="btn btn-outline-black rounded-0">
+              <i class="fas fa-chevron-left"></i>
+              Keep Shopping
+            </a>
+
+            <button type="submit" class="btn btn-black rounded-0">
+              Add to Bag
+            </button>
+          </div>
+
+          <input type="hidden" name="redirect_url" value="{{ request.path }}">
 
           {% endwith %}
         </div>
@@ -120,6 +114,7 @@
     </div>
 
   </div>
+
 </div>
 {% endblock %}
 

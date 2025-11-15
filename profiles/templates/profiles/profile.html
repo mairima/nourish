@@ -2,56 +2,60 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block body_class %}profile-page{% endblock %}
+{% block body_class %}plain-page profile-page{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
 {% endblock %}
 
 {% block page_header %}
-<div class="container header-container">
-  <div class="row"><div class="col"></div></div>
+<div class="container text-center mt-3">
+  <h2 class="logo-font">My Profile</h2>
+  <hr class="w-50 mb-3">
 </div>
 {% endblock %}
 
 {% block content %}
-<div class="overlay"></div>
+<div class="container">
 
-<!-- Added my-5 pt-5 to push content below the fixed navbar -->
-<div class="container py-4 my-5 pt-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
 
       <!-- Profile info card -->
       <div class="card shadow-sm mb-4">
         <div class="card-body">
-          <h2 class="logo-font mb-3">My Profile</h2>
 
-          <h5>User</h5>
+          <h5 class="mb-2">User</h5>
           <p class="mb-1"><strong>Username:</strong> {{ profile.user.username }}</p>
-          <p class="mb-0"><strong>Email:</strong> {{ user_email|default:"Not set" }}</p>
+          <p class="mb-3"><strong>Email:</strong> {{ user_email|default:"Not set" }}</p>
 
           <hr>
 
           <h5 class="mb-3">Default Delivery Information</h5>
-          <form class="mt-2" action="{% url 'profiles:profile' %}" method="POST" id="profile-update-form">
+
+          <form method="POST" action="{% url 'profiles:profile' %}" id="profile-update-form">
             {% csrf_token %}
             {{ form|crispy }}
+
             <div class="d-flex align-items-center mt-3">
               <a href="#" id="profile-edit-btn" class="btn btn-outline-secondary mr-2">Edit</a>
               <button type="button" id="profile-cancel-btn" class="btn btn-light d-none mr-2">Cancel</button>
-              <button class="btn btn-primary rounded-0 text-uppercase" id="profile-submit-btn" type="submit">
+              <button type="submit" id="profile-submit-btn"
+                      class="btn btn-primary rounded-0 text-uppercase">
                 Update Information
               </button>
             </div>
           </form>
+
         </div>
       </div>
 
       <!-- Order history card -->
       <div class="card shadow-sm">
         <div class="card-body">
+
           <p class="text-muted mb-3">Order History</p>
+
           <div class="order-history table-responsive">
             <table class="table table-sm table-borderless mb-0">
               <thead>
@@ -62,47 +66,55 @@
                   <th class="text-right">Order Total</th>
                 </tr>
               </thead>
+
               <tbody>
                 {% for order in orders %}
-                  <tr>
-                    <td>
-                      <a href="{% url 'checkout:order_history' order.order_number %}"
-                         title="{{ order.order_number }}">
-                        {{ order.order_number|truncatechars:6 }}
-                      </a>
-                    </td>
-                    <td>{{ order.date }}</td>
-                    <td>
-                      <ul class="list-unstyled mb-0">
-                        {% for item in order.lineitems.all %}
-                          <li class="small">
-                            {% if item.product.has_sizes %}
-                              Size {{ item.product.size|upper }}
-                            {% endif %}
-                            {{ item.product.name }} ×{{ item.quantity }}
-                          </li>
-                        {% endfor %}
-                      </ul>
-                    </td>
-                    <td class="text-right">{{ order.grand_total }}</td>
-                  </tr>
+                <tr>
+                  <td>
+                    <a href="{% url 'checkout:order_history' order.order_number %}"
+                       title="{{ order.order_number }}">
+                      {{ order.order_number|truncatechars:6 }}
+                    </a>
+                  </td>
+
+                  <td>{{ order.date }}</td>
+
+                  <td>
+                    <ul class="list-unstyled mb-0">
+                      {% for item in order.lineitems.all %}
+                      <li class="small">
+                        {% if item.product.has_sizes %}
+                          Size {{ item.product.size|upper }}
+                        {% endif %}
+                        {{ item.product.name }} ×{{ item.quantity }}
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </td>
+
+                  <td class="text-right">{{ order.grand_total }}</td>
+                </tr>
+
                 {% empty %}
-                  <tr>
-                    <td colspan="4" class="text-muted">No orders yet.</td>
-                  </tr>
+                <tr>
+                  <td colspan="4" class="text-muted">No orders yet.</td>
+                </tr>
                 {% endfor %}
               </tbody>
+
             </table>
           </div>
+
         </div>
       </div>
 
     </div>
   </div>
+
 </div>
 {% endblock %}
 
 {% block postloadjs %}
-{{ block.super }}
-<script src="{% static 'profiles/js/countryfield.js' %}"></script>
+  {{ block.super }}
+  <script src="{% static 'profiles/js/countryfield.js' %}"></script>
 {% endblock %}
