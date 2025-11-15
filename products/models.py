@@ -31,9 +31,7 @@ class Product(models.Model):
     )
     image_filename = models.CharField(max_length=255, null=True, blank=True)
     image_url = models.URLField(max_length=500, null=True, blank=True)
-    image = CloudinaryField(
-        "image", default="placeholder", null=True, blank=True
-    )
+    image = CloudinaryField("image", null=True, blank=True)
 
     def __str__(self):
         # Return product name
@@ -41,12 +39,40 @@ class Product(models.Model):
 
     @property
     def image_url_fixed(self):
-        # Resolve image URL (Cloudinary → static → fallback)
-        if (
-            self.image_url
-            and self.image_url.startswith("https://res.cloudinary.com")
-        ):
-            return self.image_url
+        """
+        Resolves:
+        - CloudinaryField real image
+        - Old Cloudinary URLs (fix .png → .jpg if needed)
+        - Local filename
+        - Fallback
+        """
+
+        # 1. CloudinaryField REAL upload
+        try:
+            if (
+                self.image
+                and hasattr(self.image, "url")
+                and self.image.url
+                and "placeholder" not in self.image.url
+                and not self.image.url.endswith("/image/upload/placeholder")
+            ):
+                return self.image.url
+        except Exception:
+            pass
+
+        # 2. Old Cloudinary URL
+        if self.image_url:
+            # Try .jpg version if .png fails
+            url = self.image_url
+            if url.endswith(".png"):
+                return url[:-4] + ".jpg"
+            return url
+
+        # 3. Static filename
         if self.image_filename:
             return static(f"images/{self.image_filename}")
+
+        # 4. fallback
         return static("images/noimage.png")
+
+
