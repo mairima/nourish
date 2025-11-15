@@ -46,15 +46,10 @@
           <div class="card product-card border-0">
 
             <a href="{% url 'products:product_detail' product.id %}">
-              {% if product.image %}
-                <img class="card-img-top img-fluid"
-                     src="{{ product.image.url }}"
-                     alt="{{ product.name }}">
-              {% else %}
-                <img class="card-img-top img-fluid"
-                     src="{% static 'images/noimage.png' %}"
-                     alt="Image not available">
-              {% endif %}
+              <img class="card-img-top img-fluid"
+                src="{{ product.image_url_fixed }}"
+                alt="{{ product.name }}">
+
             </a>
 
             <div class="card-body pb-0">
