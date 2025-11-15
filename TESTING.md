@@ -272,48 +272,50 @@ Defensive programming was manually tested with the below user acceptance testing
 |  | Customers should manage their cart content. | Opened bag page and removed an item. | Bag updated instantly; totals and delivery charge recalculated. | Refer to **bag** validation image |
 | Checkout | Checkout should display all items, grand total, and secure form. | Proceeded to checkout with multiple items in the bag. | Checkout summary matched the bag contents; form fields loaded as expected. |Refer to **checkout** validation image |
 |  | Payment must be securely processed via Stripe. | Entered valid test card details (`4242 4242 4242 4242`). | Stripe processed payment securely; redirected to checkout success page. |Refer to **checkout** validation image|
-|  | Confirmation email should be sent automatically. | Completed an order and checked email inbox. | Order confirmation email received successfully with correct order summary. | Refer to **checkout** validation image |
+|  | Confirmation email should be sent automatically. | Completed an order and checked email inbox. | Order confirmation email received successfully with correct order summary. |![screenshot](documentation/defensive/emailconfirm.png)|
 |  | Confirmation page should display a valid order number. | Completed checkout flow. | Checkout success page displayed order number and order summary correctly. | Refer to **checkout** validation image |
 | Account Management | Logged-in users should access their profiles and past orders. | Logged in using test user and navigated to “My Profile”. | Order history, address, and contact details displayed accurately. |Refer to **profiles** validation image|
 |  | Returning users’ shipping info should prefill automatically. | Completed second order with same account. | Address, phone, and email pre-populated correctly in the checkout form. | Refer to **profiles** validation image |
 | Admin Features | Admin users can create new products. | Logged in as superuser and added new Cake item via Admin panel. | New product appeared immediately in product list and category view. | Refer to **admin** validation image|
 |  | Admin users can update product information. | Edited price and description of an existing Snack item. | Product updated successfully and reflected on the live site. | Refer to **admin** validation image |
 |  | Admin users can delete outdated or duplicate products. | Deleted an old test product through Admin dashboard. | Product removed successfully after confirmation prompt. | Refer to **admin** validation image |
-| Orders | Admin users can review all placed orders. | Accessed “Orders” in Admin → Checkout Orders. | Orders listed with correct customer, total, and status. | Refer to **orders** validation image |
-| Newsletter | Users can subscribe with valid emails. | Entered valid emails into newsletter form. | Subscriptions stored in database; success message displayed. | Refer to **newsletter** validation image|
+| Orders | Admin users can review all placed orders. | Accessed “Orders” in Admin → Checkout Orders. | Orders listed with correct customer, total, and status. | Refer to **Admin** validation image |
+| Newsletter | Users can subscribe with valid emails. | Entered valid emails into newsletter form. | Subscriptions stored in database; success message displayed. |![screenshot](documentation/defensive/subscribtiontoast.png)|
 | 404 Error Page | Invalid URLs should show custom error page. | Navigated to `/xyz404test/` path. | Custom 404 page displayed with bakery theme and “Back to Home” link. |  Refer to **404** validation image |
 
 
 
 ## User Story Testing
 
+## User Story Testing
+
 All user stories from the README were tested and satisfied.
 
-| Target | Expectation | Outcome | Screenshot |
+| Target | Expectation | Outcome | Screenshot Reference |
 | --- | --- | --- | --- |
-| As a guest user | I would like to browse the bakery’s products (cakes, snacks, and drinks) without needing to register | so that I can freely explore the available treats before creating an account. | ![screenshot](documentation/features/feature01.png) |
-| As a guest user | I would like to be prompted to sign up or log in when I proceed to checkout | so that I can complete my order securely and have it recorded under my account. | ![screenshot](documentation/features/feature02.png) |
-| As a user | I would like to subscribe to the Nourish newsletter | so that I can stay updated about new bakery items, discounts, and promotions. | ![screenshot](documentation/features/feature03.png) |
-| As a customer | I would like to browse multiple product categories such as Cakes, Snacks, and Drinks | so that I can easily find my preferred type of bakery item. | ![screenshot](documentation/features/feature04.png) |
-| As a customer | I would like to sort products by price (low–high / high–low) and by name (A–Z) | so that I can organize the product list to suit my preferences. | ![screenshot](documentation/features/feature05.png) |
-| As a customer | I would like to filter products by category | so that I can focus on the products that interest me most. | ![screenshot](documentation/features/feature06.png) |
-| As a customer | I would like to click on a product to view its detailed page showing name, description, price, and image | so that I can read more about the item before purchasing. | ![screenshot](documentation/features/feature07.png) |
-| As a customer | I would like to add products to my shopping bag and adjust quantities with + / – buttons | so that I can easily select the exact quantity I want before checkout. | ![screenshot](documentation/features/feature08.png) |
-| As a customer | I would like to view my shopping bag and manage its contents | so that I can review, edit, or remove items before paying. | ![screenshot](documentation/features/feature09.png) |
-| As a customer | I would like to change product quantities directly in the bag page | so that I can quickly correct or update my order. | ![screenshot](documentation/features/feature10.png) |
-| As a customer | I would like to remove any product from my bag | so that I can keep only the items I want to buy. | ![screenshot](documentation/features/feature11.png) |
-| As a customer | I would like to proceed to a checkout page showing my bag items, total cost, and a secure form to enter my details | so that I can complete my purchase easily and confidently. | ![screenshot](documentation/features/feature12.png) |
-| As a customer | I would like to receive an order confirmation email after checkout | so that I have proof of my purchase and delivery details. | ![screenshot](documentation/features/feature13.png) |
-| As a customer | I would like to see an order confirmation page showing an order number after completing my payment | so that I know my transaction has been successful. | ![screenshot](documentation/features/feature14.png) |
-| As a customer | I would like to pay securely using Stripe | so that my card details are safely processed with encrypted checkout fields. | ![screenshot](documentation/features/feature15.png) |
-| As a returning customer | I would like to log into my Nourish account and view my previous orders | so that I can track my past purchases and reorder items I liked. | ![screenshot](documentation/features/feature16.png) |
-| As a returning customer | I would like my checkout form to remember my saved address and contact information | so that I can make future purchases more quickly. | ![screenshot](documentation/features/feature17.png) |
-| As a site owner | I would like to add new products with names, prices, descriptions, and images | so that I can expand my online store’s menu whenever new bakery items are introduced. | ![screenshot](documentation/features/feature18.png) |
-| As a site owner | I would like to update product details (price, name, description, or image) | so that I can keep all product information current and accurate. | ![screenshot](documentation/features/feature19.png) |
-| As a site owner | I would like to delete products that are outdated or no longer available | so that my site always displays relevant and available items. | ![screenshot](documentation/features/feature20.png) |
-| As a site owner | I would like to view all customer orders from the admin dashboard | so that I can manage sales and fulfill orders efficiently. | ![screenshot](documentation/features/feature21.png) |
-| As a site owner | I would like to manage categories (Cakes, Snacks, Drinks) | so that I can ensure all products are well-organized for easy browsing. | ![screenshot](documentation/features/feature22.png) |
-| As a user | I would like to see a friendly 404 error page when I visit an invalid link | so that I know I’ve reached a missing page and can return to the homepage easily. | ![screenshot](documentation/features/feature23.png) |
+| As a guest user | I would like to browse the bakery’s products (cakes, snacks, and drinks) without needing to register | so that I can freely explore the available treats before creating an account. | Refer to **Products** responsiveness image |
+| As a guest user | I would like to be prompted to sign up or log in when I proceed to checkout | so that I can complete my order securely and have it recorded under my account. | Refer to **Login** responsiveness image |
+| As a user | I would like to subscribe to the Nourish newsletter | so that I can stay updated about new bakery items, discounts, and promotions. | Refer to **Newsletter** responsiveness image |
+| As a customer | I would like to browse multiple product categories such as Cakes, Snacks, and Drinks | so that I can easily find my preferred type of bakery item. | Refer to **Products** responsiveness image |
+| As a customer | I would like to sort products by price (low–high / high–low) and by name (A–Z) | so that I can organize the product list to suit my preferences. | Refer to **Products** responsiveness image |
+| As a customer | I would like to filter products by category | so that I can focus on the products that interest me most. | Refer to **Products** responsiveness image |
+| As a customer | I would like to click on a product to view its detailed page showing name, description, price, and image | so that I can read more about the item before purchasing. | Refer to **Product Details** responsiveness image |
+| As a customer | I would like to add products to my shopping bag and adjust quantities with + / – buttons | so that I can easily select the exact quantity I want before checkout. | Refer to **Bag** responsiveness image |
+| As a customer | I would like to view my shopping bag and manage its contents | so that I can review, edit, or remove items before paying. | Refer to **Bag** responsiveness image |
+| As a customer | I would like to change product quantities directly in the bag page | so that I can quickly correct or update my order. | Refer to **Bag** responsiveness image |
+| As a customer | I would like to remove any product from my bag | so that I can keep only the items I want to buy. | Refer to **Bag** responsiveness image |
+| As a customer | I would like to proceed to a checkout page showing my bag items, total cost, and a secure form to enter my details | so that I can complete my purchase easily and confidently. | Refer to **Checkout** responsiveness image |
+| As a customer | I would like to receive an order confirmation email after checkout | so that I have proof of my purchase and delivery details. | Refer to **Checkout Success** responsiveness image |
+| As a customer | I would like to see an order confirmation page showing an order number after completing my payment | so that I know my transaction has been successful. | Refer to **Checkout Success** responsiveness image |
+| As a customer | I would like to pay securely using Stripe | so that my card details are safely processed with encrypted checkout fields. | Refer to **Checkout** validation image |
+| As a returning customer | I would like to log into my Nourish account and view my previous orders | so that I can track my past purchases and reorder items I liked. | Refer to **Profile** responsiveness image |
+| As a returning customer | I would like my checkout form to remember my saved address and contact information | so that I can make future purchases more quickly. | Refer to **Profile** responsiveness image |
+| As a site owner | I would like to add new products with names, prices, descriptions, and images | so that I can expand my online store’s menu whenever new bakery items are introduced. | Refer to **Add Product** responsiveness image |
+| As a site owner | I would like to update product details (price, name, description, or image) | so that I can keep all product information current and accurate. | Refer to **Edit Product** responsiveness image |
+| As a site owner | I would like to delete products that are outdated or no longer available | so that my site always displays relevant and available items. | Refer to **Admin Page** responsiveness image |
+| As a site owner | I would like to view all customer orders from the admin dashboard | so that I can manage sales and fulfill orders efficiently. | Refer to **Admin Page** responsiveness image |
+| As a site owner | I would like to manage categories (Cakes, Snacks, Drinks) | so that I can ensure all products are well-organized for easy browsing. | Refer to **Products** responsiveness image |
+| As a user | I would like to see a friendly 404 error page when I visit an invalid link | so that I know I’ve reached a missing page and can return to the homepage easily. | Refer to **404** responsiveness image |
 
 
 ## Bugs
@@ -328,15 +330,10 @@ I've used [GitHub Issues](https://www.github.com/mairima/nourish/issues) to trac
 
 All previously closed/fixed bugs can be tracked [here](https://www.github.com/mairima/nourish/issues?q=is%3Aissue+is%3Aclosed+label%3Abug).
 
-![screenshot](documentation/bugs/gh-issues-closed.png)
 
 | Issue                              | Fix Applied / How It Was Fixed                         | Status   |
 |-----------------------------------|----------------------------------------------------------|----------|
-| Checkout intent error             | Moved Stripe intent creation before form validation     |  Fixed |
-| Navbar overlap on small screens   | Adjusted top margin and z-index                         |  Fixed |
-| Bag quantity buttons unresponsive | Updated JS selector and event listener                  |  Fixed |
-| Newsletter duplicate entry        | Added unique constraint in model                        |  Fixed |
-
+| Heroku site static files issue, now fixed       | the "django.contrib.staticfiles" was placed before "cloudinary_storage","cloudinary", on the list and the static files where then properly loaded on heroku.|  Fixed |
 
 ### Unfixed Bugs
 
@@ -344,18 +341,12 @@ All previously closed/fixed bugs can be tracked [here](https://www.github.com/ma
 
 Any remaining open issues can be tracked [here](https://www.github.com/mairima/nourish/issues?q=is%3Aissue+is%3Aopen+label%3Abug).
 
-![screenshot](documentation/bugs/gh-issues-open.png)
 
 ### Known Issues
 
-| Issue | Screenshot |
-| --- | --- |
-| The project is designed to be responsive from `375px` and upwards, in line with the material taught on the course LMS. Minor layout inconsistencies may occur on extra-wide (e.g. 4k/8k monitors), or smart-display devices (e.g. Nest Hub, Smart Watches, Gameboy Color, etc.), as these resolutions are outside the project’s scope, as taught by Code Institute. | ![screenshot](documentation/issues/poor-responsiveness.png) |
-| When validating HTML with a semantic `<section>` element, the validator warns about lacking a header `h2-h6`. This is acceptable. | ![screenshot](documentation/issues/section-header.png) |
-| Validation errors on "signup.html" coming from the Django Allauth package. | ![screenshot](documentation/issues/allauth.png) |
-| With a known order-number, users can brute-force "checkout_success.html" and see potentially sensitive information. | ![screenshot](documentation/issues/checkout-success.png) |
-| If a product is in your bag/cart, but then gets deleted from the database, it throws errors from the session storage memory. | ![screenshot](documentation/issues/session-storage.png) |
-| The `-`/`+` quantity buttons work well on "product_details.html", but not on "bag.html". | ![screenshot](documentation/issues/quantity-buttons.png) |
+| Issue |
+| --- |
+| The project is designed to be responsive from `375px` and upwards, in line with the material taught on the course LMS. Minor layout inconsistencies may occur on extra-wide (e.g. 4k/8k monitors) or smart-display devices (e.g. Nest Hub, Smart Watches, Gameboy Color), as these resolutions are outside the project’s scope, as taught by Code Institute. |
 
 > [!IMPORTANT]  
 > There are no remaining bugs that I am aware of, though, even after thorough testing, I cannot rule out the possibility.

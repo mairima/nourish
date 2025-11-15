@@ -1,4 +1,4 @@
-# [nourish](https://nourish1-cc6378c356ae.herokuapp.com)
+# Nourish ([Live site](https://nourish1-cc6378c356ae.herokuapp.com))
 
 Developer: Mairi Aissatou ([mairima](https://www.github.com/mairima))
 
@@ -220,21 +220,13 @@ Visuals emphasize freshness, warmth, and craftsmanship — reflecting the brand 
 I created wireframes for the Nourish website to plan the layout, content structure, and user journey across different screen sizes (mobile, tablet, and desktop). These wireframes helped shape the responsive design and UI decisions made during development.
 
 To follow best practice, wireframes were developed for mobile, tablet, and desktop sizes.
-I've used [Balsamiq](https://balsamiq.com/wireframes) to design my site wireframes.
+I've used [Balsamiq](https://balsamiq.com/wireframes) and chatgpt to design my site wireframes.
 
 ## 🖼️ Wireframes
 
-| Page Category | Page(s) | Mobile | Tablet | Desktop |
-| --- | --- | --- | --- | --- |
-| **Authentication** | Register / Login | ![screenshot](documentation/wireframes/mobile-login.png) | ![screenshot](documentation/wireframes/tablet-login.png) | ![screenshot](documentation/wireframes/desktop-login.png) |
-| **User Profile** | Profile | ![screenshot](documentation/wireframes/mobile-profile.png) | ![screenshot](documentation/wireframes/tablet-profile.png) | ![screenshot](documentation/wireframes/desktop-profile.png) |
-| **Homepage** | Home | ![screenshot](documentation/wireframes/mobile-home.png) | ![screenshot](documentation/wireframes/tablet-home.png) | ![screenshot](documentation/wireframes/desktop-home.png) |
-| **Products** | All Products / Product Details | ![screenshot](documentation/wireframes/mobile-products.png) | ![screenshot](documentation/wireframes/tablet-products.png) | ![screenshot](documentation/wireframes/desktop-products.png) |
-| **Shopping Bag** | Bag | ![screenshot](documentation/wireframes/mobile-bag.png) | ![screenshot](documentation/wireframes/tablet-bag.png) | ![screenshot](documentation/wireframes/desktop-bag.png) |
-| **Checkout Process** | Checkout / Checkout Success | ![screenshot](documentation/wireframes/mobile-checkout.png) | ![screenshot](documentation/wireframes/tablet-checkout.png) | ![screenshot](documentation/wireframes/desktop-checkout.png) |
-| **Product Management (Admin)** | Add / Edit Product | ![screenshot](documentation/wireframes/mobile-add-product.png) | ![screenshot](documentation/wireframes/tablet-add-product.png) | ![screenshot](documentation/wireframes/desktop-add-product.png) |
-| **Engagement Pages** | Newsletter / Contact | ![screenshot](documentation/wireframes/mobile-contact.png) | ![screenshot](documentation/wireframes/tablet-contact.png) | ![screenshot](documentation/wireframes/desktop-contact.png) |
-| **Error Page** | 404 Page | ![screenshot](documentation/wireframes/mobile-404.png) | ![screenshot](documentation/wireframes/tablet-404.png) | ![screenshot](documentation/wireframes/desktop-404.png) |
+| Page | Mobile | Desktop/Tablet |  |
+| --- | --- | --- | --- |
+| **General Wireframe** | ![screenshot](documentation/wireframes/mobilegeneralwireframe.png) | ![screenshot](documentation/wireframes/desktopgeneralwireframe.png) |
 
 ## User Stories
 
@@ -273,45 +265,53 @@ I've used [Balsamiq](https://balsamiq.com/wireframes) to design my site wirefram
 | As a site owner | I would like to manage categories for baked goods | so that items are organized and easy for customers to navigate. |
 | As a site owner | I would like to view and manage all customer orders | so that I can fulfill purchases efficiently. |
 | As a user | I would like to see a branded 404 error page | so that I know when I've reached a broken or non-existent link and can return to the homepage. |
+| As a user | I would like to receive a welcome/first-time discount code after subscribing | so that I feel rewarded and motivated to make my first purchase. |
+| As a user | I would like to receive a confirmation message after subscribing to the newsletter | so that I know my subscription was successful and my email was registered. |
+| As a user | I would like the ability to unsubscribe from the newsletter at any time | so that I can manage my communication preferences and stop receiving promotional emails, in case I have less storage. |
 
 ## Features
 
 ### Existing Features
 
-User Stories
-------------
+Refer for most images for this section in the testing document under responsiveness section
 
 | Feature | Notes | Screenshot |
 | --- | --- | --- |
-| Register | Users can create an account through a custom signup form integrated with Django Allauth. Email verification is required to activate the account for improved security. | ![screenshot](documentation/features/register.png) |
-| Login | Registered users can securely log in using their email and password. Toast messages confirm successful logins or errors. | ![screenshot](documentation/features/login.png) |
-| Logout | Users can easily log out of their account with a confirmation message. | ![screenshot](documentation/features/logout.png) |
-| Product Catalog | Displays all available baked goods, including cakes, pastries, and bread. Supports keyword search, sorting by price or name, and filtering by category. | ![screenshot](documentation/features/product-list.png) |
-| Product Details | Shows a detailed page for each product, including images, description, price, and ingredients. Users can select quantity before adding items to the bag. | ![screenshot](documentation/features/product-details.png) |
-| Add to Bag | Users can add products to their shopping bag directly from the product page. Toast notifications confirm successful additions. | ![screenshot](documentation/features/add-to-bag.png) |
-| View Bag | Displays all items currently added to the bag, with options to update quantities or remove items. The bag total, delivery charge, and grand total are shown dynamically. | ![screenshot](documentation/features/view-bag.png) |
+| Register | Users can create an account through a custom signup form integrated with Django Allauth. Email verification is required to activate the account for improved security. |  |
+| Login | Registered users can securely log in using their email and password. Toast messages confirm successful logins or errors. |  |
+| Logout | Users can easily log out of their account with a confirmation message. |  |
+| Product Catalog | Displays all available baked goods, including cakes, pastries, and bread. Supports keyword search, sorting by price or name, and filtering by category. |  |
+| Product Details | Shows a detailed page for each product, including images, description, price, and ingredients. Users can select quantity before adding items to the bag. |  |
+| Add to Bag | Users can add products to their shopping bag directly from the product page. Toast notifications confirm successful additions. |  |
+| View Bag | Displays all items currently added to the bag, with options to update quantities or remove items. The bag total, delivery charge, and grand total are shown dynamically. |  |
 | Bag Quantity Update | Users can adjust quantities in their bag using increment/decrement buttons. Totals update automatically in real time. |  |
-| Checkout | Users can enter shipping and payment details securely through Stripe integration. Guest checkout and logged-in checkout are both supported. | ![screenshot](documentation/features/checkout.png) |
+| Checkout | Users can enter shipping and payment details securely through Stripe integration. Guest checkout and logged-in checkout are both supported. |  |
 | Checkout Redirect | After a successful payment, users are redirected to a checkout success page summarizing their order. |  |
-| Order Confirmation | Once checkout is completed, users receive an on-screen success message and a confirmation email containing their order details. | ![screenshot](documentation/features/order-confirmation.png) |
+| Order Confirmation | Once checkout is completed, users receive an on-screen success message and a confirmation email containing their order details. |  |
 | Email Verification | Upon registration, users must verify their email address through a confirmation email link to activate their account. |  |
-| Profile Management | Logged-in users can manage their profile information, update delivery details, and view order history. | ![screenshot](documentation/features/profile-management.png) |
-| Order History | Displays a history of all previous purchases, allowing users to view order numbers, items purchased, and total spent. | ![screenshot](documentation/features/order-history.png) |
-| Product Management | Admins and superusers can create, update, and delete products through a user-friendly CRUD interface in Django Admin. | ![screenshot](documentation/features/product-management.png) |
-| Newsletter | Visitors can sign up for the newsletter to receive updates and promotions. Emails are stored in the database for future campaigns. | ![screenshot](documentation/features/newsletter.png) |
-| Contact Form | Users can contact the shop through a form that captures name, email, and message. Messages are saved in the database for admin review. | ![screenshot](documentation/features/contact.png) |
-| FAQs | A dynamic FAQ section managed from the admin panel, allowing the site owner to update common questions easily. | ![screenshot](documentation/features/faqs.png) |
+| Profile Management | Logged-in users can manage their profile information, update delivery details, and view order history. |  |
+| Order History | Displays a history of all previous purchases, allowing users to view order numbers, items purchased, and total spent. |  |
+| Product Management | Admins and superusers can create, update, and delete products through a user-friendly CRUD interface in Django Admin. |  |
+| Newsletter | Visitors can sign up for the newsletter to receive updates and promotions. Emails are stored in the database for future campaigns. |  |
+| Contact Form | Users can contact the shop through a form that captures name, email, and message. Messages are saved in the database for admin review. |  |
+| FAQs | A dynamic FAQ section managed from the admin panel, allowing the site owner to update common questions easily. |  |
 | Toast Notifications | Interactive toast messages provide feedback for actions like adding to bag, removing items, or logging in/out. |  |
-| Delivery Banner | A responsive promotional banner is displayed at the top of pages to highlight delivery offers or announcements. |  |
-| Navbar Highlight | The active navigation link is highlighted to improve user awareness of the current page. |  |
+| Delivery Banner | A responsive promotional banner is displayed at the top of pages to highlight delivery offers |  |
+| Navbar Highlight | The active navigation link is highlighted to improve user awareness of the current page. | ![screenshot](documentation/features/navbarhighlight.png) |
 | Responsive Navbar & Footer | Fully responsive design ensures easy navigation and consistent layout across all device sizes. |  |
 | Footer Design | Includes quick navigation links, contact info, social media icons, and newsletter subscription. |  |
-| Heroku Deployment | The site is fully deployed to Heroku, allowing live access for users with database integration. | ![screenshot](documentation/features/heroku.png) |
-| SEO Optimization | Integrated sitemap.xml, robots.txt, and optimized meta tags improve search visibility. | ![screenshot](documentation/features/seo.png) |
-| Marketing & Social Links | Footer links connect to social media platforms to boost engagement and brand reach. | ![screenshot](documentation/features/marketing.png) |
-| 404 Error Page | A custom 404 page aligns with the site's branding and helps users return to the home page. | ![screenshot](documentation/features/404.png) |
+| Heroku Deployment | The site is fully deployed to Heroku, allowing live access for users with database integration. | [Live Site – Nourish](https://nourish1-cc6378c356ae.herokuapp.com/) |
+| SEO Optimization | Integrated sitemap.xml, robots.txt, and optimized meta tags improve search visibility. |  |
+| Marketing & Social Links | Footer links connect to social media platforms to boost engagement and brand reach. | Refer to Social Media Marketing section below |
+| 404 Error Page | A custom 404 page aligns with the site's branding and helps users return to the home page. |  |
+| Welcome Discount Code | Users receive an automatic welcome or first-time discount code after subscribing to the newsletter, encouraging initial purchases and improving conversion. | |
+| Newsletter Confirmation Message | After subscribing, users receive a clear confirmation message so they know their email has been successfully added to the mailing list. | |
+| Unsubscribe Functionality | Users can unsubscribe from the newsletter at any time through a secure link, allowing them full control over their communication preferences. | |
+
 
 ### Future Features
+
+-  **Social Login Integration**: Allow new users to sign in using Google or GitHub, removing the need to create a separate password and making the login process faster and more convenient.
 
 -   **Product Reviews & Ratings**: Allow customers to leave reviews and rate baked goods, helping others make informed choices. Admins will have the ability to approve or remove reviews.
 
@@ -367,8 +367,6 @@ The Entity Relationship Diagram (ERD) below illustrates how core components such
 
 Entity Relationship Diagrams (ERD) help visualize the project’s database architecture, showing how models relate to one another and simplifying both development and maintenance.
 
-![screenshot](documentation/erd.png)
-
 I have used `Mermaid` to generate an interactive ERD of my project.
 
 ```mermaid
@@ -381,7 +379,7 @@ erDiagram
 
     Product {
         int id PK
-        int category
+        int category FK
         varchar name
         text description
         decimal price
@@ -406,13 +404,14 @@ erDiagram
         decimal delivery_cost
         decimal order_total
         decimal grand_total
-        int user_profile
+        int user_profile FK
+        int discount_code FK
     }
 
     OrderLineItem {
         int id PK
-        int order
-        int product
+        int order FK
+        int product FK
         varchar product_size
         int quantity
         decimal lineitem_total
@@ -420,7 +419,7 @@ erDiagram
 
     UserProfile {
         int id PK
-        int user
+        int user FK
         varchar default_phone_number
         varchar default_country
         varchar default_postcode
@@ -433,6 +432,18 @@ erDiagram
     Newsletter {
         int id PK
         varchar email
+        varchar unsubscribe_token
+        boolean is_active
+    }
+
+    DiscountCode {
+        int id PK
+        varchar code
+        int discount_percent
+        boolean is_welcome_code
+        boolean is_active
+        datetime expiry_date
+        int used_by FK
     }
 
     Contact {
@@ -449,11 +460,13 @@ erDiagram
         text answer
     }
 
-    Order }o--|| UserProfile : user_profile
-    OrderLineItem }o--|| Order : order
-    OrderLineItem }o--|| Product : product
-    Product }o--|| Category : category
-    UserProfile }o--|| User : user
+    Order }o--|| UserProfile : "user_profile"
+    Order }o--o| DiscountCode : "applied_code"
+    OrderLineItem }o--|| Order : "order"
+    OrderLineItem }o--|| Product : "product"
+    Product }o--|| Category : "category"
+    UserProfile }o--|| User : "user"
+    DiscountCode }o--o| UserProfile : "used_by"
 ```
 
 source: [Mermaid](https://mermaid.live/edit#pako:eNqVVcFu2zAM_RVD57RIHLdpfRs6DBg2bB2GXYYAhmIxjlBZcimqqdvk3yfbSVPHceP5kBh8TyRFPtKvLDUCWMwAP0ueIc_nOvDPHwsYvDbv1SM1BVIE998OpieO6Ypj4DxV8xy6CORcqq654NauDYoG2c71IeQ9mqVUMDCygCV3ipJiZTQk2uULwH6WJQSghAuBYO1kKDHsJ5JZ68Rgkkoq-1mpcfojvDCWqiac8YDliXoFm83FxWbTql0crLhNfEX2xDtOkBksB1b1dC-XKEELVSYH-C0TH1m4lAb6tw_uXFCCZ_K3tynKgqTRB2RhjKrvZ-UL2INdQCpzroICZQpdM3KSOuuG9WAGicN3Kq1NzW_PNauam82hrHGwAGV0Zr0g9tyfKAYPkKm4vfJdOqWS_5uvD8ehJabWsV4dfqzzs3N1dp6OJ0T4ypLMoX7pNlOAkk-ApZ8LS124KScZ4qoL-g2nxTFYy82gzKTmKlnw7OQdZAFJIY-3Vt3o71LDV4L8TMMr06Pjmlp13KemvBPpnRxn99afRn618k8lsddlO6NmG-Rcl6fy3R3ZK7tfyTtie890yT9gbRUQDdb-Owm_3ebOaOKD18mg0ag7nHv1daf6y6dfAyM9OrDtbVS75dqu94O2ZSOWA_rgwn9Ta7dzRivwKbLYvwqOD3M21xWPOzK_S52ymNDBiLmikvvuK8ziJVfWWwuuWfzKnlk8jSaXN9ez8HoyHc_C8TiajVjJ4ovp5XUUTqMovLqdXd2Et-FsO2Ivxngfk8vxZBpGkT_m_zxW-_tbY01QNC5b7YJt_wE0ZoQj)
@@ -468,6 +481,8 @@ The steps taken were as follows:
 - then: `pip3 install django-extensions pygraphviz`
 - in my `settings.py` file, I added the following to my `INSTALLED_APPS`:
 ```python
+
+
 INSTALLED_APPS = [
     ...
     'django_extensions',
@@ -479,7 +494,7 @@ INSTALLED_APPS = [
 - removed `'django_extensions',` from my `INSTALLED_APPS`
 - finally, in the terminal: `pip3 uninstall django-extensions pygraphviz -y`
 
-![screenshot](documentation/erd.png)
+![screenshot](documentation/erd/nourish-erd-mermaid.png)
 
 source: [medium.com](https://medium.com/@yathomasi1/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16)
 
@@ -1209,10 +1224,8 @@ This section lists all third-party resources, libraries, tools, and support I us
 | [favicon.io](https://favicon.io) | Generating the favicon |
 | [Boutique Ado](https://codeinstitute.net) | Sample images provided from the walkthrough projects |
 | [Font Awesome](https://fontawesome.com) | Icons used throughout the site |
-| [Coolors](https://coolors.co) | Used to generate and export brand color palettes |
-
 | [Cloudinary](https://cloudinary.com) | Hosts and delivers all uploaded product images and media assets |
-| [ChatGPT Image Generator (OpenAI DALL-E)](https://chat.openai.com) |
+| [ChatGPT Image Generator](https://chat.openai.com) | colors |
 
 
 ### Acknowledgements
