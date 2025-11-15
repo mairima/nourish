@@ -37,23 +37,24 @@
       {% endif %}
 
       {% if product.rating %}
-      <small class="text-muted mb-2 d-block">
-        <i class="fas fa-star mr-1"></i>{{ product.rating }} / 5
-      </small>
+      <p class="text-muted mb-2">
+        <small><i class="fas fa-star mr-1"></i>{{ product.rating }} / 5</small>
+      </p>
       {% else %}
-      <small class="text-muted mb-2 d-block">No Rating</small>
+      <p class="text-muted mb-2"><small>No Rating</small></p>
       {% endif %}
 
       {% if request.user.is_superuser %}
-      <div class="mt-2 small">
+      <p class="mt-2 small">
         <a href="{% url 'products:edit_product' product.id %}" class="text-info">Edit</a> |
         <a href="{% url 'products:delete_product' product.id %}" class="text-danger">Delete</a>
-      </div>
+      </p>
       {% endif %}
 
       <p class="mt-3 text-secondary">{{ product.description }}</p>
 
-      <form method="POST" action="{% url 'add_to_bag' product.id %}" class="mb-4">
+      <!-- ADD TO BAG FORM -->
+      <form method="post" action="{% url 'add_to_bag' product.id %}" class="mb-4">
         {% csrf_token %}
 
         <div class="form-row">
@@ -61,8 +62,8 @@
           {% with product.has_sizes as s %}
           {% if s %}
           <div class="col-12 mb-3">
-            <label><strong>Size:</strong></label>
-            <select class="form-control rounded-0 w-50" name="product_size">
+            <label for="product_size"><strong>Size:</strong></label>
+            <select id="product_size" class="form-control rounded-0 w-50" name="product_size">
               <option value="xs">XS</option>
               <option value="s">S</option>
               <option value="m" selected>M</option>
@@ -73,24 +74,32 @@
           {% endif %}
 
           <div class="col-12 mb-3">
-            <label><strong>Quantity:</strong></label>
+            <label for="quantity_{{ product.id }}"><strong>Quantity:</strong></label>
 
             <div class="input-group w-50">
-              <button type="button" class="btn btn-black decrement-qty"
-                      data-item_id="{{ product.id }}">
+
+              <button type="button"
+                class="btn btn-black decrement-qty"
+                data-item_id="{{ product.id }}">
                 <i class="fas fa-minus"></i>
               </button>
 
-              <input class="form-control qty_input"
-                     type="number" name="quantity" value="1"
-                     min="1" max="99" data-item_id="{{ product.id }}">
+              <input id="quantity_{{ product.id }}"
+                class="form-control qty_input"
+                type="number"
+                name="quantity"
+                value="1"
+                min="1"
+                max="99"
+                data-item_id="{{ product.id }}">
 
-              <button type="button" class="btn btn-black increment-qty"
-                      data-item_id="{{ product.id }}">
+              <button type="button"
+                class="btn btn-black increment-qty"
+                data-item_id="{{ product.id }}">
                 <i class="fas fa-plus"></i>
               </button>
-            </div>
 
+            </div>
           </div>
 
           <div class="col-12 mt-3">

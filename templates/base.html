@@ -130,11 +130,20 @@
           </button>
 
           <div class="collapse navbar-collapse justify-content-center" id="main-nav">
+
+            <!-- FIXED: Wrap includes in <li> -->
             <ul class="navbar-nav text-center mb-0">
-              {% include "includes/mobile-top-header.html" %}
-              {% include "includes/main-nav.html" %}
+
+              <li class="nav-item p-0 m-0" style="list-style:none;">
+                {% include "includes/mobile-top-header.html" %}
+              </li>
+
+              <li class="nav-item p-0 m-0" style="list-style:none;">
+                {% include "includes/main-nav.html" %}
+              </li>
 
             </ul>
+
           </div>
         </nav>
       </div>
@@ -177,7 +186,6 @@
     <!-- Footer -->
     <footer class="footer text-white mt-auto py-4">
       <div class="container text-center">
-        <!-- Social Icons -->
         <div class="mb-3">
           <a href="https://www.facebook.com/profile.php?id=61582594335574"
              target="_blank" rel="noopener" aria-label="Facebook"
@@ -191,7 +199,6 @@
           </a>
         </div>
 
-        <!-- Contact Info -->
         <div class="footer-contact mb-2">
           <p class="text-warning mb-1">
             <i class="fas fa-map-marker-alt"></i>
@@ -205,13 +212,11 @@
           </p>
         </div>
 
-        <!-- Legal Links -->
         <div class="footer-links mt-3">
           <a href="{% url 'privacy_policy' %}" class="text-white me-3">Privacy Policy</a> |
           <a href="{% url 'terms_conditions' %}" class="text-white ms-3">Terms & Conditions</a>
         </div>
 
-        <!-- Copyright -->
         <div class="footer-copy mt-2">
           &copy; {% now "Y" %} Nourish. All rights reserved.
         </div>
@@ -226,7 +231,7 @@
     <!-- Core JS -->
     <script src="https://kit.fontawesome.com/fa7e3e6dea.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script> 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script src="https://js.stripe.com/v3/"></script>
 
