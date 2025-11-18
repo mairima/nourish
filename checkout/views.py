@@ -326,7 +326,9 @@ def checkout_success(request, order_number):
 
     if request.user.is_authenticated:
         try:
-            profile, _ = UserProfile.objects.get_or_create(user=request.user)
+            profile, _ = UserProfile.objects.get_or_create(
+                user=request.user
+            )
             if order.user_profile_id != profile.id:
                 order.user_profile = profile
                 order.save(update_fields=["user_profile"])
@@ -343,18 +345,29 @@ def checkout_success(request, order_number):
                 "default_street_address2": order.street_address2,
                 "default_county": order.county,
             }
-            user_profile_form = ProfileForm(profile_data, instance=profile)
+            user_profile_form = ProfileForm(
+                profile_data,
+                instance=profile
+            )
             if user_profile_form.is_valid():
                 user_profile_form.save()
 
+        # Clear saved cart items for logged-in users
+        from bag.models import UserCartItem
+        UserCartItem.objects.filter(user=request.user).delete()
+
+    # Clear session cart
+    request.session["bag"] = {}
+
     messages.success(
         request,
-        f"Order processed! Your order number is {order_number}. "
-        f"A confirmation email will be sent to {order.email}.",
+        (
+            "Order processed! Your order number is "
+            f"{order_number}. A confirmation email "
+            f"will be sent to {order.email}."
+        ),
     )
-
-    request.session.pop("bag", None)
-
+    
     if not order.confirmation_sent:
         _send_order_confirmation(order)
         order.confirmation_sent = True
@@ -370,8 +383,8 @@ def checkout_success(request, order_number):
         except NewsletterSubscription.DoesNotExist:
             pass
 
-    return render(request, "checkout/checkout_success.html", {"order": order})
-
+    context = {"order": order}
+    return render(request, "checkout/checkout_success.html", context)
 
 @login_required
 def order_history(request, order_number):
