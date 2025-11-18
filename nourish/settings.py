@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     "home",
     "products",
     "bag",
-    'bag.apps.BagConfig',
     "checkout",
     "profiles",
     "newsletter",

@@ -806,7 +806,6 @@ After creating my Heroku account, here's how I deployed the project:
 | `STRIPE_PUBLIC_KEY` | user-inserts-own-stripe-public-key |
 | `STRIPE_SECRET_KEY` | user-inserts-own-stripe-secret-key |
 | `STRIPE_WH_SECRET` | user-inserts-own-stripe-webhook-secret |
-| `USE_AWS` | True |
 
 Heroku needs some additional files in order to deploy properly.
 
