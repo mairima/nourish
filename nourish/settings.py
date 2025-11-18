@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "home",
     "products",
     "bag",
+    'bag.apps.BagConfig',
     "checkout",
     "profiles",
     "newsletter",
@@ -143,6 +144,10 @@ LOGIN_REDIRECT_URL = "/"
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
+
+# SESSION SETTINGS
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_AGE = 1209600  # 2 weeks
 
 # Database
 if "DATABASE_URL" in os.environ:
