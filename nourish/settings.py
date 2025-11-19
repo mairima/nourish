@@ -70,7 +70,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "home",
     "products",
-    "bag",
+    "bag.apps.BagConfig",
     "checkout",
     "profiles",
     "newsletter",

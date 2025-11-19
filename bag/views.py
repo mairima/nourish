@@ -1,4 +1,3 @@
-# bag/views.py
 from django.contrib import messages
 from django.shortcuts import (
     get_object_or_404,
@@ -7,7 +6,6 @@ from django.shortcuts import (
     reverse,
     HttpResponse,
 )
-
 from products.models import Product
 from bag.models import UserCartItem
 
@@ -18,7 +16,7 @@ def view_bag(request):
 
 
 def add_to_bag(request, item_id):
-    """Add quantity of an item to bag with DB and session sync."""
+    """Add quantity of an item to the bag with DB/session sync."""
     product = get_object_or_404(Product, pk=item_id)
 
     try:
@@ -27,10 +25,11 @@ def add_to_bag(request, item_id):
         quantity = 1
 
     redirect_url = (
-        request.POST.get("redirect_url") or
-        reverse("products:products")
+        request.POST.get("redirect_url")
+        or reverse("products:products")
     )
 
+    # --- Update session bag ---
     bag = request.session.get("bag", {})
     item_key = str(item_id)
 
@@ -39,14 +38,16 @@ def add_to_bag(request, item_id):
     bag[item_key] = new_qty
     request.session["bag"] = bag
 
+    # --- Update DB cart (persistent cart) ---
     if request.user.is_authenticated:
         cart_item, _ = UserCartItem.objects.get_or_create(
             user=request.user,
             product=product,
         )
-        cart_item.quantity += quantity
+        cart_item.quantity = new_qty   # sync with session, no double counting
         cart_item.save()
 
+    # --- Messages ---
     if old_qty > 0:
         messages.success(
             request,
@@ -62,7 +63,7 @@ def add_to_bag(request, item_id):
 
 
 def adjust_bag(request, item_id):
-    """Adjust quantity of selected item."""
+    """Adjust quantity of a selected item (session + DB)."""
     product = get_object_or_404(Product, pk=item_id)
 
     try:
@@ -73,6 +74,7 @@ def adjust_bag(request, item_id):
     bag = request.session.get("bag", {})
     item_key = str(item_id)
 
+    # --- Update session ---
     if quantity > 0:
         bag[item_key] = quantity
         messages.success(
@@ -88,6 +90,7 @@ def adjust_bag(request, item_id):
 
     request.session["bag"] = bag
 
+    # --- Sync DB cart ---
     if request.user.is_authenticated:
         if quantity > 0:
             cart_item, _ = UserCartItem.objects.get_or_create(
@@ -102,16 +105,17 @@ def adjust_bag(request, item_id):
                 product=product,
             ).delete()
 
-    return redirect(reverse("view_bag"))
+    return redirect(reverse("bag:view_bag"))
 
 
 def remove_from_bag(request, item_id):
-    """Remove item fully from bag."""
+    """Remove item fully from bag (session + DB)."""
     product = get_object_or_404(Product, pk=item_id)
 
     bag = request.session.get("bag", {})
     item_key = str(item_id)
 
+    # --- Remove from session ---
     if item_key in bag:
         bag.pop(item_key, None)
         request.session["bag"] = bag
@@ -120,6 +124,7 @@ def remove_from_bag(request, item_id):
             f"Removed {product.name} from your bag.",
         )
 
+    # --- Remove from DB cart ---
     if request.user.is_authenticated:
         UserCartItem.objects.filter(
             user=request.user,
