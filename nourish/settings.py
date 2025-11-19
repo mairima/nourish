@@ -45,6 +45,8 @@ CSRF_USE_SESSIONS = True
 SESSION_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SAMESITE = "None"
 
+# Tell Django it is behind Heroku’s HTTPS proxy
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Force HTTPS in production only
 if DEBUG:
