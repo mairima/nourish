@@ -80,7 +80,7 @@ source: [nourish amiresponsive](https://ui.dev/amiresponsive?url=https://nourish
 **Content Requirements**
 - Product listings with name, image, price, and description.
 
-- Shopping bag and checkout functionality with quantity updates.
+- Shopping bag and checkout functionality with quantity updates. Guests can add items to the shopping bag and are prompted to log in when they reach the secure checkout page. After logging in, the items in the bag can remain available, and the logged-in user can proceed to checkout.
 
 - Secure payment processing via Stripe.
 
