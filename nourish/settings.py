@@ -46,6 +46,12 @@ SESSION_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SAMESITE = "None"
 
 
+# Force HTTPS in production only
+if DEBUG:
+    SECURE_SSL_REDIRECT = False
+else:
+    SECURE_SSL_REDIRECT = True
+
 # Installed apps
 INSTALLED_APPS = [
     "django.contrib.admin",
