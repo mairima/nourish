@@ -10,7 +10,7 @@ django.setup()
 OUTPUT = "documentation/erd.mmd"
 os.makedirs("documentation", exist_ok=True)
 
-# Which apps to include (edit as needed)
+# Apps to include
 APP_LABELS = [
     "products",
     "checkout",
@@ -25,7 +25,9 @@ APP_LABELS = [
 def field_decl(field: models.Field) -> str:
     """Return a Mermaid-friendly field declaration."""
     name = field.name
-    pk = " PK" if getattr(field, "primary_key", False) or name == "id" else ""
+    pk = ""
+    if getattr(field, "primary_key", False) or name == "id":
+        pk = " PK"
 
     if isinstance(field, models.AutoField) or name == "id":
         dtype = "int"
@@ -44,7 +46,7 @@ def field_decl(field: models.Field) -> str:
     elif isinstance(field, models.IntegerField):
         dtype = "int"
     elif isinstance(field, models.ForeignKey):
-        dtype = "int"  # show FK inline
+        dtype = "int"
     else:
         dtype = field.__class__.__name__.lower()
 
@@ -52,15 +54,7 @@ def field_decl(field: models.Field) -> str:
 
 
 def rel_line(from_model, to_model, rel_type, label):
-    """
-    Return a Mermaid relationship line.
-
-    Mermaid cardinalities:
-      one-to-many  : '||--o{'
-      many-to-one  : '}o--||'
-      one-to-one   : '||--||'
-      many-to-many : '}o--o{'
-    """
+    """Return a Mermaid relationship line."""
     if rel_type == "fk":
         return f"    {from_model} }}o--|| {to_model} : {label}"
     if rel_type == "o2o":
@@ -68,6 +62,15 @@ def rel_line(from_model, to_model, rel_type, label):
     if rel_type == "m2m":
         return f"    {from_model} }}o--o{{ {to_model} : {label}"
     return ""
+
+
+def safe_bag_json(session):
+    """Return session bag JSON if valid."""
+    try:
+        return session.get("bag", {})
+    except Exception as err:
+        print(f"[ERD] Warning: Bag JSON failed: {err}")
+        return {}
 
 
 lines = ["erDiagram"]
@@ -125,4 +128,4 @@ for rel in sorted(set(relations)):
 with open(OUTPUT, "w", encoding="utf-8") as fh:
     fh.write("\n".join(lines))
 
-print(f"✅ Mermaid ERD written to {OUTPUT}")
+print(f"Mermaid ERD written to {OUTPUT}")
