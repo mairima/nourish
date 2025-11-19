@@ -38,6 +38,14 @@ if host:
     ALLOWED_HOSTS.append(host)
     CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
 
+    # -------------------- Security Cookies --------------------
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_USE_SESSIONS = True
+SESSION_COOKIE_SAMESITE = "None"
+CSRF_COOKIE_SAMESITE = "None"
+
+
 # Installed apps
 INSTALLED_APPS = [
     "django.contrib.admin",
