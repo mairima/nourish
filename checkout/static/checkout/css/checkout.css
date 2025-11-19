@@ -108,3 +108,15 @@ select option[value=""] {
 }
 
 
+.checkout-thumb-wrapper {
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.checkout-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

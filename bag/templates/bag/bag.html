@@ -27,21 +27,21 @@
         {% for item in bag_items %}
 
         <!-- SINGLE ITEM ROW -->
-        <div class="row align-items-center py-3 border-bottom">
+        <div class="row align-items-center py-3 border-bottom bag-item-row">
 
             <!-- IMAGE -->
-            <div class="col-3 col-md-2">
+            <div class="col-4 col-md-2 mb-2 mb-md-0">
                 <a href="{% url 'products:product_detail' item.product.id %}">
-                    <div class="checkout-thumb-wrapper">
+                    <div class="bag-thumb-wrapper">
                         <img src="{{ item.product.image_url_fixed }}"
-                             class="checkout-thumb-img"
+                             class="bag-thumb-img img-fluid"
                              alt="{{ item.product.name }}">
                     </div>
                 </a>
             </div>
 
             <!-- PRODUCT INFO -->
-            <div class="col-5 col-md-6">
+            <div class="col-8 col-md-5 mb-3 mb-md-0">
                 <p class="my-0 font-weight-bold">{{ item.product.name }}</p>
 
                 {% if item.size %}
@@ -56,7 +56,7 @@
             </div>
 
             <!-- QUANTITY CONTROLS -->
-            <div class="col-4 col-md-2">
+            <div class="col-6 col-md-3 mt-3 mt-md-0">
 
                 <form class="form update-form"
                       method="POST"
@@ -92,7 +92,7 @@
                     </div>
                 </form>
 
-                <a class="update-link text-info small d-block mt-1">Update</a>
+                <a class="update-link text-info small mt-1 d-block">Update</a>
 
                 <a class="remove-item text-danger small mt-1 d-block"
                    data-url="{% url 'remove_from_bag' item.item_id %}">
@@ -102,7 +102,7 @@
             </div>
 
             <!-- SUBTOTAL -->
-            <div class="col-12 col-md-2 text-right mt-3 mt-md-0">
+            <div class="col-6 col-md-2 text-right mt-3 mt-md-0">
                 <p class="my-0 font-weight-bold">
                     €{{ item.product.price|calc_subtotal:item.quantity }}
                 </p>
@@ -145,7 +145,6 @@
 
     {% else %}
 
-    <!-- EMPTY BAG -->
     <p class="mb-4 h5 text-center text-dark">Your bag is empty.</p>
 
     <div class="text-center">
