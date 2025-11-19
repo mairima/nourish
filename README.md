@@ -772,7 +772,7 @@ After creating my Heroku account, here's how I deployed the project:
 
 ### 3\. **Prepare for Deployment**
 
--   I pushed my code to GitHub, ensuring the `Procfile`, `requirements.txt`, and `runtime.txt` were included in the repo.
+-   I pushed my code to GitHub, ensuring the `Procfile`, `requirements.txt` were included in the repo.
 
 -   In the **Deploy** tab of the Heroku dashboard, I:
 
