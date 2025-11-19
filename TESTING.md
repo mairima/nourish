@@ -28,37 +28,37 @@ Find bellow the directories and file names:
 
 | Directory | File Urls | Notes |
 | --- | --- | --- |
-| bag | [bag.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/bag.html) |  |
-| bag | [bag_total.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/bag_total.html) |  |
-| bag | [checkout-buttons.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/checkout-buttons.html) |  |
-| bag | [product-image.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/product-image.html) |  |
-| bag | [product-info.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/product-info.html) |  |
-| bag | [quantity-form.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/quantity-form.html) |  |
-| checkout | [checkout.html](https://github.com/mairima/nourish/blob/main/checkout/templates/checkout/checkout.html) |  |
-| checkout | [checkout_success.html](https://github.com/mairima/nourish/blob/main/checkout/templates/checkout/checkout_success.html) |  |
-| contact | [contact.html](https://github.com/mairima/nourish/blob/main/contact/templates/contact/contact.html) |  |
-| faqs | [add_faq.html](https://github.com/mairima/nourish/blob/main/faqs/templates/faqs/add_faq.html) |  |
-| faqs | [faqs.html](https://github.com/mairima/nourish/blob/main/faqs/templates/faqs/faqs.html) |  |
-| faqs | [update_faq.html](https://github.com/mairima/nourish/blob/main/faqs/templates/faqs/update_faq.html) |  |
-| home | [index.html](https://github.com/mairima/nourish/blob/main/home/templates/home/index.html) |  |
-| newsletter | [newsletter.html](https://github.com/mairima/nourish/blob/main/newsletter/templates/newsletter/newsletter.html) |  |
-| products | [add_product.html](https://github.com/mairima/nourish/blob/main/products/templates/products/add_product.html) |  |
-| products | [custom_clearable_file_input.html](https://github.com/mairima/nourish/blob/main/products/templates/products/custom_widget_templates%20copy/custom_clearable_file_input.html) |  |
-| products | [product_detail.html](https://github.com/mairima/nourish/blob/main/products/templates/products/product_detail.html) |  |
-| products | [products.html](https://github.com/mairima/nourish/blob/main/products/templates/products/products.html) |  |
-| profiles | [profile.html](https://github.com/mairima/nourish/blob/main/profiles/templates/profiles/profile.html) |  |
-| profiles | [profile_edit.html](https://github.com/mairima/nourish/blob/main/profiles/templates/profiles/profile_edit.html) |  |
-| templates | [email_confirm.html](https://github.com/mairima/nourish/blob/main/templates/account/email_confirm.html) |  |
-| templates | [login.html](https://github.com/mairima/nourish/blob/main/templates/account/login.html) |  |
-| templates | [logout.html](https://github.com/mairima/nourish/blob/main/templates/account/logout.html) |  |
-| templates | [password_reset.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset.html) |  |
-| templates | [password_reset_done.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset_done.html) |  |
-| templates | [password_reset_from_key.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset_from_key.html) |  |
-| templates | [password_reset_from_key_done.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset_from_key_done.html) |  |
-| templates | [signup.html](https://github.com/mairima/nourish/blob/main/templates/account/signup.html) |  |
-| templates | [verification_sent.html](https://github.com/mairima/nourish/blob/main/templates/account/verification_sent.html) |  |
-| templates | [terms_and_conditions.html](https://github.com/mairima/nourish/blob/main/templates/terms/terms_conditions.html) |  |
-| templates | [privacy_policy.html](https://github.com/mairima/nourish/blob/main/templates/terms/privacy_policy.html) |  |
+| bag | [bag.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/bag.html) | ![screenshot](documentation/validation/html-passed.png) |
+| bag | [bag_total.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/bag_total.html) | ![screenshot](documentation/validation/html-passed.png) |
+| bag | [checkout-buttons.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/checkout-buttons.html) | ![screenshot](documentation/validation/html-passed.png) |
+| bag | [product-image.html](https://github.com/mairima/nourish/nourish/blob/main/bag/templates/bag/product-image.html) | ![screenshot](documentation/validation/html-passed.png) |
+| bag | [product-info.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/product-info.html) | ![screenshot](documentation/validation/html-passed.png) |
+| bag | [quantity-form.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/quantity-form.html) | ![screenshot](documentation/validation/html-passed.png) |
+| checkout | [checkout.html](https://github.com/mairima/nourish/blob/main/checkout/templates/checkout/checkout.html) | ![screenshot](documentation/validation/html-passed.png) |
+| checkout | [checkout_success.html](https://github.com/mairima/nourish/blob/main/checkout/templates/checkout/checkout_success.html) | ![screenshot](documentation/validation/html-passed.png) |
+| contact | [contact.html](https://github.com/mairima/nourish/blob/main/contact/templates/contact/contact.html) | ![screenshot](documentation/validation/html-passed.png) |
+| faqs | [add_faq.html](https://github.com/mairima/nourish/blob/main/faqs/templates/faqs/add_faq.html) | ![screenshot](documentation/validation/html-passed.png) |
+| faqs | [faqs.html](https://github.com/mairima/nourish/blob/main/faqs/templates/faqs/faqs.html) | ![screenshot](documentation/validation/html-passed.png) |
+| faqs | [update_faq.html](https://github.com/mairima/nourish/blob/main/faqs/templates/faqs/update_faq.html) | ![screenshot](documentation/validation/html-passed.png) |
+| home | [index.html](https://github.com/mairima/nourish/blob/main/home/templates/home/index.html) | ![screenshot](documentation/validation/html-passed.png) |
+| newsletter | [newsletter.html](https://github.com/mairima/nourish/blob/main/newsletter/templates/newsletter/newsletter.html) | ![screenshot](documentation/validation/html-passed.png) |
+| products | [add_product.html](https://github.com/mairima/nourish/blob/main/products/templates/products/add_product.html) | ![screenshot](documentation/validation/html-passed.png) |
+| products | [custom_clearable_file_input.html](https://github.com/mairima/nourish/blob/main/products/templates/products/custom_widget_templates%20copy/custom_clearable_file_input.html) | ![screenshot](documentation/validation/html-passed.png) |
+| products | [product_detail.html](https://github.com/mairima/nourish/blob/main/products/templates/products/product_detail.html) | ![screenshot](documentation/validation/html-passed.png) |
+| products | [products.html](https://github.com/mairima/nourish/blob/main/products/templates/products/products.html) | ![screenshot](documentation/validation/html-passed.png) |
+| profiles | [profile.html](https://github.com/mairima/nourish/blob/main/profiles/templates/profiles/profile.html) | ![screenshot](documentation/validation/html-passed.png) |
+| profiles | [profile_edit.html](https://github.com/mairima/nourish/blob/main/profiles/templates/profiles/profile_edit.html) | ![screenshot](documentation/validation/html-passed.png) |
+| templates | [email_confirm.html](https://github.com/mairima/nourish/blob/main/templates/account/email_confirm.html) | ![screenshot](documentation/validation/html-passed.png) |
+| templates | [login.html](https://github.com/mairima/nourish/blob/main/templates/account/login.html) | ![screenshot](documentation/validation/html-passed.png) |
+| templates | [logout.html](https://github.com/mairima/nourish/blob/main/templates/account/logout.html) | ![screenshot](documentation/validation/html-passed.png) |
+| templates | [password_reset.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset.html) | ![screenshot](documentation/validation/html-passed.png) |
+| templates | [password_reset_done.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset_done.html) | ![screenshot](documentation/validation/html-passed.png) |
+| templates | [password_reset_from_key.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset_from_key.html) | ![screenshot](documentation/validation/html-passed.png) |
+| templates | [password_reset_from_key_done.html](https://github.com/mairima/nourish/blob/main/templates/account/password_reset_from_key_done.html) | ![screenshot](documentation/validation/html-passed.png) |
+| templates | [signup.html](https://github.com/mairima/nourish/blob/main/templates/account/signup.html) | ![screenshot](documentation/validation/html-passed.png) |
+| templates | [verification_sent.html](https://github.com/mairima/nourish/blob/main/templates/account/verification_sent.html) | ![screenshot](documentation/validation/html-passed.png) |
+| templates | [terms_and_conditions.html](https://github.com/mairima/nourish/blob/main/templates/terms/terms_conditions.html) | ![screenshot](documentation/validation/html-passed.png) |
+| templates | [privacy_policy.html](https://github.com/mairima/nourish/blob/main/templates/terms/privacy_policy.html) | ![screenshot](documentation/validation/html-passed.png) |
 
 
 ### CSS
@@ -82,9 +82,9 @@ Find bellow the directories and file Urls:
 
 | Directory | File Urls | Notes |
 | --- | --- | --- |
-| checkout | [checkout.css](https://github.com/mairima/nourish/blob/main/checkout/static/checkout/css/checkout.css) |  |
-| profiles | [profile.css](https://github.com/mairima/nourish/blob/main/profiles/static/profiles/css/profile.css) |  |
-| static | [base.css](https://github.com/mairima/nourish/blob/main/static/css/base.css) |  |
+| checkout | [checkout.css](https://github.com/mairima/nourish/blob/main/checkout/static/checkout/css/checkout.css) |![screenshot](documentation/validation/cssvalidated.png)  |
+| profiles | [profile.css](https://github.com/mairima/nourish/blob/main/profiles/static/profiles/css/profile.css) |  ![screenshot](documentation/validation/cssvalidated.png) |
+| static | [base.css](https://github.com/mairima/nourish/blob/main/static/css/base.css) | ![screenshot](documentation/validation/cssvalidated.png)  |
 
 
 **Result:** No errors found — document validates as **CSS Level 3 + SVG**.
@@ -125,30 +125,29 @@ All python files positively validated like this picture bellow:
 
 | Directory | File | Linter URL | Notes |
 | --- | --- | --- | --- |
-| bag | [admin.py](https://github.com/mairima/nourish/blob/main/bag/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/admin.py) |  |
-| bag | [contexts.py](https://github.com/mairima/nourish/blob/main/bag/contexts.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/contexts.py) |  |
-| bag | [models.py](https://github.com/mairima/nourish/blob/main/bag/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/models.py) |  |
-| bag | [bag_tools.py](https://github.com/mairima/nourish/blob/main/bag/templatetags/bag_tools.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/templatetags/bag_tools.py) |  |
-| bag | [tests.py](https://github.com/mairima/nourish/blob/main/bag/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/tests.py) |  |
-| bag | [urls.py](https://github.com/mairima/nourish/blob/main/bag/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/urls.py) |  |
-| bag | [views.py](https://github.com/mairima/nourish/blob/main/bag/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/views.py) |  |
-| checkout | [admin.py](https://github.com/mairima/nourish/blob/main/checkout/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/admin.py) |  |
-| checkout | [forms.py](https://github.com/mairima/nourish/blob/main/checkout/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/forms.py) |  |
-| checkout | [models.py](https://github.com/mairima/nourish/blob/main/checkout/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/models.py) |  |
-| checkout | [signals.py](https://github.com/mairima/nourish/blob/main/checkout/signals.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/signals.py) |  |
-| checkout | [tests.py](https://github.com/mairima/nourish/blob/main/checkout/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/tests.py) |  |
-| checkout | [urls.py](https://github.com/mairima/nourish/blob/main/checkout/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/urls.py) |  |
-| checkout | [views.py](https://github.com/mairima/nourish/blob/main/checkout/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/views.py) |  |
-| checkout | [webhook_handler.py](https://github.com/mairima/nourish/blob/main/checkout/webhook_handler.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/webhook_handler.py) |  |
-| checkout | [webhooks.py](https://github.com/mairima/nourish/blob/main/checkout/webhooks.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/webhooks.py) |  |
-| checkout | [widgets.py](https://github.com/mairima/nourish/blob/main/checkout/widgets.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/widgets.py) |  |
-| contact | [admin.py](https://github.com/mairima/nourish/blob/main/contact/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/admin.py) |  |
-| contact | [forms.py](https://github.com/mairima/nourish/blob/main/contact/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/forms.py) |  |
-| contact | [models.py](https://github.com/mairima/nourish/blob/main/contact/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/models.py) |  |
-| contact | [tests.py](https://github.com/mairima/nourish/blob/main/contact/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/tests.py) |  |
-| contact | [urls.py](https://github.com/mairima/nourish/blob/main/contact/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/urls.py) |  |
-| contact | [views.py](https://github.com/mairima/nourish/blob/main/contact/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/views.py) |  |
-
+| bag | [admin.py](https://github.com/mairima/nourish/blob/main/bag/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/admin.py) |![screenshot](documentation/validation/pylinter-val-pass.png)   |
+| bag | [contexts.py](https://github.com/mairima/nourish/blob/main/bag/contexts.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/contexts.py) |  ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| bag | [models.py](https://github.com/mairima/nourish/blob/main/bag/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/models.py) | ![screenshot](documentation/validation/pylinter-val-pass.png)  |
+| bag | [bag_tools.py](https://github.com/mairima/nourish/blob/main/bag/templatetags/bag_tools.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/templatetags/bag_tools.py) |![screenshot](documentation/validation/pylinter-val-pass.png)   |
+| bag | [tests.py](https://github.com/mairima/nourish/blob/main/bag/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/tests.py) |  ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| bag | [urls.py](https://github.com/mairima/nourish/blob/main/bag/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/urls.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| bag | [views.py](https://github.com/mairima/nourish/blob/main/bag/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/bag/views.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| checkout | [admin.py](https://github.com/mairima/nourish/blob/main/checkout/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/admin.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| checkout | [forms.py](https://github.com/mairima/nourish/blob/main/checkout/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/forms.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| checkout | [models.py](https://github.com/mairima/nourish/blob/main/checkout/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/models.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| checkout | [signals.py](https://github.com/mairima/nourish/blob/main/checkout/signals.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/signals.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| checkout | [tests.py](https://github.com/mairima/nourish/blob/main/checkout/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/tests.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| checkout | [urls.py](https://github.com/mairima/nourish/blob/main/checkout/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/urls.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| checkout | [views.py](https://github.com/mairima/nourish/blob/main/checkout/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/views.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| checkout | [webhook_handler.py](https://github.com/mairima/nourish/blob/main/checkout/webhook_handler.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/webhook_handler.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| checkout | [webhooks.py](https://github.com/mairima/nourish/blob/main/checkout/webhooks.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/webhooks.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| checkout | [widgets.py](https://github.com/mairima/nourish/blob/main/checkout/widgets.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/checkout/widgets.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| contact | [admin.py](https://github.com/mairima/nourish/blob/main/contact/admin.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/admin.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| contact | [forms.py](https://github.com/mairima/nourish/blob/main/contact/forms.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/forms.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| contact | [models.py](https://github.com/mairima/nourish/blob/main/contact/models.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/models.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| contact | [tests.py](https://github.com/mairima/nourish/blob/main/contact/tests.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/tests.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| contact | [urls.py](https://github.com/mairima/nourish/blob/main/contact/urls.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/urls.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
+| contact | [views.py](https://github.com/mairima/nourish/blob/main/contact/views.py) | [PEP8 CI Link](https://pep8ci.herokuapp.com/https://raw.githubusercontent.com/mairima/nourish/main/contact/views.py) | ![screenshot](documentation/validation/pylinter-val-pass.png) |
 
 
 ## Responsiveness
