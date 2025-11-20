@@ -244,22 +244,10 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# Disable ManifestStaticFilesStorage during GitHub Actions tests
-if os.environ.get("GITHUB_ACTIONS") == "true":
-    STATICFILES_STORAGE = (
-        "django.contrib.staticfiles.storage.StaticFilesStorage"
-    )
-    STORAGES = {
-        "default": {
-            "BACKEND": "django.core.files.storage.FileSystemStorage",
-        },
-        "staticfiles": {
-            "BACKEND": (
-                "django.contrib.staticfiles.storage.StaticFilesStorage"
-            ),
-        },
-    }
-
+STATICFILES_STORAGE = (
+    "whitenoise.storage."
+    "CompressedManifestStaticFilesStorage"
+)
 
 # Media files
 DEFAULT_FILE_STORAGE = (
