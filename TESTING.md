@@ -375,7 +375,6 @@ All previously closed/fixed bugs can be tracked [here](https://www.github.com/ma
 | Issue                              | Fix Applied / How It Was Fixed                         | Status   |
 |-----------------------------------|----------------------------------------------------------|----------|
 | Heroku site static files issue, now fixed       | the "django.contrib.staticfiles" was placed before "cloudinary_storage","cloudinary", on the list and the static files where then properly loaded on heroku.|  Fixed |
-| Products not displaying due to missing image URL resolution | Added `image_url_fixed` property to always return a valid image URL | ✔️ Fixed |
 
 
 ### Unfixed Bugs
