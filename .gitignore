@@ -49,3 +49,5 @@ templates_backup/
 staticfiles/
 staticfiles_backup/
 templates_backup/
+
+.github/workflows/test.yml
