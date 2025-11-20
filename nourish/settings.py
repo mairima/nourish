@@ -41,27 +41,38 @@ if host:
     ALLOWED_HOSTS.append(host)
     CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
 
-# -------------------- Security Cookies ------------
+# Default: production-level security
+SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-CSRF_USE_SESSIONS = True
 SESSION_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SAMESITE = "None"
+CSRF_USE_SESSIONS = True
 
-# Tell Django it is behind Heroku's HTTPS proxy
+# Behind Heroku proxy
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-# -------------------- Local Development Overrides ---
+# -----------------------------------------
+# Local development (runserver)
+# -----------------------------------------
 if "runserver" in sys.argv:
-    # allow HTTP locally
+    SECURE_SSL_REDIRECT = False
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+    SESSION_COOKIE_SAMESITE = "Lax"
+    CSRF_COOKIE_SAMESITE = "Lax"
+
+# -----------------------------------------
+# GitHub Actions CI
+# -----------------------------------------
+if os.environ.get("GITHUB_ACTIONS") == "true":
+    DEBUG = True
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
     SESSION_COOKIE_SAMESITE = "Lax"
     CSRF_COOKIE_SAMESITE = "Lax"
-else:
-    # production behaviour
-    SECURE_SSL_REDIRECT = True
+    CSRF_USE_SESSIONS = False
 
 # Installed apps
 INSTALLED_APPS = [
@@ -233,10 +244,22 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-STATICFILES_STORAGE = (
-    "whitenoise.storage."
-    "CompressedManifestStaticFilesStorage"
-)
+# Disable ManifestStaticFilesStorage during GitHub Actions tests
+if os.environ.get("GITHUB_ACTIONS") == "true":
+    STATICFILES_STORAGE = (
+        "django.contrib.staticfiles.storage.StaticFilesStorage"
+    )
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": (
+                "django.contrib.staticfiles.storage.StaticFilesStorage"
+            ),
+        },
+    }
+
 
 # Media files
 DEFAULT_FILE_STORAGE = (
