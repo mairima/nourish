@@ -308,6 +308,79 @@ Refer for most images for this section in the testing document under responsiven
 | Newsletter Confirmation Message | After subscribing, users receive a clear confirmation message so they know their email has been successfully added to the mailing list. | |
 | Unsubscribe Functionality | Users can unsubscribe from the newsletter at any time through a secure link, allowing them full control over their communication preferences. | |
 
+### CRUD Functionality
+
+Nourish includes full Create, Read, Update and Delete (CRUD) functionality across several features of the site. The tables below outline how CRUD is implemented in each relevant area of the project.
+
+---
+
+### Products (Admin Only)
+
+| Operation | Description | Access |
+|----------|-------------|--------|
+| Create | Admin users can add new products through the Django admin panel. | Admin |
+| Read | All users can browse and view all products and their details. | All users |
+| Update | Admin users can edit product information, prices and images. | Admin |
+| Delete | Admin users can delete products from the catalogue. | Admin |
+
+---
+
+### Shopping Bag
+
+| Operation | Description | Access |
+|----------|-------------|--------|
+| Create | Users can add products to the shopping bag. Items are stored in session or in the database for logged-in users. | All users |
+| Read | Users can view their bag contents at any time. | All users |
+| Update | Users can adjust product quantities directly in the bag. | All users |
+| Delete | Users can remove items from the shopping bag. | All users |
+
+---
+
+### Checkout and Orders
+
+| Operation | Description | Access |
+|----------|-------------|--------|
+| Create | Orders are created after successful checkout and payment. | All users |
+| Read | Authenticated users can view their order history in their profile. | Registered users |
+| Update | Users can update and save delivery details to their profile. | Registered users |
+| Delete | Orders are not deleted to preserve transaction integrity. | Not applicable |
+
+---
+
+### User Profiles
+
+| Operation | Description | Access |
+|----------|-------------|--------|
+| Create | User profiles are automatically generated upon registration. | Registered users |
+| Read | Users can view their saved profile details and order history. | Registered users |
+| Update | Users can update delivery and profile information. | Registered users |
+| Delete | Profile deletion is handled manually (upon request) for GDPR compliance. | Admin |
+
+---
+
+### Newsletter Subscriptions
+
+| Operation | Description | Access |
+|----------|-------------|--------|
+| Create | Users can subscribe to the newsletter. | All users |
+| Read | Admin can view subscriber lists in the Django admin panel. | Admin |
+| Update | Not applicable (email addresses cannot be edited). | Not applicable |
+| Delete | Users can unsubscribe using a secure tokenised link. | All users |
+
+---
+
+### FAQs (Admin Only)
+
+| Operation | Description | Access |
+|----------|-------------|--------|
+| Create | Admin users can create new FAQ entries. | Admin |
+| Read | Users can view all FAQs on the FAQ page. | All users |
+| Update | Admin users can edit existing FAQ entries. | Admin |
+| Delete | Admin users can delete FAQs. | Admin |
+---
+
+
+
 
 ### Future Features
 
