@@ -3,8 +3,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from django.contrib.sitemaps.views import sitemap
+from django.views.static import serve
+from django.conf import settings
 
-# Correct sitemap imports (from home, not products)
+# Correct sitemap imports (from home app)
 from home.sitemaps import ProductSitemap, StaticViewSitemap
 
 # Sitemap dictionary
@@ -42,7 +44,7 @@ urlpatterns = [
         name="django.contrib.sitemaps.views.sitemap",
     ),
 
-    # robots.txt served from templates
+    # robots.txt
     path(
         "robots.txt",
         TemplateView.as_view(
@@ -50,6 +52,16 @@ urlpatterns = [
             content_type="text/plain"
         ),
         name="robots_txt",
+    ),
+
+    # Google Search Console verification
+    path(
+        "googlef56707d4bc49227d.html",
+        TemplateView.as_view(
+            template_name="googlef56707d4bc49227d.html",
+            content_type="text/plain",
+        ),
+        name="google-site-verification",
     ),
 ]
 
