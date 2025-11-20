@@ -26,3 +26,6 @@ def error_404_view(request, exception=None):
             "<h1>404 - Page Not Found</h1>"
             f"<p>Error: {error}</p>"
         )
+
+def error_500(request):
+    return render(request, "500.html", status=500)

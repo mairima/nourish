@@ -7,23 +7,27 @@ class ProductSitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.8
 
-    # Return all products
     def items(self):
         return Product.objects.all()
 
-    # Return last modified date
     def lastmod(self, obj):
         return getattr(obj, "updated_on", None)
+
+    def location(self, obj):
+        return reverse("products:product_detail", args=[obj.id])
 
 
 class StaticViewSitemap(Sitemap):
     changefreq = "monthly"
     priority = 0.5
 
-    # Return static page names
     def items(self):
-        return ["home", "products", "about", "contact"]
+        return [
+            "home",                 # home page
+            "products:products",    # product list page
+            "contact:index",        # contact.urls → name="index"
+            "faqs:index",           # FAQ page
+        ]
 
-    # Reverse URL for each static page
     def location(self, item):
         return reverse(item)

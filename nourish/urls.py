@@ -21,7 +21,7 @@ urlpatterns = [
         "products/",
         include(("products.urls", "products"), namespace="products"),
     ),
-    path("bag/", include("bag.urls")),
+    path("bag/", include(("bag.urls", "bag"), namespace="bag")),
     path(
         "checkout/",
         include(("checkout.urls", "checkout"), namespace="checkout"),
@@ -42,3 +42,5 @@ urlpatterns = [
 
 # 404 error handler
 handler404 = "nourish.views.handler404"
+# 500 error handler
+handler500 = "home.views.error_500"

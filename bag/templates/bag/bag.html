@@ -60,7 +60,7 @@
 
                 <form class="form update-form"
                       method="POST"
-                      action="{% url 'adjust_bag' item.item_id %}">
+                      action="{% url 'bag:adjust_bag' item.item_id %}">
                     {% csrf_token %}
 
                     <div class="input-group input-group-sm">
@@ -95,7 +95,7 @@
                 <a class="update-link text-info small mt-1 d-block">Update</a>
 
                 <a class="remove-item text-danger small mt-1 d-block"
-                   data-url="{% url 'remove_from_bag' item.item_id %}">
+                   data-url="{% url 'bag:remove_from_bag' item.item_id %}">
                     Remove
                 </a>
 
