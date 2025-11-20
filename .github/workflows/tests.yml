@@ -1,0 +1,44 @@
+name: Django Tests
+
+on:
+  push:
+    branches:
+      - main  # Run the workflow on push to the main branch
+  pull_request:
+    branches:
+      - main  # Run the workflow on pull requests to the main branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner for CI
+
+    env:
+      GITHUB_ACTIONS: "true"  # Indicate that it's running in GitHub Actions
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Checkout the repository to the runner
+
+      - name: Set up Python
+        uses: actions/setup-python@v5  # Set up Python for the project
+        with:
+          python-version: "3.10"  # Use the correct Python version (adjust if needed)
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip  # Upgrade pip to the latest version
+          pip install -r requirements.txt  # Install the dependencies from requirements.txt
+
+      - name: Set environment variables for CI
+        run: |
+          echo "DJANGO_SECRET_KEY=testsecret" >> $GITHUB_ENV  # Set a test secret key
+          echo "DJANGO_DEBUG=0" >> $GITHUB_ENV  # Set Django debug to false in CI environment
+
+      # Collect static files (important for frontend/UI tests)
+      - name: Collect static files
+        run: |
+          python manage.py collectstatic --noinput  # Collect all static files for the test run
+
+      - name: Run Django tests
+        run: |
+          python manage.py test  # Run all Django tests to verify functionality
