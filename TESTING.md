@@ -317,6 +317,47 @@ All user stories from the README were tested and satisfied.
 | As a user | I want to apply a valid discount code during checkout | so that I can receive a promotional price reduction on my order. | Refer to Discount Code testing image in the defemsive section above|
 | As a user | I want to unsubscribe easily from the newsletter using a secure one-click link | so that I can stop receiving emails whenever I choose. | Refer to Unsubscribe testing image in the defemsive section above|
 
+
+## Automated Testing
+
+All automated tests are stored within each Django app inside a tests.py file or a dedicated tests/ directory.
+
+**To run the full test suite:**
+
+python manage.py test
+
+All tests pass successfully:
+
+Ran 22 tests in 3.132s — OK
+
+### Automated Test Summary
+
+| App          | Test File                | Purpose                                                                 | Result |
+|--------------|---------------------------|-------------------------------------------------------------------------|--------|
+| **Products** | `products/tests.py`       | Model validation (Product & Category), product list page, product detail page | ✔️ Pass |
+| **Bag**      | `bag/tests.py`            | Add to bag, update quantities, remove items, session persistence        | ✔️ Pass |
+| **Checkout** | `checkout/tests.py`       | Checkout loads for logged-in users, bag required, order success flow, Stripe mocked | ✔️ Pass |
+| **FAQs**     | `faqs/tests.py`           | Public FAQ page, admin add/update/delete (superuser restrictions)       | ✔️ Pass |
+| **Newsletter** | `newsletter/tests.py`   | Subscribe, unsubscribe (deactivate instead of delete), redirect behaviour | ✔️ Pass |
+| **Profiles** | `profiles/tests.py`       | Order history access, profile pages load                                | ✔️ Pass |
+| **Contact**  | `contact/tests.py`        | Contact form page loads correctly                                       | ✔️ Pass |
+| **Sitemap**  | `nourish/test_sitemap.py` | Ensures `/sitemap.xml` loads                                            | ✔️ Pass |
+| **Error Pages** | `nourish/test_errors.py` | Custom 404 page & custom 500 page handler                             | ✔️ Pass |
+
+### **Summary of Test Results**
+
+- ✔ All CRUD tests passed  
+- ✔ All URL routing tests passed  
+- ✔ Bag, Checkout, and Products app tests passed  
+- ✔ Newsletter unsubscribe functionality passed  
+- ✔ Custom 404 and 500 error page tests passed  
+- ✔ No missing templates detected  
+- ✔ No failing business logic in any module  
+- ✔ Stripe test mode responded correctly  
+- ✔ Test database was created and destroyed cleanly  
+
+All automated tests passed successfully, confirming that the core functionality of the application, including routing, validation, CRUD logic, and error handling, is working as intended.
+
 ## Bugs
 
 ### Fixed Bugs
@@ -333,6 +374,8 @@ All previously closed/fixed bugs can be tracked [here](https://www.github.com/ma
 | Issue                              | Fix Applied / How It Was Fixed                         | Status   |
 |-----------------------------------|----------------------------------------------------------|----------|
 | Heroku site static files issue, now fixed       | the "django.contrib.staticfiles" was placed before "cloudinary_storage","cloudinary", on the list and the static files where then properly loaded on heroku.|  Fixed |
+| Products not displaying due to missing image URL resolution | Added `image_url_fixed` property to always return a valid image URL | ✔️ Fixed |
+
 
 ### Unfixed Bugs
 
