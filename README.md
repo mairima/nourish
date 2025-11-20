@@ -7,21 +7,18 @@ Developer: Mairi Aissatou ([mairima](https://www.github.com/mairima))
 [![GitHub repo size](https://img.shields.io/github/repo-size/mairima/nourish)](https://www.github.com/mairima/nourish)
 [![badge](https://img.shields.io/badge/deployment-Heroku-purple)](https://nourish1-cc6378c356ae.herokuapp.com)
 
-![Tests](https://github.com/mairima/nourish/actions/workflows/tests.yml/badge.svg)
-
-
-🥖 Nourish — Project Overview & Rationale
+Nourish — Project Overview & Rationale
 
 Nourish is an elegant and fully responsive e-commerce web application designed for a modern, health-conscious bakery brand. The project aims to provide users with a seamless online shopping experience for artisanal baked goods, catering to individuals who value convenience, quality, and transparency in what they consume.
 
 The website offers a clean and intuitive interface where users can browse through products, view detailed descriptions, add items to their shopping bag, and complete secure checkouts. Beyond shopping, Nourish integrates features such as newsletter subscriptions, FAQs, and a contact page to help build customer trust and engagement — reflecting the kind of holistic customer experience real businesses need.
 
-🎯 Project Goals
+Project Goals
 
 The main goal of Nourish is to demonstrate the design and development of a fully functional, responsive, and user-friendly online store using Django and Bootstrap, with secure authentication, Stripe payment integration, and backend management for products and orders.
 It also seeks to model how small local businesses can expand their reach through digital transformation — taking a neighborhood bakery and giving it a professional online presence.
 
-👥 Target Audience
+Target Audience
 
 Nourish is aimed at:
 
@@ -31,7 +28,7 @@ Small business owners or bakers exploring e-commerce as a way to scale their bus
 
 Students and developers interested in learning modern web development, UX design, and full-stack architecture through a real-world concept.
 
-💡 Why This Project (Rationale)
+Why This Project (Rationale)
 
 I chose to create Nourish because food, particularly artisan baking, connects people on a personal and emotional level. During recent years, more consumers have shifted toward online purchasing — even for traditionally local products like bread and pastries. This inspired me to build a platform that blends the warmth of a neighborhood bakery with the convenience of modern e-commerce.
 
@@ -200,6 +197,35 @@ flowchart TB
 
 All external links on the site use `target="_blank"` combined with  
 `rel="noopener noreferrer"` to prevent security vulnerabilities and improve performance.
+
+### Search Engine Optimization (SEO)
+<small>
+
+Nourish includes a lightweight but complete SEO setup to ensure that search engines can correctly read and understand the website structure.
+
+#### • Meta Tags  
+Dynamic titles, descriptions, canonical URLs, Open Graph data (for social sharing), and Twitter Card tags are included across all pages.  
+📸 *Meta tags visible in page source:*  
+![Meta Tags](documentation/seo/metatags.png)
+
+#### • Sitemap  
+A dynamic XML sitemap lists all product pages and core routes, automatically updating when content changes.  
+📸 *Sitemap screenshot:*  
+![Sitemap](documentation/seo/sitemap.png)
+
+#### • Robots.txt  
+A clean robots.txt file allows search engine crawling and links directly to the sitemap.  
+📸 *Robots.txt screenshot:*  
+![Robots](documentation/seo/robots.png)
+
+#### • Google Verification  
+An HTML verification file is included for Google Search Console ownership validation.  
+📸 *Verification screenshot:*  
+![Google Verification](documentation/seo/googleverify.png)
+
+> *Note: Heroku subdomains are not fully indexed by Google, but SEO functionality is fully implemented and ready for production domains.*
+
+</small>
 
 
 
