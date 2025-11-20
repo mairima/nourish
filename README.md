@@ -7,6 +7,9 @@ Developer: Mairi Aissatou ([mairima](https://www.github.com/mairima))
 [![GitHub repo size](https://img.shields.io/github/repo-size/mairima/nourish)](https://www.github.com/mairima/nourish)
 [![badge](https://img.shields.io/badge/deployment-Heroku-purple)](https://nourish1-cc6378c356ae.herokuapp.com)
 
+![Tests](https://github.com/mairima/nourish/actions/workflows/tests.yml/badge.svg)
+
+
 🥖 Nourish — Project Overview & Rationale
 
 Nourish is an elegant and fully responsive e-commerce web application designed for a modern, health-conscious bakery brand. The project aims to provide users with a seamless online shopping experience for artisanal baked goods, catering to individuals who value convenience, quality, and transparency in what they consume.
@@ -192,6 +195,13 @@ flowchart TB
 - FAQ section and custom 404 error page.
 
 - Fully responsive design optimized for all devices.
+
+### External Link Security
+
+All external links on the site use `target="_blank"` combined with  
+`rel="noopener noreferrer"` to prevent security vulnerabilities and improve performance.
+
+
 
 #### 3. Structure
 
@@ -810,7 +820,18 @@ Creating a strong social base (with participation) and linking that to the busin
 
 I've created a Facebook business account using Facebook. 
 
+[Facebook Page](https://www.facebook.com/people/Nourish-Handmade-Cakes-Snacks/61582594335574/)
+
+
+The page includes:
+- Product presentation posts  
+- Brand introduction  
+- Visual identity consistent with the website  
+- Contact information  
+- Calls to action for online ordering  
+
 ![screenshot](documentation/images/facebookpage-nourish.png)
+
 
 ### Newsletter Marketing
 
@@ -899,11 +920,27 @@ def notify_subscribers(product):
 ## Testing
 
 > [!NOTE]  
-> For all testing, please refer to the [TESTING.md](TESTING.md) file.
+> For all testing, please refer to the [TESTING.md](TESTING.md) file. 
+
+All functionality, forms, views, models, URLs and integrations were tested.
+Django’s automated test suite contains 22+ tests which all passed successfully.
+Responsiveness testing shows full compatibility across mobile, tablet and desktop.
+Validation was completed for HTML, CSS, JavaScript and Python.
+Full testing documentation is available in TESTING.md.
+
+### Automated Tests
+
+The full Django test suite can be executed using:
+
+"python manage.py test""
+
+All 22 tests passed successfully:
+
 
 ## Deployment
 
 The live deployed application can be found deployed on [Heroku](https://nourish1-cc6378c356ae.herokuapp.com).
+On Heroku, static files are served using WhiteNoise and media files are served via Cloudinary. No functional differences exist between development and deployment.
 
 ### Heroku Deployment
 
@@ -1096,6 +1133,11 @@ heroku run python manage.py collectstatic
 This completed the database setup and prepared static files for production.
 
 The project could now be connected and deployed to Heroku!
+
+**DEBUG Configuration**
+
+To meet Code Institute requirements, `DEBUG = False` is always enforced in production.  
+
 
 ### Cloudinary API
 
