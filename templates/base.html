@@ -3,242 +3,309 @@
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>
-      {% block title %}Nourish Bakery — Fresh Cakes & Snacks{% endblock %}
-    </title>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap & Fonts -->
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato&display=swap">
+  <title>
+    {% block title %}Nourish Bakery — Fresh Cakes & Snacks{% endblock %}
+  </title>
 
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    {% block extra_css %}{% endblock %}
+  <!-- SEO description -->
+  {% block meta_description %}
+  <meta name="description"
+        content="Nourish Bakery — Fresh cakes, pastries, snacks and custom orders delivered in Berlin. Handmade with high-quality ingredients. Order online today!">
+  {% endblock %}
 
-    <!-- Favicon -->
-    {% if request.get_host == '127.0.0.1:8000' or request.get_host == 'localhost:8000' %}
-      <link rel="icon" href="{% static 'images/favicon.png' %}">
-    {% else %}
-      <link rel="icon"
-            href="https://res.cloudinary.com/du60xmn6x/image/upload/v1762577696/favicon_ooyuy7.jpg">
-    {% endif %}
-  </head>
+  <!-- SEO keywords -->
+  <meta name="keywords"
+        content="Bakery Berlin, Cakes Berlin, Pastries, Snacks, Order Cakes Online, Nourish Bakery, Desserts Berlin">
 
-  <body class="d-flex flex-column min-vh-100 {% block body_class %}{% endblock %}">
+  <!-- SEO author -->
+  <meta name="author" content="Nourish Bakery">
 
-    <!-- Header -->
-    <header class="container-fluid sticky-top bg-white">
-      <!-- Top Navigation -->
-      <div id="topnav" class="row pt-lg-2 d-none d-lg-flex">
-        <div class="col-12 col-lg-4 my-auto py-1 py-lg-0 text-center text-lg-left">
-          <a href="{% url 'home' %}" class="nav-link main-logo-link">
-            <h2 class="logo-font text-black my-0"><strong>Nourish</strong></h2>
-          </a>
-        </div>
+  <!-- Facebook OG title -->
+  <meta property="og:title" content="Nourish Bakery — Fresh Cakes & Snacks">
 
-        <!-- Search Bar -->
-        <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
-          <form method="GET" action="{{ products_index_url }}">
-            <div class="input-group w-100">
-              <input class="form-control border border-black rounded-0"
-                     type="text" name="q" placeholder="Search our site">
-              <div class="input-group-append">
-                <button class="form-control btn btn-black border border-black rounded-0"
-                        type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+  <!-- Facebook OG description -->
+  <meta property="og:description"
+        content="Fresh handcrafted cakes, pastries and snacks with fast delivery across Berlin.">
 
-        <!-- Account & Bag -->
-        <div class="col-12 col-lg-4 my-auto py-1 py-lg-0">
-          <nav aria-label="User account and bag">
-            <ul class="list-inline list-unstyled text-center text-lg-right my-0">
+  <!-- Facebook OG type -->
+  <meta property="og:type" content="website">
 
-              <!-- Account Dropdown -->
-              <li class="list-inline-item dropdown">
-                <a class="text-black nav-link" href="#" id="user-options"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <div class="text-center">
-                    <i class="fas fa-user fa-lg"></i>
-                    <p class="my-0">My Account</p>
-                  </div>
-                </a>
+  <!-- Facebook OG URL -->
+  <meta property="og:url" content="https://{{ request.get_host }}/">
 
-                <div class="dropdown-menu border-0" aria-labelledby="user-options">
-                  {% if request.user.is_authenticated and request.user.is_superuser %}
-                    <a href="{% url 'products:add_product' %}"
-                       class="dropdown-item font-weight-bold">
-                      <i class="fas fa-cogs mr-1"></i> Product Management
-                    </a>
-                    <div class="dropdown-divider"></div>
-                  {% endif %}
+  <!-- Facebook OG image -->
+  <meta property="og:image"
+        content="https://res.cloudinary.com/du60xmn6x/image/upload/v1762577696/favicon_ooyuy7.jpg">
 
-                  {% if request.user.is_authenticated %}
-                    <a href="{% url 'profiles:profile' %}" class="dropdown-item">
-                      My Profile
-                    </a>
-                    <form method="post" action="{% url 'account_logout' %}" class="px-3 py-1">
-                      {% csrf_token %}
-                      <button type="submit" class="btn btn-link p-0">Logout</button>
-                    </form>
-                  {% else %}
-                    <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
-                    <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
-                  {% endif %}
-                </div>
-              </li>
+  <!-- Google verification -->
+  <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE">
 
-              <!-- Shopping Bag -->
-              <li class="list-inline-item">
-                <a class="{% if grand_total %}text-primary font-weight-bold{% else %}text-black{% endif %} nav-link d-none d-lg-block"
-                   href="{% url 'bag:view_bag' %}">
-                  <div class="text-center">
-                    <i class="fas fa-shopping-bag fa-lg"></i>
-                    <p class="my-0">
-                      {% if grand_total %}
-                        €{{ grand_total|floatformat:2 }}
-                      {% else %}
-                        €0.00
-                      {% endif %}
-                    </p>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+  <!-- Google indexing rules -->
+  <meta name="robots" content="index, follow">
+
+  <!-- Googlebot rules -->
+  <meta name="googlebot"
+        content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+  <!-- Google rating -->
+  <meta name="rating" content="General">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        crossorigin="anonymous">
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato&display=swap">
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  {% block extra_css %}{% endblock %}
+
+  <!-- Favicon -->
+  {% if request.get_host == '127.0.0.1:8000' or request.get_host == 'localhost:8000' %}
+  <link rel="icon" href="{% static 'images/favicon.png' %}">
+  {% else %}
+  <link rel="icon"
+        href="https://res.cloudinary.com/du60xmn6x/image/upload/v1762577696/favicon_ooyuy7.jpg">
+  {% endif %}
+</head>
+
+<body class="d-flex flex-column min-vh-100 {% block body_class %}{% endblock %}">
+
+  <!-- Header container -->
+  <header class="container-fluid sticky-top bg-white">
+
+    <!-- Desktop top nav -->
+    <div id="topnav" class="row pt-lg-2 d-none d-lg-flex">
+
+      <!-- Logo -->
+      <div class="col-12 col-lg-4 my-auto py-1 text-center text-lg-left">
+        <a href="{% url 'home' %}" class="nav-link main-logo-link">
+          <h2 class="logo-font text-black my-0"><strong>Nourish</strong></h2>
+        </a>
       </div>
 
-      <!-- Navbar -->
-      <div class="row bg-white">
-        <nav class="navbar navbar-expand-lg navbar-light w-100">
-          <button class="navbar-toggler" type="button" data-toggle="collapse"
-                  data-target="#main-nav" aria-controls="main-nav"
-                  aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse justify-content-center" id="main-nav">
-
-            <!-- FIXED: Wrap includes in <li> -->
-            <ul class="navbar-nav text-center mb-0">
-
-              <li class="nav-item p-0 m-0" style="list-style:none;">
-                {% include "includes/mobile-top-header.html" %}
-              </li>
-
-              <li class="nav-item p-0 m-0" style="list-style:none;">
-                {% include "includes/main-nav.html" %}
-              </li>
-
-            </ul>
-
+      <!-- Search bar -->
+      <div class="col-12 col-lg-4 my-auto py-1">
+        <form method="GET" action="{{ products_index_url }}">
+          <div class="input-group w-100">
+            <input class="form-control border border-black rounded-0"
+                   type="text" name="q" placeholder="Search our site">
+            <div class="input-group-append">
+              <button class="form-control btn btn-black border border-black rounded-0"
+                      type="submit">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
           </div>
+        </form>
+      </div>
+
+      <!-- Account and bag -->
+      <div class="col-12 col-lg-4 my-auto py-1">
+        <nav aria-label="User navigation">
+          <ul class="list-inline list-unstyled text-center text-lg-right my-0">
+
+            <!-- Account dropdown -->
+            <li class="list-inline-item dropdown">
+              <a class="text-black nav-link" href="#" id="user-options"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="text-center">
+                  <i class="fas fa-user fa-lg"></i>
+                  <p class="my-0">My Account</p>
+                </div>
+              </a>
+
+              <!-- Dropdown menu -->
+              <div class="dropdown-menu border-0" aria-labelledby="user-options">
+
+                {% if request.user.is_authenticated and request.user.is_superuser %}
+                <a href="{% url 'products:add_product' %}"
+                   class="dropdown-item font-weight-bold">
+                  <i class="fas fa-cogs mr-1"></i> Product Management
+                </a>
+                <div class="dropdown-divider"></div>
+                {% endif %}
+
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'profiles:profile' %}" class="dropdown-item">My Profile</a>
+                <form method="post" action="{% url 'account_logout' %}" class="px-3 py-1">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-link p-0">Logout</button>
+                </form>
+                {% else %}
+                <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
+                <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
+                {% endif %}
+              </div>
+            </li>
+
+            <!-- Shopping bag -->
+            <li class="list-inline-item">
+              <a class="{% if grand_total %}text-primary font-weight-bold{% else %}text-black{% endif %} nav-link d-none d-lg-block"
+                 href="{% url 'bag:view_bag' %}">
+                <div class="text-center">
+                  <i class="fas fa-shopping-bag fa-lg"></i>
+                  <p class="my-0">
+                    {% if grand_total %}
+                    €{{ grand_total|floatformat:2 }}
+                    {% else %}
+                    €0.00
+                    {% endif %}
+                  </p>
+                </div>
+              </a>
+            </li>
+
+          </ul>
         </nav>
       </div>
 
-      <!-- Free Delivery Banner -->
-      <div id="delivery-banner" class="row text-center">
-        <div class="col bg-black text-white">
-          <h4 class="logo-font my-1">
-            Free delivery on orders over €{{ free_delivery_threshold }}!
-          </h4>
-        </div>
-      </div>
-    </header>
+    </div>
 
-    <!-- Toast Messages -->
-    {% if messages %}
-      <div class="message-container position-fixed" aria-live="polite" aria-atomic="true">
-        {% for message in messages %}
-          {% with message.level as level %}
-            {% if level == 40 %}
-              {% include 'includes/toasts/toast_error.html' %}
-            {% elif level == 30 %}
-              {% include 'includes/toasts/toast_warning.html' %}
-            {% elif level == 25 %}
-              {% include 'includes/toasts/toast_success.html' %}
-            {% else %}
-              {% include 'includes/toasts/toast_info.html' %}
-            {% endif %}
-          {% endwith %}
-        {% endfor %}
+    <!-- Mobile navbar -->
+    <div class="row bg-white">
+      <nav class="navbar navbar-expand-lg navbar-light w-100">
+
+        <!-- Navbar toggle -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#main-nav" aria-controls="main-nav"
+                aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse justify-content-center" id="main-nav">
+          <ul class="navbar-nav text-center mb-0">
+
+            <!-- Mobile header include -->
+            <li class="nav-item p-0 m-0" style="list-style:none;">
+              {% include "includes/mobile-top-header.html" %}
+            </li>
+
+            <!-- Main nav include -->
+            <li class="nav-item p-0 m-0" style="list-style:none;">
+              {% include "includes/main-nav.html" %}
+            </li>
+
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Free delivery banner -->
+    <div id="delivery-banner" class="row text-center">
+      <div class="col bg-black text-white">
+        <h4 class="logo-font my-1">
+          Free delivery on orders over €{{ free_delivery_threshold }}!
+        </h4>
       </div>
+    </div>
+
+  </header>
+
+  <!-- Toast messages -->
+  {% if messages %}
+  <div class="message-container position-fixed" aria-live="polite" aria-atomic="true">
+    {% for message in messages %}
+    {% with message.level as level %}
+    {% if level == 40 %}
+    {% include 'includes/toasts/toast_error.html' %}
+    {% elif level == 30 %}
+    {% include 'includes/toasts/toast_warning.html' %}
+    {% elif level == 25 %}
+    {% include 'includes/toasts/toast_success.html' %}
+    {% else %}
+    {% include 'includes/toasts/toast_info.html' %}
     {% endif %}
+    {% endwith %}
+    {% endfor %}
+  </div>
+  {% endif %}
 
-    <!-- Main Content -->
-    <main class="flex-fill">
-      {% block page_header %}{% endblock %}
-      {% block content %}{% endblock %}
-    </main>
+  <!-- Main content -->
+  <main class="flex-fill">
+    {% block page_header %}{% endblock %}
+    {% block content %}{% endblock %}
+  </main>
 
-    <!-- Footer -->
-    <footer class="footer text-white mt-auto py-4">
-      <div class="container text-center">
-        <div class="mb-3">
-          <a href="https://www.facebook.com/profile.php?id=61582594335574"
-             target="_blank" rel="noopener" aria-label="Facebook"
-             class="text-white mx-3">
-            <i class="fab fa-facebook fa-lg"></i>
-          </a>
-          <a href="https://github.com/mairima"
-             target="_blank" rel="noopener" aria-label="GitHub"
-             class="text-white mx-3">
-            <i class="fab fa-github fa-lg"></i>
-          </a>
-        </div>
+  <!-- Footer -->
+  <footer class="footer text-white mt-auto py-4">
+    <div class="container text-center">
 
-        <div class="footer-contact mb-2">
-          <p class="text-warning mb-1">
-            <i class="fas fa-map-marker-alt"></i>
-            Nourish Bakery, Seestr 20, Berlin, Germany
-          </p>
-          <p class="text-warning mb-1">
-            <i class="fas fa-envelope"></i> contact@nourish.com
-          </p>
-          <p class="text-warning mb-1">
-            <i class="fas fa-phone"></i> +49 176 123 4567
-          </p>
-        </div>
-
-        <div class="footer-links mt-3">
-          <a href="{% url 'privacy_policy' %}" class="text-white me-3">Privacy Policy</a> |
-          <a href="{% url 'terms_conditions' %}" class="text-white ms-3">Terms & Conditions</a>
-        </div>
-
-        <div class="footer-copy mt-2">
-          &copy; {% now "Y" %} Nourish. All rights reserved.
-        </div>
+      <!-- Social links -->
+      <div class="mb-3">
+        <a href="https://www.facebook.com/profile.php?id=61582594335574"
+           target="_blank" rel="noopener" aria-label="Facebook"
+           class="text-white mx-3">
+          <i class="fab fa-facebook fa-lg"></i>
+        </a>
+        <a href="https://github.com/mairima"
+           target="_blank" rel="noopener" aria-label="GitHub"
+           class="text-white mx-3">
+          <i class="fab fa-github fa-lg"></i>
+        </a>
       </div>
-    </footer>
 
-    <!-- Scroll to Top -->
-    <button id="scrollToTopBtn" title="Go to top">
-      <i class="fas fa-chevron-up"></i>
-    </button>
+      <!-- Contact info -->
+      <div class="footer-contact mb-2">
+        <p class="text-warning mb-1">
+          <i class="fas fa-map-marker-alt"></i>
+          Nourish Bakery, Seestr 20, Berlin, Germany
+        </p>
+        <p class="text-warning mb-1"><i class="fas fa-envelope"></i> contact@nourish.com</p>
+        <p class="text-warning mb-1"><i class="fas fa-phone"></i> +49 176 123 4567</p>
+      </div>
 
-    <!-- Core JS -->
-    <script src="https://kit.fontawesome.com/fa7e3e6dea.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script> 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script src="https://js.stripe.com/v3/"></script>
+      <!-- Policy links -->
+      <div class="footer-links mt-3">
+        <a href="{% url 'privacy_policy' %}" class="text-white me-3">Privacy Policy</a> |
+        <a href="{% url 'terms_conditions' %}" class="text-white ms-3">Terms & Conditions</a>
+      </div>
 
-    <!-- Project JS -->
-    <script src="{% static 'js/base.js' %}"></script>
-    <script src="{% static 'js/navigation.js' %}"></script>
+      <!-- Copyright -->
+      <div class="footer-copy mt-2">
+        &copy; {% now "Y" %} Nourish. All rights reserved.
+      </div>
 
-    {% block postloadjs %}{% endblock %}
-  </body>
+    </div>
+  </footer>
+
+  <!-- Scroll-to-top button -->
+  <button id="scrollToTopBtn" title="Go to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- FontAwesome -->
+  <script src="https://kit.fontawesome.com/fa7e3e6dea.js" crossorigin="anonymous"></script>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+
+  <!-- Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+          crossorigin="anonymous"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+          crossorigin="anonymous"></script>
+
+  <!-- Stripe -->
+  <script src="https://js.stripe.com/v3/"></script>
+
+  <!-- Project JS -->
+  <script src="{% static 'js/base.js' %}"></script>
+  <script src="{% static 'js/navigation.js' %}"></script>
+
+  {% block postloadjs %}{% endblock %}
+</body>
+
 </html>
