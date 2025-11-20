@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block meta_description %}
+<meta name="description"
+      content="{{ product.name }} — {{ product.category.friendly_name }} available for €{{ product.price|floatformat:2 }}. Freshly made and delivered in Berlin. Order now from Nourish Bakery.">
+{% endblock %}
+
 {% block body_class %}plain-page{% endblock %}
 
 {% block page_header %}
@@ -15,14 +20,14 @@
 
   <div class="row align-items-start">
 
-    <!-- IMAGE COLUMN -->
+    <!-- image column -->
     <div class="col-12 col-md-6 mb-4 d-flex justify-content-center">
       <div class="product-detail-wrapper">
         <img src="{{ product.image_url_fixed }}" alt="{{ product.name }}">
       </div>
     </div>
 
-    <!-- TEXT COLUMN -->
+    <!-- text column -->
     <div class="col-12 col-md-6 product-detail-text">
 
       <p class="h4 font-weight-bold mb-3">
