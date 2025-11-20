@@ -9,6 +9,9 @@ from pathlib import Path
 
 import dj_database_url
 from django.core.management.utils import get_random_secret_key
+import logging
+logging.getLogger("django.server").setLevel(logging.ERROR)
+
 
 # Load .env when present
 if os.path.exists(".env"):
@@ -30,28 +33,31 @@ SECRET_KEY = os.environ.get(
 SECURE_SSL_REDIRECT = False
 
 # Hosts
-ALLOWED_HOSTS: list[str] = []
-CSRF_TRUSTED_ORIGINS: list[str] = []
+ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = []
 
 host = os.environ.get("DJANGO_ALLOWED_HOSTS")
 if host:
     ALLOWED_HOSTS.append(host)
     CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
 
-    # -------------------- Security Cookies --------------------
+# -------------------- Security Cookies ------------
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 CSRF_USE_SESSIONS = True
 SESSION_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SAMESITE = "None"
 
-# Tell Django it is behind Heroku’s HTTPS proxy
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-
-# Force HTTPS in production only
-if DEBUG:
+# -------------------- Local Development Overrides --------------------
+if "runserver" in sys.argv:
+    # allow HTTP locally
     SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SAMESITE = "Lax"
+    CSRF_COOKIE_SAMESITE = "Lax"
 else:
+    # production behaviour
     SECURE_SSL_REDIRECT = True
 
 # Installed apps
@@ -181,7 +187,7 @@ else:
         }
     }
 
-# Force SQLite for tests
+# Force SQLite for tests/# Test DB override
 if "test" in sys.argv:
     DATABASES = {
         "default": {
@@ -189,12 +195,6 @@ if "test" in sys.argv:
             "NAME": BASE_DIR / "test_db.sqlite3",
         }
     }
-
-# Disable security redirects during tests
-if "test" in sys.argv:
-    SECURE_SSL_REDIRECT = False
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
