@@ -60,7 +60,7 @@ class Product(models.Model):
         Return the canonical product detail URL.
         Used by Django's sitemap framework.
         """
-        return reverse("product_detail", args=[self.pk])
+        return reverse("products:product_detail", args=[self.pk])
 
     @property
     def image_url_fixed(self):
