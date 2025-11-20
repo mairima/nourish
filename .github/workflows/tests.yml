@@ -2,20 +2,21 @@ name: Django Tests
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      GITHUB_ACTIONS: "true"
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
@@ -24,12 +25,5 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Set environment variables
-        run: |
-          echo "CI=true" >> $GITHUB_ENV
-          echo "DJANGO_SECRET_KEY=testsecret" >> $GITHUB_ENV
-          echo "DJANGO_DEBUG=0" >> $GITHUB_ENV
-
-      - name: Run Tests
-        run: |
-          python manage.py test --verbosity 2
+      - name: Run Django tests
+        run: python manage.py test
