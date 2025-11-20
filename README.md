@@ -73,6 +73,105 @@ source: [nourish amiresponsive](https://ui.dev/amiresponsive?url=https://nourish
 
 - Maintain an accurate, scalable inventory management system and secure payment workflow.
 
+The Strategy Plane defines the core goals of the project, the target audience, and the business and marketing foundations on which the Nourish e-commerce platform is built.
+
+
+#### 1.1 Business Model
+
+**Overview**
+- Nourish Bakery operates as a Business-to-Consumer (B2C) online store serving customers in Berlin.
+- The website offers handmade cakes, pastries and snacks available for online purchase with secure checkout via Stripe.
+
+**Value Proposition**
+- High-quality handmade bakery products.
+- Convenient online ordering and fast checkout.
+- Mobile-first responsive design for all devices.
+
+**Revenue Model**
+- Direct product sales.
+- Seasonal promotions and special edition products.
+- Upselling premium or larger-size items.
+
+**Customer Base**
+- Local Berlin customers looking for convenient bakery ordering.
+- Shoppers seeking customised cakes and fresh pastries.
+
+**Fulfilment**
+- In-store pickup available.
+- Local delivery planned as a future enhancement.
+
+#### 1.2 Marketing Strategy
+
+**Search Engine Optimisation (SEO)**
+- Meta titles and meta descriptions added across the site.
+- Semantic and clean HTML structure for improved crawlability.
+- Alt text applied to all product images.
+- Sitemap and robots.txt included.
+- Fast image delivery using Cloudinary.
+- Mobile-first responsive layout for improved ranking.
+
+**Newsletter and Email Marketing**
+- Users can subscribe using the newsletter signup form.
+- New subscribers may receive discount codes.
+- Secure unsubscribe process using unique tokens.
+- Future improvements include automated welcome emails and personalised product suggestions.
+
+**Social Media Marketing (Planned)**
+- Instagram for product photos, stories and short videos.
+- TikTok and YouTube Shorts for behind-the-scenes baking content.
+- Facebook for sharing seasonal promotions.
+- Potential collaborations with local Berlin food influencers.
+
+**Promotions and Discounts**
+- Discount codes available for campaigns and special offers.
+- Seasonal and event-based promotions.
+- Bundled product offers for increased sales.
+- Planned loyalty rewards programme for returning users.
+
+**Trust Signals**
+- Professional product photography used across the site.
+- Secure payment processing through Stripe.
+- Clear terms, privacy and returns policies.
+- Consistent and trustworthy brand identity.
+- Planned customer reviews and ratings system.
+
+**Content Marketing (Planned)**
+- Baking tips and helpful articles.
+- Ingredient insights and product stories.
+- Behind-the-scenes content.
+- Celebration and event planning ideas.
+
+**Analytics and Insights**
+- Planned Google Analytics integration.
+- Cookie-free traffic insights.
+- Conversion tracking and funnel analysis.
+- Future tracking of abandoned carts and user behaviour.
+
+#### 1.3 UX Diagram – Business Model Canvas
+
+```mermaid
+flowchart TB
+    A[Key Partners: • Cloudinary • Stripe Payments • PostgreSQL DB • Gmail API • Bootstrap] 
+    B[Key Activities: • Product management • Order processing • Website maintenance • Newsletter handling • Customer service]
+    C[Value Propositions: • Handmade bakery goods • Convenient online ordering • Secure Stripe checkout • Fast responsive UX]
+    
+    D[Customer Relationships: • Order confirmations • Email updates • Newsletter content • Trust via secure checkout]
+    E[Channels: • Website storefront • Product pages • Newsletter signup • Facebook • Instagram]
+    F[Customer Segments: • Berlin customers • Bakery shoppers • Users wanting fresh handmade pastries • Returning customers]
+
+    G[Key Resources: • Django backend • PostgreSQL DB • Cloudinary media • Product inventory]
+    H[Cost Structure: • Hosting Heroku • Stripe fees • Marketing materials]
+    I[Revenue Streams: • Direct product sales • Seasonal promotions • Upselling premium items]
+
+    A --> C
+    B --> C
+    D --> F
+    E --> F
+    G --> I
+    H --> I
+```
+
+
 #### 2. Scope
 
 **[Features](#features)** (see below)

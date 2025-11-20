@@ -1,8 +1,11 @@
 """Nourish URL configuration."""
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 from django.contrib.sitemaps.views import sitemap
-from products.sitemaps import ProductSitemap, StaticViewSitemap
+
+# Correct sitemap imports (from home, not products)
+from home.sitemaps import ProductSitemap, StaticViewSitemap
 
 # Sitemap dictionary
 sitemaps_dict = {
@@ -31,16 +34,25 @@ urlpatterns = [
     path("faqs/", include(("faqs.urls", "faqs"), namespace="faqs")),
     path("newsletter/", include("newsletter.urls")),
 
-    # Sitemap
+    # Dynamic Sitemap
     path(
         "sitemap.xml",
         sitemap,
         {"sitemaps": sitemaps_dict},
         name="django.contrib.sitemaps.views.sitemap",
     ),
+
+    # robots.txt served from templates
+    path(
+        "robots.txt",
+        TemplateView.as_view(
+            template_name="robots.txt",
+            content_type="text/plain"
+        ),
+        name="robots_txt",
+    ),
 ]
 
-# 404 error handler
+# Error handlers
 handler404 = "nourish.views.handler404"
-# 500 error handler
 handler500 = "home.views.error_500"
