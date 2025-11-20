@@ -309,3 +309,11 @@ DEFAULT_AUTO_FIELD = (
 
 # Custom 404 handler
 handler404 = "home.views.error_404_view"
+
+# Disable HTTPS-only settings during automated testing (GitHub Actions)
+if "PYTEST_CURRENT_TEST" in os.environ or "CI" in os.environ:
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    CSRF_COOKIE_SAMESITE = "Lax"
+    SESSION_COOKIE_SAMESITE = "Lax"
