@@ -48,7 +48,10 @@ CSRF_USE_SESSIONS = True
 SESSION_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SAMESITE = "None"
 
-# -------------------- Local Development Overrides --------------------
+# Tell Django it is behind Heroku's HTTPS proxy
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# -------------------- Local Development Overrides ---
 if "runserver" in sys.argv:
     # allow HTTP locally
     SECURE_SSL_REDIRECT = False
