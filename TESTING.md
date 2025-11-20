@@ -31,7 +31,7 @@ Find bellow the directories and file names:
 | bag | [bag.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/bag.html) | ![screenshot](documentation/validation/html-passed.png) |
 | bag | [bag_total.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/bag_total.html) | ![screenshot](documentation/validation/html-passed.png) |
 | bag | [checkout-buttons.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/checkout-buttons.html) | ![screenshot](documentation/validation/html-passed.png) |
-| bag | [product-image.html](https://github.com/mairima/nourish/nourish/blob/main/bag/templates/bag/product-image.html) | ![screenshot](documentation/validation/html-passed.png) |
+| bag | [product-image.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/product-image.html) | ![screenshot](documentation/validation/html-passed.png) |
 | bag | [product-info.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/product-info.html) | ![screenshot](documentation/validation/html-passed.png) |
 | bag | [quantity-form.html](https://github.com/mairima/nourish/blob/main/bag/templates/bag/quantity-form.html) | ![screenshot](documentation/validation/html-passed.png) |
 | checkout | [checkout.html](https://github.com/mairima/nourish/blob/main/checkout/templates/checkout/checkout.html) | ![screenshot](documentation/validation/html-passed.png) |
@@ -71,7 +71,7 @@ Result summary: All CSS files passed validation after fixing extra semicolons an
 I have used the recommended [CSS Jigsaw Validator](https://jigsaw.w3.org/css-validator) to validate all of my CSS files.
 
 **Validation Link:**  
-[CSS Jigsaw Validator](https://jigsaw.w3.org/css-validator/validator?uri=https://nourish1-cc6378c356ae.herokuapp.com/static/css/base.css)
+Validated using W3C Jigsaw CSS Validator (direct upload of base.css).
 
 
 All css files positively validated like this picture bellow:
@@ -161,7 +161,7 @@ I've tested my deployed project to check for responsiveness issues.
 
 | Page | Mobile | Tablet | Desktop | Notes |
 | --- | --- | --- | --- | --- |
-| Register | ![screenshot](documentation/responsiveness/mobile-register.png) | ![screenshot](documentation/responsiveness//tablet-register.png) | ![screenshot](documentation/responsiveness/desktop-register.png) | Works as expected |
+| Register | ![screenshot](documentation/responsiveness/mobile-register.png) | ![screenshot](documentation/responsiveness/tablet-register.png) | ![screenshot](documentation/responsiveness/desktop-register.png) | Works as expected |
 | Login | ![screenshot](documentation/responsiveness/mobile-login.png) | ![screenshot](documentation/responsiveness/tablet-login.png) | ![screenshot](documentation/responsiveness/desktop-login.png) | Works as expected |
 | Profile | ![screenshot](documentation/responsiveness/mobile-profile.png) | ![screenshot](documentation/responsiveness/tablet-profile.png) | ![screenshot](documentation/responsiveness/desktop-profile.png) | Works as expected |
 | Home | ![screenshot](documentation/responsiveness/mobile-home.png) | ![screenshot](documentation/responsiveness/tablet-home.png) | ![screenshot](documentation/responsiveness/desktop-home.png) | Works as expected |
