@@ -24,12 +24,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Set up environment variables
+      - name: Set environment variables
         run: |
+          echo "CI=true" >> $GITHUB_ENV
           echo "DJANGO_SECRET_KEY=testsecret" >> $GITHUB_ENV
           echo "DJANGO_DEBUG=0" >> $GITHUB_ENV
-        # no DB needed, Django tests use SQLite in-memory by default
 
       - name: Run Tests
         run: |
-          python manage.py test
+          python manage.py test --verbosity 2
