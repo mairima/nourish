@@ -105,6 +105,7 @@ for model in apps.get_models():
         parent = getattr(field.remote_field, "model", None)
         if not parent:
             continue
+
         parent_name = parent.__name__
 
         if isinstance(field, models.ForeignKey):
