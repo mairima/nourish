@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.templatetags.static import static
 from cloudinary.models import CloudinaryField
 
@@ -53,10 +54,19 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    # 🚀 Added for sitemap + SEO
+    def get_absolute_url(self):
+        """
+        Return the canonical product detail URL.
+        Used by Django's sitemap framework.
+        """
+        return reverse("product_detail", args=[self.pk])
+
     @property
     def image_url_fixed(self):
         """
         Returns best possible image source:
+
         1. CloudinaryField upload
         2. Old Cloudinary URL (png→jpg fallback)
         3. Static filename
@@ -74,16 +84,16 @@ class Product(models.Model):
         ):
             return self.image.url
 
-        # Old Cloudinary URL
+        # Old Cloudinary URL fallback
         if self.image_url:
             url = self.image_url
             if url.endswith(".png"):
                 return f"{url[:-4]}.jpg"
             return url
 
-        # Static filename
+        # Static file fallback
         if self.image_filename:
             return static(f"images/{self.image_filename}")
 
-        # Default
+        # Default image
         return static("images/noimage.png")
