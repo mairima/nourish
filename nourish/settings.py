@@ -118,13 +118,12 @@ WSGI_APPLICATION = "nourish.wsgi.application"
 # Templates
 TEMPLATES = [
     {
-        "BACKEND": (
-            "django.template.backends.django.DjangoTemplates"
-        ),
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            os.path.join(BASE_DIR / "templates"),
-            os.path.join(BASE_DIR / "templates" / "allauth"),
+            BASE_DIR / "templates",
+            BASE_DIR / "templates" / "allauth",
         ],
+        "APP_DIRS": True,  # ← THIS WAS MISSING (CRITICAL)
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -137,10 +136,6 @@ TEMPLATES = [
             "builtins": [
                 "crispy_forms.templatetags.crispy_forms_tags",
                 "crispy_forms.templatetags.crispy_forms_field",
-            ],
-            "loaders": [
-                "django.template.loaders.filesystem.Loader",
-                "django.template.loaders.app_directories.Loader",
             ],
         },
     },
