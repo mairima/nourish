@@ -1,5 +1,4 @@
 User-agent: *
-Disallow:
 Allow: /
 
 Sitemap: https://nourish1-cc6378c356ae.herokuapp.com/sitemap.xml
