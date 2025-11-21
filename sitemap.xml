@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/accounts/signup/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/accounts/login/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/bag/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/?sort=price&amp;direction=asc</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/?sort=rating&amp;direction=desc</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/?sort=category&amp;direction=asc</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/?category=Cakes</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/?category=Snacks</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/?category=Drinks</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/contact/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/newsletter/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/faqs/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/privacy-policy/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/terms-conditions/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/accounts/password/reset/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/2/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/3/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/4/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/5/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/6/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://nourish1-cc6378c356ae.herokuapp.com/products/7/</loc>
+  <lastmod>2025-11-21T20:30:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>
