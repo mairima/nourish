@@ -1431,7 +1431,7 @@ There are no remaining major differences between the local version when compared
 
 -   The overall concept for the **Nourish** website --- an online store for cakes, snacks, and drinks --- was **inspired by real-world artisanal bakeries** and food brands, as well as personal interest in African and homemade baked goods.
 
--   The design and UX structure were informed by the [Code Institute's Boutique Ado](https://github.com/Code-Institute-Solutions/boutique_ado_v1) e-commerce walkthrough project, but heavily customized in visuals, layout, and content.
+-   The design and UX structure, some code were inspired by the [Code Institute's Boutique Ado](https://github.com/Code-Institute-Solutions/boutique_ado_v1) e-commerce walkthrough project, but heavily customized in visuals, layout, and content.
 
 ### Content
 
@@ -1448,7 +1448,7 @@ This section lists all third-party resources, libraries, tools, and support I us
 | [Stripe](https://docs.stripe.com/payments/elements) | Online payment services |
 | [Gmail API](https://developers.google.com/gmail/api/guides) | Sending payment confirmation emails |
 | [Python Tutor](https://pythontutor.com) | Additional Python help |
-| [ChatGPT](https://chatgpt.com) | for AI-assisted content creation, wireframes, and image generation |
+| [ChatGPT](https://chatgpt.com) | for AI-assisted content creation, some code ideas, wireframes, and image generation |
 
 ### Media
 
