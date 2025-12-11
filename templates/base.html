@@ -125,7 +125,7 @@
               </a>
 
               <!-- Dropdown menu -->
-              <div class="dropdown-menu border-0" aria-labelledby="user-options">
+              <div class="dropdown-menu border-0" role="navigation" aria-labelledby="user-options">
 
                 {% if request.user.is_authenticated and request.user.is_superuser %}
                 <a href="{% url 'products:add_product' %}"
