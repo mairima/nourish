@@ -2,18 +2,46 @@
 {% load i18n %}
 
 {% block content %}
-{% if process == "connect" %}
-<h1>{% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}</h1>
 
-<p>{% blocktrans with provider.name as provider %}You are about to connect a new third party account from {{ provider }}.{% endblocktrans %}</p>
-{% else %}
-<h1>{% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}</h1>
+  {# Check if the user is connecting an existing account or signing in #}
+  {% if process == "connect" %}
 
-<p>{% blocktrans with provider.name as provider %}You are about to sign in using a third party account from {{ provider }}.{% endblocktrans %}</p>
-{% endif %}
+    {# Heading for connecting a social provider to an existing account #}
+    <h1>
+      {% blocktrans with provider.name as provider %}
+        Connect {{ provider }}
+      {% endblocktrans %}
+    </h1>
 
-<form method="post">
-  {% csrf_token %}
-  <button type="submit">{% trans "Continue" %}</button>
-</form>
+    {# Explanation text when linking a new third-party account #}
+    <p>
+      {% blocktrans with provider.name as provider %}
+        You are about to connect a new third party account from {{ provider }}.
+      {% endblocktrans %}
+    </p>
+
+  {% else %}
+
+    {# Heading for signing in via a social provider #}
+    <h1>
+      {% blocktrans with provider.name as provider %}
+        Sign In Via {{ provider }}
+      {% endblocktrans %}
+    </h1>
+
+    {# Explanation text when logging in using a third-party provider #}
+    <p>
+      {% blocktrans with provider.name as provider %}
+        You are about to sign in using a third party account from {{ provider }}.
+      {% endblocktrans %}
+    </p>
+
+  {% endif %}
+
+  {# Form to proceed with connect/login action #}
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">{% trans "Continue" %}</button>
+  </form>
+
 {% endblock %}

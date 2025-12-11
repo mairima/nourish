@@ -2,21 +2,40 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block head_title %}
+  {# Page title shown in the browser tab #}
+  {% trans "Signup" %}
+{% endblock %}
 
 {% block content %}
-    <h1>{% trans "Sign Up" %}</h1>
 
-<p>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your {{provider_name}} account to login to
-{{site_name}}. As a final step, please complete the following form:{% endblocktrans %}</p>
+  {# Main heading for the social signup page #}
+  <h1>{% trans "Sign Up" %}</h1>
 
-<form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
-</form>
+  {# Informational text: explains that the user is signing up using a social provider #}
+  <p>
+    {% blocktrans with provider_name=account.get_provider.name site_name=site.name %}
+      You are about to use your {{ provider_name }} account to login to
+      {{ site_name }}. As a final step, please complete the following form:
+    {% endblocktrans %}
+  </p>
+
+  {# Social account signup form (e.g., Google, Facebook signup flow) #}
+  <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
+    {% csrf_token %}
+
+    {# Render form fields dynamically (name, email, etc.) #}
+    {{ form.as_p }}
+
+    {# If a redirect field exists, preserve it for post-signup navigation #}
+    {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+
+    {# Submit button to complete signup #}
+    <button type="submit">
+      {% trans "Sign Up" %} &raquo;
+    </button>
+  </form>
 
 {% endblock %}

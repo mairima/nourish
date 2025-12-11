@@ -2,16 +2,23 @@
 {% load static %}
 
 {% block content %}
-<div class="container error-page">
-  <h4 class="display-6 logo-font text-black">
-    Oops 404! The page you are looking for isn’t available.
-  </h4>
-  <p class="text-muted mb-5">
-    It might have been moved, deleted, or never existed in the first place.
-  </p>
-  <a href="{% url 'products:products' %}"
-     class="btn btn-black rounded-0 text-uppercase py-3">
-    Return to shop
-  </a>
-</div>
+  <!-- Main container for the 404 error page -->
+  <div class="container error-page">
+
+    <!-- Page heading / error message -->
+    <h4 class="display-6 logo-font text-black">
+      Oops 404! The page you are looking for isn’t available.
+    </h4>
+
+    <!-- Additional explanation message for the user -->
+    <p class="text-muted mb-5">
+      It might have been moved, deleted, or never existed in the first place.
+    </p>
+
+    <!-- Link back to the main shop page -->
+    <a href="{% url 'products:products' %}"
+       class="btn btn-black rounded-0 text-uppercase py-3">
+      Return to shop
+    </a>
+  </div>
 {% endblock %}
