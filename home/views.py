@@ -1,3 +1,5 @@
+"""Views for home, policy pages, and custom error handlers."""
+
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
 
@@ -18,7 +20,7 @@ def terms_conditions(request):
 
 
 def error_404_view(request, exception=None):
-    """Render custom 404 page or fallback text on error."""
+    """Render custom 404 page or fallback HTML if template loading fails."""
     try:
         return render(request, "errors/404.html", status=404)
     except Exception as error:
@@ -27,5 +29,7 @@ def error_404_view(request, exception=None):
             f"<p>Error: {error}</p>"
         )
 
+
 def error_500(request):
+    """Render custom 500 internal server error page."""
     return render(request, "500.html", status=500)

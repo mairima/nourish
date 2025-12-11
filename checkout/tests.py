@@ -5,29 +5,32 @@ from products.models import Product
 
 
 class CheckoutPageTests(TestCase):
+    """Tests for the checkout page behavior."""
+
     def setUp(self):
-        # Create product
+        """Create a test user, product, and session bag."""
         self.product = Product.objects.create(
             name="Test Cake",
             price=10
         )
 
-        # Create & login user
         self.user = User.objects.create_user(
             username="tester",
             password="pass123"
         )
-        self.client.login(username="tester", password="pass123")
+        self.client.login(
+            username="tester",
+            password="pass123"
+        )
 
-        # Add item to session bag
         session = self.client.session
         session["bag"] = {str(self.product.id): 1}
         session.save()
 
     def test_checkout_page_loads(self):
         """
-        Checkout should load for a logged-in user 
-        who has items in their shopping bag.
+        Ensure checkout page loads for an authenticated user
+        with items in the shopping bag.
         """
         url = reverse("checkout:checkout")
         response = self.client.get(url)

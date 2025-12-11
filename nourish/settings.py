@@ -325,4 +325,3 @@ if os.environ.get("GITHUB_ACTIONS") == "true":
     SESSION_COOKIE_SAMESITE = "Lax"
     CSRF_COOKIE_SAMESITE = "Lax"
     CSRF_USE_SESSIONS = False
-
